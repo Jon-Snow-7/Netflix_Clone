@@ -20,7 +20,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={`h-screen bg-[#0f0f0f] text-white transition-all duration-300 ease-in-out shadow-lg
+      className={`h-screen bg-[#0f0f0f] sticky top-0 text-white transition-all duration-300 ease-in-out shadow-lg
         ${isHovered ? 'w-48' : 'w-20'}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -30,12 +30,12 @@ const SideBar = () => {
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
           alt="Netflix Logo"
-          className={`transition-all duration-300 ${isHovered ? 'w-24' : 'w-8'}`}
+          className={`transition-all duration-300 ${isHovered ? 'w-24' : 'w-14'}`}
         />
       </div>
 
       {/* Centered Menu Items */}
-      <div className="flex-1 flex flex-col justify-center item-start gap-6 px-3">
+      <div className="h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3">
         {menuItems.map((item, idx) => (
           <div
             key={idx}

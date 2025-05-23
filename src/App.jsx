@@ -4,12 +4,13 @@
 
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 //import Counter from "./components/Counter";
 import { useLocation } from "react-router-dom";
 import MovieSearch from "./components/MovieSearch";
-import SideBar from "./components/SideBar";
+import Home from './pages/Home'
+
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
 
@@ -21,12 +22,12 @@ function App() {
 
   return (
     <div className={containerClass}>
-      <div>
+      <div className="bg-black/70 overflow-hidden"> 
         <Routes>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/search" element={<MovieSearch/>}></Route>
-          <Route path="/home" element={<SideBar/>}></Route>
+          <Route path="/home" element={<Home/>}></Route>
         </Routes>
       </div>
       
