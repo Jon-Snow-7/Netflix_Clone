@@ -58,7 +58,7 @@
 import React, { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import Footer from "../components/Footer";
-
+import SideBar from "../components/SideBar";
 const SearchPage = () => {
   const [searchMovies, setSearchMovies] = useState([]);
 
@@ -73,7 +73,7 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    const fetchMultiplePages = async (startPage = 1, endPage = 5) => {
+    const fetchMultiplePages = async (startPage = 1, endPage = 1) => {
       const pageNumbers = Array.from(
         { length: endPage - startPage + 1 },
         (_, i) => i + startPage
@@ -96,11 +96,14 @@ const SearchPage = () => {
       }
     };
 
-    fetchMultiplePages(1,2);
+    fetchMultiplePages(1,1);
   }, []);
 
   return (
-    <div className="w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
+    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
+      <div className=" fixed top-0 left-0 h-screen bg-gray-900 z-50">
+        <SideBar />
+      </div>
       {/* Search Input with Icon */}
       <div className="relative w-full mb-8">
         <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">

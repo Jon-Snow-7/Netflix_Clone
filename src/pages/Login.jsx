@@ -37,6 +37,11 @@ const Login = () => {
             <button
               type="submit"
               className="bg-red-600 hover:bg-red-700 text-black py-2 rounded"
+              onClick={(e) => {
+                e.preventDefault();
+                // Handle login logic here
+                navigate("/home"); // Redirect to MySpace after login
+              }}
             >
               Login
             </button>

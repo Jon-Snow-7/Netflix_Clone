@@ -31,7 +31,7 @@ const MySpace = () => {
               <button
                 onClick={() => {
                   if (window.confirm('Are you sure you want to logout?')) {
-                    window.location.href = '/';
+                    window.location.href = '/login';
                   }
                 }}
                 className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg text-lg shadow-lg "
