@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import { useLocation } from "react-router-dom";
 import MovieSearch from "./components/MovieSearch";
 import Home from './pages/Home'
-
+import MySpace from './pages/MySpace'
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
 
@@ -28,6 +28,7 @@ function App() {
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/search" element={<MovieSearch/>}></Route>
           <Route path="/home" element={<Home/>}></Route>
+          <Route path="/myspace" element={<MySpace />}></Route>
         </Routes>
       </div>
       

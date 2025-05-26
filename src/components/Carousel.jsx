@@ -1,84 +1,96 @@
-import React, { useState } from 'react'
-import rightimg from "../assets/right-arrow.jpg"
-import leftimg from "../assets/left-arrow-28.jpg"
-const Carousel = () => {
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // Optional: use lucide-react icons
 
+const Carousel = () => {
   const sliderData = [
-        {
-          url: "https://wallpapers.com/images/featured/avengers-vm16xv4a69smdauy.jpg",
-          title:"The Avengers",
-          releaseyear: "2012",
-          genre: "Action, Drama",
-          rating: "IMDb: 8.0",
-          plot: "Earth's  as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
-        },
-        {
-          url: "https://assets-in.bmscdn.com/iedb/movies/images/mobile/listing/medium/final-destination-bloodlines-et00432143-1746683831.jpg",
-          title:"The Avengers",
-          releaseyear: "2012",
-          genre: "Action, Drama",
-          rating: "IMDb: 8.0",
-          plot: "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
-        },
-        {
-          url: "https://wallpapers.com/images/featured/avengers-vm16xv4a69smdauy.jpg",
-          title:"The Avengers",
-          releaseyear: "2012",
-          genre: "Action, Drama",
-          rating: "IMDb: 8.0",
-          plot: "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
-        },
-      ];
-    
-      const [next, setNext] = useState(0);
-    
-      const handlePrev = () => {
-        setNext((prev) => (prev + sliderData.length - 1) % sliderData.length);
-      };
-      const handleNext = () => {
-        setNext((prev) => (prev + 1) % sliderData.length);
-      };
+    {
+      url: "https://wallpapers.com/images/featured/avengers-vm16xv4a69smdauy.jpg",
+      title: "The Avengers",
+      releaseyear: "2012",
+      genre: "Action, Drama",
+      rating: "IMDb: 8.0",
+      plot: "Earth's mightiest heroes must come together and learn to fight as a team to stop the mischievous Loki and his alien army.",
+    },
+    {
+      url: "images/bat.jpg",
+      title: "The Batman",
+      releaseyear: "2022",
+      genre: "Action, Crime",
+      rating: "IMDb: 7.8",
+      plot: "Batman is called to intervene when the mayor of Gotham City is murdered. Soon, his investigation leads him to uncover a web of corruption, linked to his own dark past.",
+    },
+  ];
+
+  const [index, setIndex] = useState(0);
+  const intervalRef = useRef(null);
+
+  const handlePrev = () => {
+    setIndex((prev) => (prev + sliderData.length - 1) % sliderData.length);
+  };
+
+  const handleNext = () => {
+    setIndex((prev) => (prev + 1) % sliderData.length);
+  };
+
+  // Auto-scroll every 7 seconds
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setIndex((prev) => (prev + 1) % sliderData.length);
+    }, 7000);
+
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   return (
-    <div>
-      <div className="flex relative items-center top-0 max-h-max">
-              <div className="left-arrow absolute left-10 top-[250px] cursor-pointer rounded-full  z-10" onClick={handlePrev}>
-                <img
-                  className="w-[80px] h-[80px]  rounded-full "
-                  src={leftimg}
-                  alt=""
-                />
-              </div>
-      
-              <div className="relative transition-transform duration-500 overflow-hidden" >
-                <img className="h-[600px] w-screen " 
-                src={sliderData[next].url} 
-                alt="" 
-                onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500";
-        }}/>
-      
-                <div className="details absolute bottom-[10%] bg-black/70 max-w-max text-white font-extrabold text-xl pl-10">
-                  <div className="flex gap-8">
-                    <div className="releaseyear">{sliderData[next].releaseyear}</div>
-                    <div className="genre">{sliderData[next].genre}</div>
-                    <div className="rating">{sliderData[next].rating}</div>
-                  </div>
-                  <div className="plot max-w-[600px]">{sliderData[next].plot}</div>
-                </div>
-              </div>
-      
-              <div className="right-arrow absolute right-10 top-[250px] cursor-pointer rounded-full " onClick={handleNext}>
-                <img
-                  className="w-[80px] h-[80px] rounded-full "
-                  src={rightimg}
-                  alt=""
-                />
-              </div>
-            </div>
-    </div>
-  )
-}
+    <div className="pl-30 relative w-full h-[80vh] overflow-hidden">
+      {/* Slide */}
+      <div
+        className="transition-all duration-700 ease-in-out relative w-full h-full"
+        key={index}
+      >
+        <img
+          src={sliderData[index].url}
+          alt="slide"
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src =
+              "https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png";
+          }}
+        />
 
-export default Carousel
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black/30"></div>
+
+        {/* Content */}
+        <div className="absolute bottom-20 left-10 text-white max-w-xl z-10">
+          <h2 className="text-5xl font-bold mb-4">{sliderData[index].title}</h2>
+          <div className="flex space-x-6 text-lg mb-2 font-semibold text-gray-300">
+            <span>{sliderData[index].releaseyear}</span>
+            <span>{sliderData[index].genre}</span>
+            <span>{sliderData[index].rating}</span>
+          </div>
+          <p className="text-sm text-gray-200">{sliderData[index].plot}</p>
+        </div>
+      </div>
+
+      {/* Left Arrow */}
+      <button
+        onClick={handlePrev}
+        className="absolute left-30 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+
+      {/* Right Arrow */}
+      <button
+        onClick={handleNext}
+        className="absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
+    </div>
+  );
+};
+
+export default Carousel;

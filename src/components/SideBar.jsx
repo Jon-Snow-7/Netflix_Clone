@@ -35,7 +35,7 @@ const SideBar = () => {
       </div>
 
       {/* Centered Menu Items */}
-      <div className="h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3">
+      <div className="h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3 pb-50">
         {menuItems.map((item, idx) => (
           <div
             key={idx}
