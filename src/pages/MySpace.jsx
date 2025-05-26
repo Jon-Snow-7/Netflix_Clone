@@ -3,6 +3,7 @@ import Watchlist from '../components/Watchlist';
 import ContinueWatching2 from '../components/ContinueWatching';
 import SideBar from '../components/SideBar';
 import History from '../components/History';
+import Footer from '../components/Footer';
 const MySpace = () => {
   const username = 'John Doe';
 
@@ -54,6 +55,7 @@ const MySpace = () => {
         <div className="pl-30 px-6 py-8">
           <History />
         </div>
+        <Footer/>
       </div>
     </div>
   );

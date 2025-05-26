@@ -3,6 +3,7 @@ import SideBar from "../components/SideBar";
 
 import Carousel from "../components/Carousel";
 import ContinueWatching2 from "../components/ContinueWatching";
+import Footer from "../components/Footer";
 const Home = () => {
   return (
     <>
@@ -23,7 +24,9 @@ const Home = () => {
           
           <ContinueWatching2 />
           </div>
+          <Footer/>
         </div>
+        
       </div>
     </>
   );
