@@ -9,7 +9,7 @@ const ContinueWatching = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=20ac0341ec5b2096d68f9c473d7b5d69`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=20ac0341ec5b2096d68f9c473d7b5d69`
       );
       setContinueWatching(res.data.results.slice(6, 100)); // Demo Continue Watching
     };

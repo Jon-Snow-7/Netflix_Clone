@@ -5,6 +5,7 @@ import Carousel from "../components/Carousel";
 import ContinueWatching2 from "../components/ContinueWatching";
 import Footer from "../components/Footer";
 import Trending from "../components/Trending";
+import Popular from "../components/Popular";
 const Home = () => {
   return (
     <>
@@ -21,7 +22,7 @@ const Home = () => {
           
           <Trending />
          
-          <ContinueWatching2 />
+          <Popular />
           
           <ContinueWatching2 />
           </div>
