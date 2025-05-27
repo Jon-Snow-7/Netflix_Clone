@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import HorizontalScroller from './HorizontalScroller';
 import axios from 'axios';
 
-const History = ({title="Watch History",size=40}) => {
+const RecentlyWatched = () => {
   const [history, setHistory] = useState([]);
   const API_KEY = '20ac0341ec5b2096d68f9c473d7b5d69';
 
@@ -13,8 +13,7 @@ const History = ({title="Watch History",size=40}) => {
         const res = await axios.get(
           `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
         );
-
-        setHistory(res.data?.results?.slice(12,12+size) || []);
+        setHistory(res.data?.results?.slice(12, 16) || []);
       } catch (err) {
         console.error("Failed to fetch history movies:", err);
       }
@@ -23,7 +22,8 @@ const History = ({title="Watch History",size=40}) => {
   }, []);
 
   return (
-    <HorizontalScroller title={title}>
+    // return in a order 
+    <HorizontalScroller title="Recently Watched">
       {history.map((movie) => (
         <div key={movie.id} className="min-w-[180px]">
           {movie.poster_path ? (
@@ -44,4 +44,4 @@ const History = ({title="Watch History",size=40}) => {
   );
 };
 
-export default History;
+export default RecentlyWatched;

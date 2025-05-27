@@ -3,7 +3,7 @@ import {
   Home,
   Search,
   Video,
-  Bookmark,
+  History,
   User,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ const menuItems = [
   { icon: <Home size={24} />, label: 'Home', path: '/home' },
   { icon: <Search size={24} />, label: 'Search', path: '/search' },
   { icon: <Video size={24} />, label: 'Movies', path: '/movies' },
-  { icon: <Bookmark size={24} />, label: 'Watchlist', path: '/watchlist' },
+  { icon: <History size={24} />, label: 'History', path: '/history' },
   { icon: <User size={24} />, label: 'Profile', path: '/myspace' },
 ];
 
@@ -36,17 +36,16 @@ const SideBar = () => {
       </div>
 
       {/* Menu */}
-      <div className="text-white h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3 pb-50">
+      <div className="h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3 pb-50">
         {menuItems.map((item, idx) => (
           <Link
-  to={item.path}
-  key={idx}
-  className="flex items-center gap-4 cursor-pointer p-2 rounded-md hover:bg-[#1f1f1f] transition-colors w-full text-white visited:text-white focus:text-white active:text-white"
->
-  {item.icon}
-  {isHovered && <span className="text-sm font-medium">{item.label}</span>}
-</Link>
-
+            to={item.path}
+            key={idx}
+            className="flex items-center gap-4 cursor-pointer p-2 rounded-md hover:bg-[#1f1f1f] transition-colors w-full"
+          >
+            {item.icon}
+            {isHovered && <span className="text-sm font-medium">{item.label}</span>}
+          </Link>
         ))}
       </div>
     </div>

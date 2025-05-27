@@ -12,6 +12,8 @@ import MovieSearch from "./components/MovieSearch";
 import Home from './pages/Home'
 import MySpace from './pages/MySpace'
 import SearchPage from "./pages/SearchPage";
+import WatchHistory from "./pages/WatchHistory";
+
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
 
@@ -23,13 +25,14 @@ function App() {
 
   return (
     <div className={containerClass}>
-      <div className="bg-black/70 overflow-hidden "> 
+      <div className="bg-black/70 overflow-hidden"> 
         <Routes>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/home" element={<Home/>}></Route>
           <Route path="/myspace" element={<MySpace />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
+          <Route path="/history" element={<WatchHistory />}></Route>
         </Routes>
       </div>
       
