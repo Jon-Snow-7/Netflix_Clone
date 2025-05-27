@@ -4,6 +4,7 @@ import SideBar from "../components/SideBar";
 import Carousel from "../components/Carousel";
 import ContinueWatching2 from "../components/ContinueWatching";
 import Footer from "../components/Footer";
+import Trending from "../components/Trending";
 const Home = () => {
   return (
     <>
@@ -18,7 +19,7 @@ const Home = () => {
           <div className="pl-30 px-6 py-8">
           <ContinueWatching2 />
           
-          <ContinueWatching2 />
+          <Trending />
          
           <ContinueWatching2 />
           

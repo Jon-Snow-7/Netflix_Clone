@@ -36,16 +36,17 @@ const SideBar = () => {
       </div>
 
       {/* Menu */}
-      <div className="h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3 pb-50">
+      <div className="text-white h-[100%] flex-1 flex flex-col justify-center items-center gap-20 px-3 pb-50">
         {menuItems.map((item, idx) => (
           <Link
-            to={item.path}
-            key={idx}
-            className="flex items-center gap-4 cursor-pointer p-2 rounded-md hover:bg-[#1f1f1f] transition-colors w-full"
-          >
-            {item.icon}
-            {isHovered && <span className="text-sm font-medium">{item.label}</span>}
-          </Link>
+  to={item.path}
+  key={idx}
+  className="flex items-center gap-4 cursor-pointer p-2 rounded-md hover:bg-[#1f1f1f] transition-colors w-full text-white visited:text-white focus:text-white active:text-white"
+>
+  {item.icon}
+  {isHovered && <span className="text-sm font-medium">{item.label}</span>}
+</Link>
+
         ))}
       </div>
     </div>
