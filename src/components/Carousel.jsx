@@ -79,15 +79,15 @@ const Carousel = () => {
         onClick={handlePrev}
         className="absolute left-30 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-6 h-6 text-black dark:text-white" />
       </button>
 
       {/* Right Arrow */}
       <button
         onClick={handleNext}
-        className="absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
+        className=" absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-6 h-6 text-black dark:text-white" />
       </button>
     </div>
   );
