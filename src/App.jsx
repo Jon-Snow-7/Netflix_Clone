@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div className={containerClass}>
-      <div className="bg-black/70 overflow-hidden"> 
+      <div className="bg-black/70 overflow-hidden "> 
         <Routes>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>

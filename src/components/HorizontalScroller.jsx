@@ -26,7 +26,7 @@ const HorizontalScroller = ({ title, children }) => {
 
         <div
           ref={scrollRef}
-          className="flex space-x-4 overflow-x-auto scrollbar-hide scroll-smooth px-10"
+          className="flex space-x-4 overflow-x-hidden scrollbar-hide scroll-smooth px-10"
         >
           {children}
         </div>

@@ -17,7 +17,7 @@ const ContinueWatching = () => {
   }, []);
 
   return (
-    <HorizontalScroller title="Continue Watching">
+    <HorizontalScroller title="Continue Watching"  >
       {continueWatching.map((movie) => (
         <div key={movie.id} className="min-w-[180px]">
           <img
