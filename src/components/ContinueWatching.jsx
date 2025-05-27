@@ -1,20 +1,17 @@
 // components/ContinueWatching.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import HorizontalScroller from './HorizontalScroller';
-import axios from 'axios';
+import { useDispatch,useSelector } from 'react-redux';
+import { continueData } from '../redux/slice/continueSlice';
 
 const ContinueWatching = () => {
-  const [continueWatching, setContinueWatching] = useState([]);
+  const dispatch=useDispatch();
+  const continueWatchingState=useSelector((state)=>state.continue);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=20ac0341ec5b2096d68f9c473d7b5d69`
-      );
-      setContinueWatching(res.data.results.slice(6, 100)); // Demo Continue Watching
-    };
-    fetchData();
-  }, []);
+  useEffect(()=>{
+    dispatch(continueData());
+  },[])
+  const continueWatching=continueWatchingState?.data?.results || [];
 
   return (
     <HorizontalScroller title="Continue Watching"  >
