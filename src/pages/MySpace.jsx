@@ -34,7 +34,7 @@ const MySpace = () => {
                     window.location.href = '/login';
                   }
                 }}
-                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg text-lg shadow-lg "
+                className="text-black dark:text-white bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg text-lg shadow-lg "
               >
                 Logout
               </button>

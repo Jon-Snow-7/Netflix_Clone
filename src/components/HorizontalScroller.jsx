@@ -21,7 +21,7 @@ const HorizontalScroller = ({ title, children }) => {
           onClick={() => scroll('left')}
           className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 p-2 rounded-full"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={24} className='text-black dark:text-white' />
         </button>
 
         <div
@@ -35,7 +35,7 @@ const HorizontalScroller = ({ title, children }) => {
           onClick={() => scroll('right')}
           className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 hover:bg-opacity-75 p-2 rounded-full"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={24} className='text-black dark:text-white'/>
         </button>
       </div>
     </div>
