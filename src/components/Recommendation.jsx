@@ -83,7 +83,7 @@ const Recommendation = () => {
           <div className="relative bg-[#111] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setSelectedMovieId(null)}
-              className="absolute top-2 right-2 text-white text-2xl"
+              className="absolute !bg-red-500 top-2 right-2 text-white text-2xl"
             >
               ✕
             </button>
