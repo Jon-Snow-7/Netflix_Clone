@@ -25,12 +25,12 @@ const History = ({title="Watch History",size=40}) => {
   return (
     <HorizontalScroller title={title}>
       {history.map((movie) => (
-        <div key={movie.id} className="min-w-[180px]">
+        <div key={movie.id} className="min-w-[250px]">
           {movie.poster_path ? (
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
-              className="rounded-md w-full h-60 object-cover"
+              className="rounded-md w-full h-80 object-cover"
             />
           ) : (
             <div className="w-full h-60 bg-gray-700 rounded-md flex items-center justify-center">
