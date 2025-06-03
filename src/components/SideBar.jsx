@@ -96,11 +96,11 @@ const SideBar = () => {
             className="flex items-center gap-4 p-3 rounded-md hover:bg-[#1f1f1f] transition-colors"
           >
             {/* Icon */}
-            <div className="min-w-[24px]">{item.icon}</div>
+            <div className="min-w-[24px] text-white">{item.icon}</div>
 
             {/* Label */}
             <span
-              className={`text-sm font-medium whitespace-nowrap transition-opacity duration-300 ease-in-out ${
+              className={`text-sm font-medium text-white whitespace-nowrap transition-opacity duration-300 ease-in-out ${
                 isHovered ? 'opacity-100' : 'opacity-0'
               }`}
             >
