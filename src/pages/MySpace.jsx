@@ -10,7 +10,7 @@ const MySpace = () => {
   return (
     <div className="flex min-h-screen bg-black text-white overflow-hidden">
       {/* Sidebar (always visible on left) */}
-      <div className=" fixed top-0 left-0 h-screen bg-gray-900 z-50">
+      <div className=" fixed top-0 left-0 h-screen  z-50">
          <SideBar />
       </div>
    

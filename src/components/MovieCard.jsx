@@ -55,13 +55,13 @@ const MovieCard = ({ data }) => {
 
             {/* Metadata */}
             <div className="text-sm text-gray-400 flex gap-4">
-              <span>{data.releaseDate?.slice(0, 4)}</span>
+              <span>{data.release_date?.slice(0, 4)}</span>
               <span>⭐ {data.rating}</span>
               <span>{data.runTime}s</span>
             </div>
-            <div className="text-sm text-gray-400 flex gap-4">
+            {/* <div className="text-sm text-gray-400 flex gap-4">
                 <p>{data.description.slice(0,60)}...</p>
-            </div>
+            </div> */}
             <div className="flex gap-2 mb-1">
               <button className="flex items-center bg-white text-black px-3 py-1.5 rounded-full text-sm font-semibold shadow hover:bg-neutral-200 transition">
                 <FaPlay size={14} className="mr-2" />

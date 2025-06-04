@@ -12,8 +12,10 @@ const ContinueWatching = () => {
 
   useEffect(()=>{
     dispatch(continueData());
+
   },[])
-  const continueWatching=continueWatchingState?.data || [];
+  const continueWatching=continueWatchingState?.data?.results || [];
+  console.log(continueWatching);
 
   return (
    
