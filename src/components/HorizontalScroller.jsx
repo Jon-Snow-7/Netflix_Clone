@@ -14,26 +14,26 @@ const HorizontalScroller = ({ title, children }) => {
   };
 
   return (
-    <div className="mb-8">
-      <h2 className="text-2xl font-semibold mb-3 " >{title}</h2>
+    <div className="mb-8 height-200px">
+      <h2 className="text-2xl font-semibold mb-3" >{title}</h2>
       <div className="relative">
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 !bg-black bg-opacity-50 hover:bg-opacity-75 p-2 rounded-full"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2   !bg-black  p-2 rounded-full z-40"
         >
-          <ChevronLeft size={24} className='text-white bg-black' />
+          <ChevronLeft size={24} className='text-white bg-black'  />
         </button>
 
         <div
           ref={scrollRef}
-          className="flex space-x-4 overflow-x-hidden scrollbar-hide scroll-smooth px-10"
+          className="flex gap-4 px-4 relative z-30 overflow-x-auto scroll-smooth no-scrollbar"
         >
           {children}
         </div>
 
         <button
           onClick={() => scroll('right')}
-          className="absolute  right-0 top-1/2 transform -translate-y-1/2 z-10  p-2 rounded-full !bg-black"
+          className="absolute  right-0 top-1/2 transform -translate-y-1/2  p-2 rounded-full !bg-black z-40"
         >
           <ChevronRight size={24} className='text-white bg-black'/>
         </button>
