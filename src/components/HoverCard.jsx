@@ -14,6 +14,7 @@ const HoverCard = ({ data, position, hoverCardRef }) => {
   const handleWatchNow = () => {
     navigate(`/movie/${data.movieId}`);
     console.log(data.movieId);
+    console.log(data);
   };
   
 

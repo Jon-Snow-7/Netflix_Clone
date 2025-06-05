@@ -1,12 +1,13 @@
 
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate=useNavigate();
   console.log(id);
 
   useEffect(() => {
@@ -27,6 +28,14 @@ const MovieDetail = () => {
 
   return (
    <div className="p-8 flex flex-col items-center bg-gradient-to-b from-black via-gray-900 to-black min-h-screen text-white">
+
+    <button
+        onClick={() => navigate(-1)}
+        className="absolute top-6 right-6 text-white bg-red-600 hover:bg-red-700 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold shadow-lg"
+        title="Go back"
+      >
+        &times;
+      </button>
   <h1 className="text-4xl font-extrabold mb-6 text-center tracking-wide">{movie.movieName}</h1>
 
   <img
