@@ -19,15 +19,12 @@ const Home = () => {
           <Carousel />
           
           <div className="pl-30 px-6 py-8">
-          {/* <ContinueWatching2 /> */}
           
           <LatestRelease />
-         
           <Popular />
-{/*           
-          <Recommendation /> */}
-          <GenreList/>
-           <Popular />
+          <GenreList />
+          <Recommendation />
+          
           </div>
           <Footer/>
         </div>
