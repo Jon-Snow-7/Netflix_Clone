@@ -23,7 +23,7 @@ const HoverCard = ({ data, position, hoverCardRef }) => {
       ref={hoverCardRef}
       className="absolute z-[99999] rounded-xl overflow-hidden shadow-2xl transition-all duration-300 ease-in-out animate-fadeInAndScale"
       style={{
-        top: -70,
+        top: -20,
         left: position.left - 195,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
@@ -39,7 +39,7 @@ const HoverCard = ({ data, position, hoverCardRef }) => {
         <img
           src={data.moviePoster}
           alt={data.movieName}
-          className="absolute top-0 left-0 w-full h-full object-cover filter brightness-30"
+          className="absolute top-0 left-0 w-full h-full object-cover filter brightness-40"
         />
 
         {/* Overlay Content on Top */}

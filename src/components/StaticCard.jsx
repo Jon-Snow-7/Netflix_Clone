@@ -12,7 +12,7 @@ const StaticCard = ({ data, onHover, onLeave }) => {
         left: rect.left,
         width: rect.width,
       }, cardRef);
-    }, 500); // Delay of 1000ms
+    }, 0); // Delay of 1000ms
   };
 
   const handleMouseLeave = () => {
