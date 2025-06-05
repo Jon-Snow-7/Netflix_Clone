@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Popular from "../components/Popular";
 import Recommendation from "../components/Recommendation";
 import LatestRelease from "../components/LatestRelease";
+import GenreList from "../components/GenresList";
 const Home = () => {
   return (
     <>
@@ -16,16 +17,17 @@ const Home = () => {
         </div>
         <div className="flex-1 overflow-x-hidden z-0">
           <Carousel />
-          <br></br>
-          <br></br>
+          
           <div className="pl-30 px-6 py-8">
           {/* <ContinueWatching2 /> */}
           
           <LatestRelease />
          
           <Popular />
-          
-          <Recommendation />
+{/*           
+          <Recommendation /> */}
+          <GenreList/>
+           <Popular />
           </div>
           <Footer/>
         </div>
