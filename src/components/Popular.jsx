@@ -11,7 +11,7 @@ const Popular = () => {
     dispatch(popularData());
   }, [dispatch]);
   const popular=popularState?.data || [];
-  console.log(popular);
+  // console.log(popular);
 
   return (
     <MovieRow movies={popular} title="Popular Movies"  className="mb-8" />

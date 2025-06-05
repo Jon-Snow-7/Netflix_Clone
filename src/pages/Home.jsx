@@ -22,6 +22,7 @@ const Home = () => {
           
           <LatestRelease />
           <Popular />
+          <p className="text-3xl font-semibold px-6">Genre</p>
           <GenreList />
           <Recommendation />
           
