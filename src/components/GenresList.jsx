@@ -13,14 +13,14 @@ import img8 from "../assets/scifi.webp";
 
 // Genre names
 const genres = [
-  "romance",
-  "drama",
-  "comedy",
-  "action",
-  "horror",
-  "thriller",
-  "adventure",
-  "scifi",
+  "Romance",
+  "Drama",
+  "Comedy",
+  "Action",
+  "Horror",
+  "Thriller",
+  "Adventure",
+  "Scifi",
 ];
 
 // Corresponding images (same order as genres)
@@ -30,7 +30,7 @@ export default function GenreList() {
   const navigate = useNavigate();
 
   const handleClick = (genre) => {
-    navigate(`/${genre.toLowerCase()}`);
+    navigate(`/genre/${genre.toLowerCase()}`);
   };
 
   return (
