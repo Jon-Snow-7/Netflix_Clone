@@ -18,7 +18,7 @@ export const historyMovies = async () => {
 };
 
 export const popularMovies = async () => {
-  const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+  const response = await fetch(`http://localhost:8080/api/movies`);
   if (!response.ok) {
     throw new Error('Failed to fetch popular movies');
   }

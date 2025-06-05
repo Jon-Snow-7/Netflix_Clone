@@ -20,7 +20,9 @@ const popularSlice = createSlice({
       })
       .addCase(popularData.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.data = action.payload;
+        state.data = action.payload.filter(
+          movie=>movie.rating>7.5
+        );
       })
       .addCase(popularData.rejected, (state, action) => {
         state.isLoading = false;

@@ -12,7 +12,7 @@ const Popular = () => {
   useEffect(() => {
     dispatch(popularData());
   }, [dispatch]);
-  const popular=popularState?.data?.results || [];
+  const popular=popularState?.data || [];
 
   return (
     <>
@@ -21,14 +21,14 @@ const Popular = () => {
           <div
             key={movie.id}
             className="min-w-[250px] cursor-pointer"
-            onClick={() => setSelectedMovieId(movie.id)}
+            onClick={() => setSelectedMovieId(movie.movieId)}
           >
             <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
+              src={`${movie.moviePoster}`}
+              alt={movie.movieName}
               className="rounded-md w-full h-80 object-cover"
             />
-            <p className="mt-2 text-sm text-white">{movie.title}</p>
+            <p className="mt-2 text-sm text-white">{movie.movieName}</p>
             <br />
             <br />
           </div>

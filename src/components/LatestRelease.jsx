@@ -72,7 +72,15 @@ const LatestRelease = () => {
     dispatch(latestMovieData());
   }, [dispatch]);
 
-  const latestMovie = latestState?.data?.results || [];
+  let latestMovie = latestState?.data?.results || [];
+
+if (latestMovie.length > 0) {
+  latestMovie = latestMovie
+    .slice() // avoid mutating the original array
+    .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
+    .slice(0, 20); // Get top 10 latest movies
+}
+
   return (
     <>
       <HorizontalScroller title="Latest Movies">
