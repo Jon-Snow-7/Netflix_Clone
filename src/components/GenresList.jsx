@@ -35,8 +35,11 @@ export default function GenreList() {
 
   return (
     <div className="w-full overflow-x-auto py-4 no-scrollbar">
+      {/* <div className="px-4 mb-2">
+        <p className="text-xl font-semibold">Movies Based on Genres</p>
+      </div> */}
       <div className="flex space-x-4 px-4 flex-col">
-        <p className="text-xl font-semibold mb-2 ">Movies Based on Genres</p>
+      
 
         <div className="flex gap-4  scrollbar-hide no-scrollbar">
           {genres.map((genre, index) => (

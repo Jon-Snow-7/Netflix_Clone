@@ -1,52 +1,78 @@
-// components/MovieDetail.jsx
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
-const MovieDetail = ({ id: propId, isModal = false }) => {
-  const params = useParams();
-  const id = propId || params.id;
+
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+const MovieDetail = () => {
+  const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate=useNavigate();
+  console.log(id);
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=20ac0341ec5b2096d68f9c473d7b5d69`
-      );
-      const data = await res.json();
-      setMovie(data);
-    };
-
-    fetchMovie();
+    fetch(`http://localhost:8080/api/movies/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMovie(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch movie:", err);
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!movie) return <div className="text-white p-4">Loading...</div>;
+  if (loading) return <div>Loading...</div>;
+  if (!movie) return <div>Movie not found</div>;
 
   return (
-    <div className={`text-white ${isModal ? '' : 'bg-black/90'} p-6 flex flex-col items-center justify-center max-w-[600px] mx-auto mt-[100px]`}>
-      <h1 className="text-4xl font-bold mb-4">{movie.title}</h1>
-      <img
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-        alt={movie.title}
-        className="w-64 rounded-lg"
-      />
-      <p className="mt-4 text-center"><span className="font-bold">PLOT:</span> {movie.overview}</p>
-      <p className="mt-2 text-yellow-400">⭐ IMDb: {movie.vote_average}</p>
-      <p className="mt-1 text-gray-400"><span className="font-bold">Release Date:</span> {movie.release_date}</p>
-      <p className="mt-1 text-gray-400"><span className="font-bold">Duration:</span> {movie.runtime} mins</p>
+   <div className="p-8 flex flex-col items-center bg-gradient-to-b from-black via-gray-900 to-black min-h-screen text-white">
 
-      {movie.genres && (
-        <div className="flex flex-wrap gap-2 mt-4">
-          {movie.genres.map((genre) => (
+    <button
+        onClick={() => navigate(-1)}
+        className="absolute top-6 right-6 text-white bg-red-600 hover:bg-red-700 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold shadow-lg"
+        title="Go back"
+      >
+        &times;
+      </button>
+  <h1 className="text-4xl font-extrabold mb-6 text-center tracking-wide">{movie.movieName}</h1>
+
+  <img
+    src={movie.moviePoster}
+    alt={movie.movieName}
+    className="w-72 h-auto mb-6 rounded-lg shadow-xl border-2 border-gray-700"
+  />
+
+  <div className="bg-gray-800 bg-opacity-70 p-6 rounded-xl shadow-md w-full max-w-2xl space-y-4">
+    <div className="flex flex-wrap justify-between text-sm text-gray-300">
+      <p><strong>📅 Release Year:</strong> {movie.releaseDate?.slice(0, 4)}</p>
+      <p><strong>⭐ Rating:</strong> {movie.rating}/10</p>
+      <p><strong>⏱ Runtime:</strong> {movie.runTime}s</p>
+    </div>
+
+    <p className="mt-2 text-base text-gray-200">
+      <strong className="text-white">📝 Description:</strong> {movie.description}
+    </p>
+
+    {movie.actorList && (
+      <div className="mt-4">
+        <h3 className="text-lg font-bold text-white mb-3">🎭 Cast</h3>
+        <div className="flex flex-wrap gap-3">
+          {movie.actorList.split(",").map((actor, index) => (
             <span
-              key={genre.id}
-              className="bg-gray-700 text-white text-sm font-medium px-3 py-1 rounded-full"
+              key={index}
+              className="bg-gray-700 text-white text-sm font-medium px-4 py-2 rounded-full shadow hover:bg-gray-600 transition"
             >
-              {genre.name}
+              {actor.trim()}
             </span>
           ))}
         </div>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
+</div>
+
   );
 };
 
