@@ -1,21 +1,24 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Search } from "lucide-react";
 import debounce from "lodash.debounce";
-import { useDispatch, useSelector } from "react-redux";
-import Typography from "@mui/material/Typography";
-
 import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
 import TwoThumbSlider from "../components/TwoThumbSlider";
+import Typography from "@mui/material/Typography";
+import MovieGrid from "../components/MoviesGrid";
 import { fetchSearchResults } from "../redux/slice/searchSlice";
 
-const GENRE_OPTIONS = [
-  "Western", "History", "War", "Family", "Music", "Romance", "Fantasy",
-  "Crime", "Biography", "Horror", "Thriller", "Sci-Fi", "Mystery",
-  "Action", "Animation", "Drama", "Comedy", "Adventure"
-];
+import { useDispatch, useSelector } from "react-redux";
+
+
+
+
+const GENRE_OPTIONS = ["Action", "Adventure", "Animation", "Biography", 
+    "Comedy", "Crime", "Drama", "Family", "Fantasy", "History", "Horror", 
+    "Music", "Mystery", "Romance", "Sci-Fi", "Thriller", "War", "Western"];
 
 const SearchPage = () => {
+  
   const dispatch = useDispatch();
   const { movies, suggestions, isLoading } = useSelector((state) => state.search);
 
@@ -42,37 +45,41 @@ const SearchPage = () => {
     setSearchText(suggestion);
   };
 
+
   return (
-    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 px-5 text-white">
-      {/* Sidebar */}
+    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-gradient-to-b from-black via-zinc-900 to-black pt-10 pr-5 text-white relative">
       <div className="fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>
 
       {/* Search Input */}
-      <div className="relative w-full mb-6">
-        <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
-          <Search className="w-5 h-5" />
-        </span>
-        <input
-          type="text"
-          value={searchText}
-          onChange={handleSearchInput}
-          placeholder="Search movies..."
-          className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 bg-gray-900 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <div className="relative w-full max-w-3xl mx-auto mb-10">
+        <div className="flex items-center border border-gray-700 bg-zinc-900 rounded-lg shadow-lg overflow-hidden">
+          <span className="px-3 text-red-600">
+            <Search className="w-6 h-6" />
+          </span>
+          <input
+            type="text"
+            value={searchText}
+            onChange={handleSearchInput}
+            placeholder="Search movies..."
+            className="w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none"
+          />
+        </div>
       </div>
 
-      {/* Genre & Rating Filters */}
-      <div className="flex flex-wrap gap-4 mb-4">
+      {/* Genre & Rating Filter */}
+      <div className="w-full max-w-5xl mx-auto bg-zinc-900 p-5 rounded-xl shadow-xl mb-8 flex flex-wrap items-center justify-between gap-6 z-10 relative">
         <select
-          className="bg-gray-900 border border-gray-700 p-2 rounded-md"
+          className="bg-black border border-gray-700 text-white p-2 rounded-md"
           value={selectedGenre}
           onChange={(e) => setSelectedGenre(e.target.value)}
         >
           <option value="">All Genres</option>
           {GENRE_OPTIONS.map((genre) => (
-            <option key={genre} value={genre}>{genre}</option>
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
           ))}
         </select>
 
@@ -83,13 +90,13 @@ const SearchPage = () => {
       </div>
 
       {/* Suggestions */}
-      {suggestions?.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-8">
+      {suggestions.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-10 px-4 max-w-5xl mx-auto z-0 relative">
           {suggestions.map((s, i) => (
             <button
               key={i}
               onClick={() => handleSuggestionClick(s)}
-              className="bg-gray-800 text-sm px-3 py-1 rounded-md hover:bg-gray-700 transition"
+              className="bg-zinc-800 text-white text-sm px-4 py-2 rounded-full hover:bg-red-700 transition shadow"
             >
               {s}
             </button>
@@ -98,23 +105,13 @@ const SearchPage = () => {
       )}
 
       {/* Movies Grid */}
-      <div className="flex flex-wrap gap-10 justify-center">
-        {movies?.map((movie) => (
-          <div key={movie.movieId} className="max-w-xs w-full flex flex-col items-center">
-            <img
-              src={movie.moviePoster}
-              alt={movie.movieName}
-              className="rounded-lg w-full object-cover"
-            />
-            <div className="mt-2 text-center font-semibold">
-              {movie.movieName}
-            </div>
-          </div>
-        ))}
+      <div className="container mx-auto px-4 sm:px-8 lg:px-20 z-20 relative">
+
+        <MovieGrid movies={movies} />
       </div>
 
-      {/* No Movies Found */}
-      {!isLoading && movies?.length === 0 && searchText.trim() !== "" && (
+      {/* No Movies Found Message */}
+       {!isLoading && movies?.length === 0 && searchText.trim() !== "" && (
         <div className="text-center text-gray-400 mt-10 w-full">
           No movies found for "{searchText}"
         </div>
@@ -122,5 +119,6 @@ const SearchPage = () => {
     </div>
   );
 };
+
 
 export default SearchPage;

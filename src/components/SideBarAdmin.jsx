@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const menuItems = [
   { icon: <Home size={24} />, label: 'Home', path: '/home' },
   { icon: <Search size={24} />, label: 'Search', path: '/search' },
-  { icon: <Video size={24} />, label: 'Movies', path: '/movies' },
+  { icon: <Video size={24} />, label: 'Movies', path: '/allmovies' },
   { icon: <History size={24} />, label: 'History', path: '/history' },
   { icon: <Pencil size={24} />, label: 'Add Movies', path: '/add' },
   { icon: <User size={24} />, label: 'Profile', path: '/myspace' },

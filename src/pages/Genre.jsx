@@ -60,6 +60,7 @@ import { Search } from "lucide-react";
 import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
 import { useParams } from "react-router-dom";
+import MovieGrid from "../components/MoviesGrid";
 const GenrePage = ({ id: propId }) => {
   const params = useParams();
   const id = propId || params.id;
@@ -67,13 +68,14 @@ const GenrePage = ({ id: propId }) => {
 
   
   const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTE4NTM2NSwiZXhwIjoxNzQ5MjIxMzY1fQ.g5sDSIfwja6jFuU0zEL4aHV9wZplQ0hKpQvTexrg9I4",
-    },
-  };
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTIwNTEyNywiZXhwIjoxNzQ5MjQxMTI3fQ.mNZFB1fA_HGDn5dNv0AOBPeC1gvVKpK5cHUGH5RHXkc",
+  },
+};
+
 
   useEffect(() => {
     const fetchMultiplePages = async (startPage = 1, endPage = 1) => {
@@ -107,24 +109,10 @@ const GenrePage = ({ id: propId }) => {
       <div className=" fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>
+      <h1 className="flex justify-center font-bold text-white mb-6">{id.charAt(0).toUpperCase() + id.slice(1)}</h1>
       {/* Movies Grid */}
       <div className="flex flex-wrap gap-10 justify-center">
-        {
-        searchMovies.map((movie, index) =>
-            <div
-              key={index}
-              className="max-w-xs w-full flex flex-col items-center text-white"
-            >
-              <img
-                src={`${movie.moviePoster}`}
-                alt={movie.movieName}
-                className="rounded-lg w-full object-cover"
-              />
-              <div className="mt-2 text-center font-semibold">
-                {movie.movieName}
-              </div>
-            </div>
-        )}
+        <MovieGrid movies={searchMovies} />
       </div>
 
       {/* <Footer /> */}
