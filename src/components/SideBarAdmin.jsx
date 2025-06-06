@@ -20,7 +20,7 @@ const SideBarAdmin = () => {
     
    h-screen sticky top-0 flex flex-col
     transition-all duration-300 ease-in-out
-    w-13 hover:w-[10vw]
+    w-20 hover:w-[10vw]
     bg-gradient-to-r from-black/100 to-transparent
      border-r border-white/10 shadow-lg border-none`}
   onMouseEnter={() => setIsHovered(true)}
