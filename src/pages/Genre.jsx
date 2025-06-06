@@ -71,7 +71,7 @@ const GenrePage = ({ id: propId }) => {
     headers: {
       accept: "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJpYXQiOjE3NDkwOTkzNjMsImV4cCI6MTc0OTEzNTM2M30.Bw2pL2ae5ZPwc946TMPdj4I0EY-eAuV1lkMrZunfIGk",
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTE4NTM2NSwiZXhwIjoxNzQ5MjIxMzY1fQ.g5sDSIfwja6jFuU0zEL4aHV9wZplQ0hKpQvTexrg9I4",
     },
   };
 
@@ -84,7 +84,7 @@ const GenrePage = ({ id: propId }) => {
 
       try {
         const responses = await Promise.all(
-          pageNumbers.map((page) =>
+          pageNumbers.map(() =>
             fetch(
               `http://localhost:8080/api/movies/genre/${id}`,
               options

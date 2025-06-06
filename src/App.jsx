@@ -15,6 +15,7 @@ import SearchPage from "./pages/SearchPage";
 import WatchHistory from "./pages/WatchHistory";
 import MovieDetail from "./components/MovieDetail";
 import GenrePage from "./pages/Genre";
+import TestPage from "./pages/TestPage";
 
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
