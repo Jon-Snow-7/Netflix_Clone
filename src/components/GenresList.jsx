@@ -41,7 +41,7 @@ export default function GenreList() {
       <div className="flex space-x-4 px-4 flex-col">
       
 
-        <div className="flex gap-4  scrollbar-hide no-scrollbar">
+        <div className="flex gap-4 scrollbar-hide no-scrollbar ">
           {genres.map((genre, index) => (
             <div
               key={genre}
@@ -51,7 +51,7 @@ export default function GenreList() {
               <img
                 src={genreImages[index]}
                 alt={genre}
-                className="w-full scrollbar-hide h-56  object-cover"
+                className="w-full scrollbar-hide h-56  object-cover rounded-3xl"
               />
               
               {/* <div className="text-center bg-white py-2 font-medium capitalize">

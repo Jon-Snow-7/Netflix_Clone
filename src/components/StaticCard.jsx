@@ -12,7 +12,7 @@ const StaticCard = ({ data, onHover, onLeave }) => {
         left: rect.left,
         width: rect.width,
       }, cardRef);
-    }, 0); // Delay of 1000ms
+    }, 400); // Delay of 0ms
   };
 
   const handleMouseLeave = () => {
@@ -25,12 +25,12 @@ const StaticCard = ({ data, onHover, onLeave }) => {
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="w-[200px] h-[300px] bg-zinc-800 rounded overflow-hidden flex-shrink-0 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:brightness-95 shadow-md hover:shadow-xl"
+      className="w-[210px] h-[300px] bg-zinc-800 rounded overflow-hidden flex-shrink-0" 
     >
       <img
         src={data.moviePoster}
         alt={data.movieName}
-        className="w-full h-full object-cover transition-all duration-300 ease-in-out"
+        className="w-full h-full object-cover rounded-10px"
       />
     </div>
   );

@@ -39,7 +39,7 @@ const MovieRow = ({ movies, title }) => {
     setHoverPosition(position);
     staticCardRef.current = ref.current;
   };
-
+  
   const scroll = (direction) => {
     if (!scrollRef.current) return;
 
@@ -105,7 +105,8 @@ const MovieRow = ({ movies, title }) => {
       {/* Scrollable Row */}
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto gap-4 no-scrollbar scroll-smooth"
+        className="flex gap-10 no-scrollbar scroll-smooth"
+         style={{ overflowX: 'hidden' }}
       >
         {movies.map((movie) => (
           <StaticCard key={movie.movieId} data={movie} onHover={handleHover} />
