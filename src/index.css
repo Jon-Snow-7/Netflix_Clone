@@ -82,3 +82,15 @@ button:focus-visible {
   scrollbar-width: none;
 }
 
+@keyframes progress-bar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-progress-bar {
+  animation: progress-bar 3s linear forwards;
+}

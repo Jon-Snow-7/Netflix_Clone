@@ -15,6 +15,7 @@ import SearchPage from "./pages/SearchPage";
 import WatchHistory from "./pages/WatchHistory";
 import MovieDetail from "./components/MovieDetail";
 import GenrePage from "./pages/Genre";
+import AddMovies from "./pages/AddMovies";
 
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
@@ -35,6 +36,7 @@ function App() {
           <Route path="/myspace" element={<MySpace />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
           <Route path="/history" element={<WatchHistory />}></Route>
+          <Route path="/add" element={<AddMovies />}></Route>
           <Route path="/movie/:id" element={<MovieDetail />}></Route>
           <Route path="/genre/:id" element={<GenrePage />}></Route>
 
