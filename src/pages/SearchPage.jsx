@@ -13,25 +13,25 @@ const SearchPage = () => {
   const [selectedGenre, setSelectedGenre] = useState("");
   const [ratingRange, setRatingRange] = useState([0, 10]);
   const [genres, setGenres] = useState([
-  "Western",
-  "History",
-  "War",
-  "Family",
-  "Music",
-  "Romance",
-  "Fantasy",
-  "Crime",
-  "Biography",
-  "Horror",
-  "Thriller",
-  "Sci-Fi",
-  "Mystery",
-  "Action",
-  "Animation",
-  "Drama",
-  "Comedy",
-  "Adventure"
-]);
+    "Western",
+    "History",
+    "War",
+    "Family",
+    "Music",
+    "Romance",
+    "Fantasy",
+    "Crime",
+    "Biography",
+    "Horror",
+    "Thriller",
+    "Sci-Fi",
+    "Mystery",
+    "Action",
+    "Animation",
+    "Drama",
+    "Comedy",
+    "Adventure"
+  ]);
 
   const options = {
     method: "GET",
@@ -42,12 +42,12 @@ const SearchPage = () => {
     },
   };
 
-  // Fetch filtered movies + suggestions from Spring Boot backend
+  // Fetch filtered movies + suggestions
   const fetchMovies = useCallback(
     debounce(async (query, genre, ratingMin, ratingMax) => {
       try {
         const url = new URL("http://localhost:8080/api/search");
-        const sanitizedQuery = query.replace(/[^\w\s]/gi, "").trim(); // removes special chars
+        const sanitizedQuery = query.replace(/[^\w\s]/gi, " ").trim(); // removes special chars
         url.searchParams.append("q", sanitizedQuery);
         url.searchParams.append("genre", genre);
         url.searchParams.append("ratingMin", ratingMin);
