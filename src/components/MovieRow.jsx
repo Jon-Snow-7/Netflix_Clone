@@ -8,6 +8,7 @@ const MovieRow = ({ movies, title }) => {
   const [hoverPosition, setHoverPosition] = useState(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const staticCardRef = useRef(null);
   const hoverCardRef = useRef(null);
   const scrollRef = useRef(null);
@@ -17,27 +18,29 @@ const MovieRow = ({ movies, title }) => {
       const inStatic = staticCardRef.current?.contains(e.target);
       const inHover = hoverCardRef.current?.contains(e.target);
       if (!inStatic && !inHover) {
-        setHoverData(null);
-        setHoverPosition(null);
-        document.body.style.overflow = "auto";
+        setIsVisible(false);
       }
     };
 
     if (hoverData) {
       document.addEventListener("mousemove", handleMouseMove);
-      document.body.style.overflow = "auto";
+     // document.body.style.overflow = "auto";
     }
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
-      document.body.style.overflow = "auto";
+      //document.body.style.overflow = "auto";
     };
   }, [hoverData]);
 
   const handleHover = (data, position, ref) => {
     setHoverData(data);
     setHoverPosition(position);
+    //setIsVisible(true);
     staticCardRef.current = ref.current;
+    setTimeout(() => {
+    setIsVisible(true);
+  }, 50);
   };
   
   const scroll = (direction) => {
@@ -105,7 +108,7 @@ const MovieRow = ({ movies, title }) => {
       {/* Scrollable Row */}
       <div
         ref={scrollRef}
-        className="flex gap-10 no-scrollbar scroll-smooth"
+        className="flex gap-8 no-scrollbar scroll-smooth"
          style={{ overflowX: 'hidden' }}
       >
         {movies.map((movie) => (
@@ -117,6 +120,7 @@ const MovieRow = ({ movies, title }) => {
       <HoverCard
         data={hoverData}
         position={hoverPosition}
+        isVisible={isVisible}
         hoverCardRef={hoverCardRef}
       />
     </div>
