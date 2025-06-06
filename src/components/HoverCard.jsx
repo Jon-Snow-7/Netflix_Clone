@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const HoverCard = ({ data, position, hoverCardRef }) => {
+const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const navigate = useNavigate();
+  const [shouldRender, setShouldRender] = useState(false);
   const [scaleIn, setScaleIn] = useState(false);
-const [shouldRender, setShouldRender] = useState(false);
-
+  
   useEffect(() => {
     if (data && position) {
       setShouldRender(true);
-      setTimeout(() => setScaleIn(true), 30);
-    } else {
-      setScaleIn(false);
-      setTimeout(() => setShouldRender(false), 300); // Match transition duration
+      setTimeout(() => {
+        setScaleIn(true);
+      }, 20); // Wait a frame before animating in
     }
   }, [data, position]);
+
+  useEffect(() => {
+    if (!isVisible) {
+      setScaleIn(false); // Start fade out
+      const timeout = setTimeout(() => {
+        setShouldRender(false); // Unmount after fade
+      }, 400);
+      return () => clearTimeout(timeout);
+    }
+  }, [isVisible]);
 
   if (!shouldRender || !position) return null;
 
@@ -24,11 +33,13 @@ const [shouldRender, setShouldRender] = useState(false);
   const handleWatchNow = () => {
     navigate(`/movie/${data.movieId}`);
   };
-
+ 
   return (
     <div
       ref={hoverCardRef}
-      className="absolute z-[99999] rounded-xl overflow-hidden shadow-2xl transition-transform"
+      className={`absolute z-[99999] rounded-xl overflow-hidden shadow-2xl ${
+        scaleIn ? "pointer-events-auto" : "pointer-events-none"
+      }`}
       style={{
         top: -20,
         left: position.left - 195,
@@ -73,7 +84,7 @@ const [shouldRender, setShouldRender] = useState(false);
             </button>
             <button className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
               <span className="text-2xl">+</span>
-              <span className="tracking-wide">Add</span>
+              <span className="tracking-wide">Add</span> 
             </button>
           </div>
         </div>
