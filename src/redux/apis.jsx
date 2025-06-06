@@ -20,14 +20,6 @@ export const searchMoviesApi = async (query, genre, ratingMin, ratingMax) => {
   url.searchParams.append("ratingMin", ratingMin);
   url.searchParams.append("ratingMax", ratingMax);
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTE5MzkxNSwiZXhwIjoxNzQ5MjI5OTE1fQ.B_fijGOKY52LT4lS-oqvTHg2wfqo8_05H5KUCYhvMYY",
-    },
-  };
-
   const res = await fetch(url, options);
   if (!res.ok) throw new Error("Search failed");
   return await res.json();
