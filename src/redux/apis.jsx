@@ -4,15 +4,33 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 
 const options = {
-  method: "GET",
+  // method: "GET",
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTE5MzkxNSwiZXhwIjoxNzQ5MjI5OTE1fQ.B_fijGOKY52LT4lS-oqvTHg2wfqo8_05H5KUCYhvMYY",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTIwNjM3NCwiZXhwIjoxNzQ5MjQyMzc0fQ.uA2zl2i51TM23Qx8c_9-suKzRr1kdDwY-PfKD-KzSz4",
   },
 };
 
+export const addMovie = async (movieData) => {
+  try {
+    const response = await fetch('http://localhost:8080/api/movies', {
+      method: 'POST',
+      body: JSON.stringify(movieData)
+    }, options);
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Backend error:', errorData);
+      throw new Error(errorData.message || 'Failed to add movie');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error while adding movie:', error.message);
+    throw error;
+  }
+};
 
 export const recommendationMovies = async () => {
   const response = await fetch(`http://localhost:8080/api/movies`,options);
