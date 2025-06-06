@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react'; // Optional: use lucide-react icons
+import { ChevronLeft, ChevronRight , Plus} from 'lucide-react'; // Optional: use lucide-react icons
 
 const Carousel = () => {
   const sliderData = [
     {
-      url: "https://wallpapers.com/images/featured/avengers-vm16xv4a69smdauy.jpg",
+      url: "images/avengers.jpg",
       title: "The Avengers",
       releaseyear: "2012",
       genre: "Action, Drama",
@@ -32,18 +32,15 @@ const Carousel = () => {
     setIndex((prev) => (prev + 1) % sliderData.length);
   };
 
-  // Auto-scroll every 7 seconds
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % sliderData.length);
     }, 7000);
-
     return () => clearInterval(intervalRef.current);
   }, []);
 
   return (
     <div className="pl-30 relative w-full h-[80vh] overflow-hidden">
-      {/* Slide */}
       <div
         className="transition-all duration-700 ease-in-out relative w-full h-full"
         key={index}
@@ -70,24 +67,40 @@ const Carousel = () => {
             <span>{sliderData[index].genre}</span>
             <span>{sliderData[index].rating}</span>
           </div>
-          <p className="text-sm text-gray-200">{sliderData[index].plot}</p>
+          <p className="text-sm text-gray-200 mb-6">{sliderData[index].plot}</p>
+
+          {/* Buttons */}
+          <div className="flex items-center space-x-4">
+            <button className="border-2 border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-26 py-4 rounded-md shadow-md transition duration-300 text-[19.5px]">
+              Watch Now
+            </button>
+
+            <div className="relative group">
+              <button className="bg-white/20 hover:bg-white/30 backdrop-blur text-black p-4 rounded-full transition duration-300">
+                <Plus className="w-9 h-9" />
+              </button>
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white text-black text-xs px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition duration-200">
+                Watchlist
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Left Arrow */}
       <button
         onClick={handlePrev}
-        className="absolute left-30 top-1/2 -translate-y-1/2 z-20 !bg-black/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
+        className="absolute left-20 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
       >
-        <ChevronLeft className="w-6 h-6 text-white" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
 
       {/* Right Arrow */}
       <button
         onClick={handleNext}
-        className=" absolute right-5 top-1/2 -translate-y-1/2 z-20 !bg-black/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full shadow-lg transition duration-300"
+        className="absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
       >
-        <ChevronRight className="w-6 h-6 text-white " />
+        <ChevronRight className="w-6 h-6" />
       </button>
     </div>
   );
