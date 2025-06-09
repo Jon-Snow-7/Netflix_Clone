@@ -8,7 +8,16 @@ const options = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0NTY2NCwiZXhwIjoxNzQ5NDgxNjY0fQ.z6BigMOB3SQv-aNmIIMbJHJBA8HNJONTWqLqEdZXJ_U",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmtiaGFrYXRAZ21haWwuY29tIiwicHJvZmlsZUlkIjoxMSwiaWF0IjoxNzQ5NDYzOTIwLCJleHAiOjE3NDk0OTk5MjB9.JWMrW6Ru-whCy_VZ3MTv38ln-wxez4SBhmYkP5dpuDQ",
+  },
+};
+
+const options2 = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmtiaGFrYXRAZ21haWwuY29tIiwiaWF0IjoxNzQ5NDYzNzYxLCJleHAiOjE3NDk0OTk3NjF9.tGe8kSD-7QnqnEuin451g3j2sa1zkxNTDk9lFewhD3Q",
   },
 };
 
@@ -95,6 +104,14 @@ export const historyMovies = async () => {
   const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
   if (!response.ok) {
     throw new Error('Failed to fetch popular movies');
+  }
+  return response.json();
+};
+
+export const getProfiles = async () => {
+  const response = await fetch(`http://localhost:8080/api/profiles`,options2);
+  if (!response.ok) {
+    throw new Error('Failed to fetch profiles');
   }
   return response.json();
 };

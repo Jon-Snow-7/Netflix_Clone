@@ -17,6 +17,7 @@ import MovieDetail from "./components/MovieDetail";
 import GenrePage from "./pages/Genre";
 import AddMovies from "./pages/AddMovies";
 import ListMovies from "./components/ListMovies";
+import Profiles from "./pages/Profiles";
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
 
@@ -30,6 +31,7 @@ function App() {
     <div className={containerClass}>
       <div className=" overflow-hidden"> 
         <Routes>
+          <Route path="/profiles" element={<Profiles/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/home" element={<Home/>}></Route>
@@ -39,8 +41,6 @@ function App() {
           <Route path="/add" element={<AddMovies />}></Route>
           <Route path="/movie/:id" element={<MovieDetail />}></Route>
           <Route path="/allmovies" element={<ListMovies />}></Route>
-         
-          
           <Route path="/genre/:id" element={<GenrePage />}></Route>
         </Routes>
       </div>
