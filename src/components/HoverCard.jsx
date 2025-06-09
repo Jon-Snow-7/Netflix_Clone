@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
+import dayjs from "dayjs";
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const navigate = useNavigate();
   const [shouldRender, setShouldRender] = useState(false);
   const [scaleIn, setScaleIn] = useState(false);
+  
+   const dispatch = useDispatch();
+  const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
+
+  const handleAdd = () => {
+    dispatch(addToWatchlist(data.movieId));
+  };
+
   
   useEffect(() => {
     if (data && position) {
@@ -30,8 +40,21 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const CARD_WIDTH = position.width + 150;
   const CARD_HEIGHT = 500;
 
-  const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
+  const handleWatchNow = async () => {
+    try {
+      await fetch(`http://localhost:8080/api/history/${data.movieId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
+        },
+      });
+
+      navigate(`/movie/${data.movieId}`);
+    } catch (error) {
+      console.error("Failed to add to history:", error);
+      navigate(`/movie/${data.movieId}`); // still navigate even if history fails
+   }
   };
  
   return (
@@ -66,13 +89,13 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
           <h2 className="text-xl font-bold">{data.movieName}</h2>
           <div className="flex justify-between">
             <span className="text-sm text-gray-300">
-              {data.releaseDate.slice(0, 4)}
+              {dayjs(data.releaseDate).format("DD MMMM YYYY")}
             </span>
             <span className="text-yellow-400 text-sm">⭐ {data.rating}/10</span>
             <span className="text-gray-300 text-sm">{data.runTime}s</span>
           </div>
           <p className="mt-2 text-sm text-gray-200">
-            {data.description}
+            {data.description.slice(0, 100)}...
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
@@ -82,10 +105,13 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
               <span className="text-1xl">▶</span>
               <span className="tracking-wide">Watch Now</span>
             </button>
-            <button className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
+            <button 
+            onClick={handleAdd}
+            className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
               <span className="text-2xl">+</span>
               <span className="tracking-wide">Add</span> 
             </button>
+            
           </div>
         </div>
       </div>
