@@ -1,63 +1,67 @@
-import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import { useNavigate ,useLocation } from "react-router-dom";
+import { useNavigate,useLocation  } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
 import { isInWatchlist } from "../redux/apis";
-
+import dayjs from "dayjs";
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
-  const navigate = useNavigate();
-  const dispatch=useDispatch();
-  const [shouldRender, setShouldRender] = useState(false);
-  const [scaleIn, setScaleIn] = useState(false);
-  const location = useLocation();
-  const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
-  const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
-  const [checkLoading, setCheckLoading] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
+   const navigate = useNavigate();
+    const [shouldRender, setShouldRender] = useState(false);
+    const [scaleIn, setScaleIn] = useState(false);
+    const location = useLocation();
+    const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
+    const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
+    const [checkLoading, setCheckLoading] = useState(true);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState("");
+  
+    
+   const dispatch = useDispatch();
+  const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
   const handleToggleWatchlist = async () => {
-    if (checkLoading) return;
-  
-    try {
-      const isAlreadyInWatchlist = await isInWatchlist(data.movieId);
-  
-      if (isAlreadyInWatchlist) {
-        setPopupMessage("ℹ️ Already in watchlist.");
-      } else {
-        dispatch(addToWatchlist(data.movieId));
-        setIsWatchlisted(true);
-        setPopupMessage("✅ Movie added to watchlist!");
-      }
-    } catch (error) {
-      console.error("Error checking/adding to watchlist:", error);
-      setPopupMessage("❌ Failed to update watchlist.");
-    }
-  
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000);
-  };
-  
-  useEffect(() => {
-      const fetchWatchlistStatus = async () => {
-        console.log(data);
-        if (!isOnWatchlistPage && data?.movieId) {
-          try {
-            setCheckLoading(true);
-            const result = await isInWatchlist(data.movieId);
-            setIsWatchlisted(result);
-          } catch (err) {
-            console.error("Error checking watchlist:", err);
-          } finally {
-            setCheckLoading(false);
-          }
+      if (checkLoading) return;
+      console.log(data);
+      try {
+        const isAlreadyInWatchlist = await isInWatchlist(data.id);
+    
+        if (isAlreadyInWatchlist) {
+          setPopupMessage("ℹ️ Already in watchlist.");
         } else {
-          setCheckLoading(false); // Skip API call, already true
+          dispatch(addToWatchlist(data.id));
+          setIsWatchlisted(true);
+          setPopupMessage("✅ Movie added to watchlist!");
         }
-      };
-      fetchWatchlistStatus();
-    }, [data?.movieId, isOnWatchlistPage]);
+      } catch (error) {
+        console.error("Error checking/adding to watchlist:", error);
+        setPopupMessage("❌ Failed to update watchlist.");
+      }
+    
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+    };
+    
+    useEffect(() => {
+        const fetchWatchlistStatus = async () => {
+          console.log(data);
+          if (!isOnWatchlistPage && data?.id) {
+            try {
+              setCheckLoading(true);
+              const result = await isInWatchlist(data.id);
+              setIsWatchlisted(result);
+            } catch (err) {
+              console.error("Error checking watchlist:", err);
+            } finally {
+              setCheckLoading(false);
+            }
+          } else {
+            setCheckLoading(false); // Skip API call, already true
+          }
+        };
+        fetchWatchlistStatus();
+      }, [data?.id, isOnWatchlistPage]);
+    
+
   
   useEffect(() => {
     if (data && position) {
@@ -80,33 +84,22 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   if (!shouldRender || !position) return null;
 
-  const CARD_WIDTH = position.width + 150;
-  const CARD_HEIGHT = 500;
+  const CARD_WIDTH = position.width + 100;
+  const CARD_HEIGHT = 600;
 
   const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
+    navigate(`/movie/${data.id}`);
   };
-  const currentURL = window.location.href;
-
-  let valuet;
-  let valuel;
-  if (currentURL.includes("/genre") || currentURL.includes("/allmovies")) {
-    valuet = 200;
-    valuel = 333;
-  } else {
-    valuet = 363;
-    valuel = 333;
-  } 
+ 
   return (
-
     <div
       ref={hoverCardRef}
       className={`absolute z-[99999] rounded-xl overflow-hidden shadow-2xl ${
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{
-        top: position.top - valuet + window.scrollY,
-        left: position.left - valuel + window.scrollX,
+        top: -10,
+        left: position.left - 175,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         maxWidth: "90vw",
@@ -136,7 +129,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
             <span className="text-gray-300 text-sm">{data.runTime}s</span>
           </div>
           <p className="mt-2 text-sm text-gray-200">
-            {data.description}
+            {data.description.slice(0, 100)}...
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
@@ -157,6 +150,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
               {popupMessage}
             </div>
             )}
+            
           </div>
         </div>
       </div>

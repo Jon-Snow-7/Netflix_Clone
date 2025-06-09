@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import StaticCard from "./StaticCard";
-import HoverCard from "./HoverCard";
+import TrendingHoverCard from "./TrendingHoverCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TrendingCard from "./TrendingCard";
-const MovieRow = ({ movies, title }) => {
+const TrendingRow = ({ movies, title }) => {
   const [hoverData, setHoverData] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -123,7 +123,7 @@ const MovieRow = ({ movies, title }) => {
 
       
       {/* HoverCard */}
-      <HoverCard
+      <TrendingHoverCard
         data={hoverData}
         position={hoverPosition}
         isVisible={isVisible}
@@ -133,4 +133,4 @@ const MovieRow = ({ movies, title }) => {
   );
 };
 
-export default MovieRow;
+export default TrendingRow;

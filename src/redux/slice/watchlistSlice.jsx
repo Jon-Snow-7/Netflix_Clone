@@ -10,8 +10,14 @@ const watchlistSlice = createSlice({
   name: 'watchlist',
   initialState: {
     isLoading: false,
-    data: null,
+    data: [],  // Change from `null` to empty array for consistency
     isError: false,
+  },
+  reducers: {
+    removeMovieLocally: (state, action) => {
+      const movieIdToRemove = action.payload;
+      state.data = state.data.filter(movie => movie.id !== movieIdToRemove);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -30,4 +36,5 @@ const watchlistSlice = createSlice({
   },
 });
 
+export const { removeMovieLocally } = watchlistSlice.actions;
 export default watchlistSlice.reducer;

@@ -8,8 +8,8 @@ export const addToWatchlist = createAsyncThunk(
   }
 );
 
-const watchlistSlice = createSlice({
-  name: "watchlist",
+const watchlistSlicePost = createSlice({
+  name: "watchlistPost",
   initialState: {
     isLoading: false,
     isSuccess: false,
@@ -37,4 +37,4 @@ const watchlistSlice = createSlice({
   },
 });
 
-export default watchlistSlice.reducer;
+export default watchlistSlicePost.reducer;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import StaticCard from "./StaticCard";
-import HoverCard from "./HoverCard";
+import WatchlistHoverCard from "./WatchlistHoverCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TrendingCard from "./TrendingCard";
-const MovieRow = ({ movies, title }) => {
+
+const WatchlistRow = ({ movies, title }) => {
   const [hoverData, setHoverData] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -110,8 +111,10 @@ const MovieRow = ({ movies, title }) => {
           className="flex gap-8 no-scrollbar scroll-smooth"
           style={{ overflowX: "hidden" }}
         >
+
           {title !== "Trending Now" ? (
             movies.map((movie, index) => (
+
               <StaticCard key={index} data={movie} onHover={handleHover} />
             ))
           ) : (
@@ -121,9 +124,9 @@ const MovieRow = ({ movies, title }) => {
           )}
         </div>
 
-      
+     
       {/* HoverCard */}
-      <HoverCard
+      <WatchlistHoverCard
         data={hoverData}
         position={hoverPosition}
         isVisible={isVisible}
@@ -133,4 +136,4 @@ const MovieRow = ({ movies, title }) => {
   );
 };
 
-export default MovieRow;
+export default WatchlistRow;
