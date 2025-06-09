@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getMovieById } from "../redux/apis";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0NTY2NCwiZXhwIjoxNzQ5NDgxNjY0fQ.z6BigMOB3SQv-aNmIIMbJHJBA8HNJONTWqLqEdZXJ_U",
-  },
-};
+  
+
+getMovieById(id)
+  .then((data) => {
+    setMovie(data);
+    setLoading(false);
+  })
+  .catch((err) => {
+    console.error("Failed to fetch movie:", err);
+    setLoading(false);
+  });
 
   
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/movies/${id}`,options)
-      .then((res) => res.json())
-      .then((data) => {
-        setMovie(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch movie:", err);
-        setLoading(false);
-      });
-  }, [id]);
+ 
 
   if (loading) return <div>Loading...</div>;
   if (!movie) return <div>Movie not found</div>;

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {  watchlistMovies } from "../apis";
 
 
-export const watchlistMovieData = createAsyncThunk("popularData", async () => {
+export const watchlistMovieData = createAsyncThunk("WatchlistData", async () => {
   return await watchlistMovies();
 });
 
