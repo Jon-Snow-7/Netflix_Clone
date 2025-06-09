@@ -111,8 +111,8 @@ const MovieRow = ({ movies, title }) => {
         className="flex gap-8 no-scrollbar scroll-smooth"
          style={{ overflowX: 'hidden' }}
       >
-        {movies.map((movie) => (
-          <StaticCard key={movie.movieId} data={movie} onHover={handleHover} />
+        {movies.map((movie,index) => (
+          <StaticCard key={index} data={movie} onHover={handleHover} />
         ))}
       </div>
 

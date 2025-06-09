@@ -6,9 +6,16 @@ const MovieDetail = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTE5MzkxNSwiZXhwIjoxNzQ5MjI5OTE1fQ.B_fijGOKY52LT4lS-oqvTHg2wfqo8_05H5KUCYhvMYY",
+  },
+};
   useEffect(() => {
-    fetch(`http://localhost:8080/api/movies/${id}`)
+    fetch(`http://localhost:8080/api/movies/${id}`,options)
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
@@ -69,7 +76,7 @@ const MovieDetail = () => {
               <div className="mt-4">
                 <h3 className="text-lg font-bold text-white mb-3">🎭 Cast</h3>
                 <div className="flex flex-wrap gap-3">
-                  {movie.actorList.split(",").map((actor, index) => (
+                  {movie.actorList.map((actor, index) => (
                     <span
                       key={index}
                       className="bg-gray-700 text-white text-sm font-medium px-4 py-2 rounded-full shadow hover:bg-gray-600 transition"
