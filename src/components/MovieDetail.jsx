@@ -14,6 +14,15 @@ const MovieDetail = () => {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTE5MzkxNSwiZXhwIjoxNzQ5MjI5OTE1fQ.B_fijGOKY52LT4lS-oqvTHg2wfqo8_05H5KUCYhvMYY",
   },
 };
+
+  const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTIwNTEyNywiZXhwIjoxNzQ5MjQxMTI3fQ.mNZFB1fA_HGDn5dNv0AOBPeC1gvVKpK5cHUGH5RHXkc",
+  },
+};
   useEffect(() => {
     fetch(`http://localhost:8080/api/movies/${id}`,options)
       .then((res) => res.json())
@@ -33,7 +42,7 @@ const MovieDetail = () => {
   return (
     <div className="relative min-h-screen text-white overflow-hidden">
       <img
-        src="http://i.imgur.com/6pXOHkx.jpg"
+        src="../public/images/Batman.jpg"
         alt={movie.movieName}
         className="fixed top-0 left-0 w-full h-screen object-cover z-0"
       />
@@ -66,12 +75,6 @@ const MovieDetail = () => {
                 <strong>⏱ Runtime:</strong> {movie.runTime}s
               </p>
             </div>
-
-            <p className="mt-2 text-base text-gray-200">
-              <strong className="text-white">📝 Description:</strong>{" "}
-              {movie.description}
-            </p>
-
             {movie.actorList && (
               <div className="mt-4">
                 <h3 className="text-lg font-bold text-white mb-3">🎭 Cast</h3>
@@ -87,6 +90,12 @@ const MovieDetail = () => {
                 </div>
               </div>
             )}
+            <p className="mt-2 text-base text-gray-200">
+              <strong className="text-white">📝 Plot :</strong>{" "}
+              {movie.description}
+            </p>
+
+            
           </div>
         </div>
       </div>
