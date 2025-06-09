@@ -82,9 +82,8 @@ const AddMovies = () => {
   } else {
     setActorError(false);
   }
-
-  const runtimeMins = parseInt(movie.runtime);
-  const formattedRuntime = `${Math.floor(runtimeMins / 60)}h ${runtimeMins % 60}m`;
+  
+  const formattedRuntime = `${movie.runtime} min`;
 
   const movieDTO = {
     movieName: movie.name,
@@ -92,7 +91,7 @@ const AddMovies = () => {
     runTime: formattedRuntime,
     description: movie.description,
     rating: parseFloat(movie.rating),
-    actorList: movie.actors.join(', '),
+    actorList: movie.actors,
     moviePoster: movie.poster,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
