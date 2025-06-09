@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import StaticCard from "./StaticCard";
 import GridHoverCard from "./GridHoverCard";
 
-const MovieGrid = ({ movies }) => {
+const MovieGrid = ({ movies, lastMovieRef }) => {
   const [hoverData, setHoverData] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -43,13 +43,17 @@ const MovieGrid = ({ movies }) => {
       <div
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
       >
-        {movies.map((movie) => (
+        {
+        movies.map((movie, index) => {
+         const isLast = index === movies.length - 1;
+          return (
           <StaticCard
-            key={movie.movieId}
+            key={movie.movieId} 
+            ref={isLast ? lastMovieRef : null}
             data={movie}
             onHover={handleHover}
           />
-        ))}
+        )})}
       </div>
 
       {/* HoverCard */}

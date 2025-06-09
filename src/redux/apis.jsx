@@ -12,13 +12,29 @@ const options = {
   },
 };
 
-export const searchMoviesApi = async (query, genre, ratingMin, ratingMax) => {
+// src/redux/apis.js
+export const genreMovies = async (genreId, page = 0) => {
+  const response = await fetch(
+    `http://localhost:8080/api/movies/genre/${genreId}?page=${page}&size=12`,
+    options
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch paginated genre movies");
+  }
+  return response.json();
+};
+
+
+export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page = 1) => {
   const url = new URL("http://localhost:8080/api/search");
   const sanitizedQuery = query.replace(/[^\w\s]/gi, " ").trim();
   url.searchParams.append("q", sanitizedQuery);
   url.searchParams.append("genre", genre);
   url.searchParams.append("ratingMin", ratingMin);
   url.searchParams.append("ratingMax", ratingMax);
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", 20); // Set default page size
 
   const res = await fetch(url, options);
   if (!res.ok) throw new Error("Search failed");

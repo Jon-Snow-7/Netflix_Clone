@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Search } from "lucide-react";
-import debounce from "lodash.debounce";
+import debounce from "lodash.debounce"; 
 import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
 import TwoThumbSlider from "../components/TwoThumbSlider";
 import Typography from "@mui/material/Typography";
 import MovieGrid from "../components/MoviesGrid";
 import { fetchSearchResults } from "../redux/slice/searchSlice";
-
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -20,30 +20,57 @@ const GENRE_OPTIONS = ["Action", "Adventure", "Animation", "Biography",
 const SearchPage = () => {
   
   const dispatch = useDispatch();
-  const { movies, suggestions, isLoading } = useSelector((state) => state.search);
-
+  const { movies, suggestions, isLoading, hasMore, page } = useSelector((state) => state.search);
+  
   const [searchText, setSearchText] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [ratingRange, setRatingRange] = useState([0, 10]);
-
   const debouncedFetchMovies = useCallback(
     debounce((query, genre, ratingMin, ratingMax) => {
-      dispatch(fetchSearchResults({ query, genre, ratingMin, ratingMax }));
+      dispatch(fetchSearchResults({ query, genre, ratingMin, ratingMax, page: 1 }));
     }, 500),
     [dispatch]
   );
 
   useEffect(() => {
-    debouncedFetchMovies(searchText, selectedGenre, ratingRange[0], ratingRange[1]);
+      debouncedFetchMovies(searchText, selectedGenre, ratingRange[0], ratingRange[1]);
   }, [searchText, selectedGenre, ratingRange, debouncedFetchMovies]);
 
-  const handleSearchInput = (e) => setSearchText(e.target.value);
-  const handleRatingChange = (val) => setRatingRange(val);
-  const handleSuggestionClick = (suggestion) => {
-    setSelectedGenre("");
-    setRatingRange([0, 10]);
-    setSearchText(suggestion);
-  };
+   const observer = useRef();
+
+  const lastMovieRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          dispatch(fetchSearchResults({
+            query: searchText,
+            genre: selectedGenre,
+            ratingMin: ratingRange[0],
+            ratingMax: ratingRange[1],
+            page: page + 1,
+          }));
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore, dispatch, searchText, selectedGenre, ratingRange, page]
+  );
+
+  // const debouncedFetchMovies = useCallback(
+  //   debounce((query, genre, ratingMin, ratingMax) => {
+  //     dispatch(fetchSearchResults({ query, genre, ratingMin, ratingMax }));
+  //   }, 500),
+  //   [dispatch]
+  // );
+    const handleSearchInput = (e) => setSearchText(e.target.value);
+    const handleRatingChange = (val) => setRatingRange(val);
+    const handleSuggestionClick = (suggestion) => {
+      setSelectedGenre("");
+      setRatingRange([0, 10]);
+      setSearchText(suggestion);
+    };
 
 
   return (
@@ -106,10 +133,11 @@ const SearchPage = () => {
 
       {/* Movies Grid */}
       <div className="container mx-auto px-4 sm:px-8 lg:px-20 z-20 relative">
-
-        <MovieGrid movies={movies} />
+        <MovieGrid movies={movies} lastMovieRef={lastMovieRef} />
       </div>
-
+      {isLoading && (
+        <div className="text-center mt-4 text-gray-400">Loading more...</div>
+      )}
       {/* No Movies Found Message */}
        {!isLoading && movies?.length === 0 && searchText.trim() !== "" && (
         <div className="text-center text-gray-400 mt-10 w-full">

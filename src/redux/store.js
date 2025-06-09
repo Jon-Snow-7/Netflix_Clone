@@ -7,6 +7,7 @@ import recentMovieReducer from "./slice/recentlyWatchSlice";
 import watchlistReducer from "./slice/watchlistSlice";
 import recommendReducer from "./slice/recommendationSlice";
 import searchReducer from "../redux/slice/searchSlice";
+import genreSlice from"../redux/slice/genreSlice"
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     watchlist: watchlistReducer,
     recommend: recommendReducer,
     search: searchReducer, 
+    genre: genreSlice,
   },
 });
