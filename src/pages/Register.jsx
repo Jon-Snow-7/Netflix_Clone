@@ -38,7 +38,7 @@ const handleSubmit = async (e) => {
     }
 
     alert(result);
-    navigate('/login');
+    navigate('/');
   } catch (error) {
     console.error('Error during registration:', error);
     alert('Registration failed: ' + error.message);
@@ -95,7 +95,7 @@ const handleSubmit = async (e) => {
         <p className="mt-4">
           Already have an account?{' '}
           <a
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/')}
             className="text-blue-400 hover:underline cursor-pointer"
           >
             Login
