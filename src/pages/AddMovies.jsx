@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import SideBarAdmin from "../components/SideBarAdmin";
 import Footer from '../components/Footer';
+import { addMovie } from '../redux/apis';
 
 const AddMovies = () => {
   const [movie, setMovie] = useState({
@@ -63,26 +64,45 @@ const AddMovies = () => {
   };
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (movie.genres.length === 0) {
-        setGenreError(true);
-        genreRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-    } else {
-        setGenreError(false);
-    }
-    if (movie.actors.length === 0) {
-        setActorError(true);
-        actorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-        return;
-    } else {
-        setActorError(false);
-    }
-    const runtimeMins = parseInt(movie.runtime);
-    const formattedRuntime = `${Math.floor(runtimeMins / 60)}h ${runtimeMins % 60}m`;
-    console.log({ ...movie, runtime: formattedRuntime });
-    // Send to backend
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (movie.genres.length === 0) {
+    setGenreError(true);
+    genreRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  } else {
+    setGenreError(false);
+  }
+
+  if (movie.actors.length === 0) {
+    setActorError(true);
+    actorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  } else {
+    setActorError(false);
+  }
+  
+  const formattedRuntime = `${movie.runtime} min`;
+
+  const movieDTO = {
+    movieName: movie.name,
+    releaseDate: movie.releaseDate,
+    runTime: formattedRuntime,
+    description: movie.description,
+    rating: parseFloat(movie.rating),
+    actorList: movie.actors,
+    moviePoster: movie.poster,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    updatedBy: 1,
+    genre: movie.genres
+  };
+
+  try {
+    const res = await addMovie(movieDTO);
+    console.log("Movie added:", res);
+
     setMovie({
       name: '',
       releaseDate: '',
@@ -95,11 +115,13 @@ const AddMovies = () => {
     });
     setActorInput('');
     setShowPopup(true);
-    // Hide popup after 3 seconds
-    setTimeout(() => {
-    setShowPopup(false);
-  }, 3000);
-  };
+
+    setTimeout(() => setShowPopup(false), 3000);
+  } catch (error) {
+    alert("Something went wrong while adding the movie.");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">

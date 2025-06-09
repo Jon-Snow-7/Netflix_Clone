@@ -1,23 +1,14 @@
-const API_KEY = '20ac0341ec5b2096d68f9c473d7b5d69';
+const API_KEY = '9908b852951e7ca6dd735fa8b567a5d1';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 
 
 const options = {
-  method: "GET",
+  // method: "GET",
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ2MDI1NSwiZXhwIjoxNzQ5NDk2MjU1fQ.2lOFBwnNHQmgsQHPrntkagpvq2XOtCe0HtHCAYWU9OI",
-  },
-};
-
-const options_post = {
-  method: "POST",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ2MDI1NSwiZXhwIjoxNzQ5NDk2MjU1fQ.2lOFBwnNHQmgsQHPrntkagpvq2XOtCe0HtHCAYWU9OI",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
   },
 };
 
@@ -66,6 +57,32 @@ export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page =
   if (!res.ok) throw new Error("Search failed");
   return await res.json();
 };
+
+export const addMovie = async (movieData) => {
+  try {
+    const response = await fetch('http://localhost:8080/api/movies', {
+      ...options, // reuse Authorization and accept headers
+      method: 'POST',
+      headers: {
+        ...options.headers,
+        'Content-Type': 'application/json' // add this for POST
+      },
+      body: JSON.stringify(movieData)
+    });
+
+    if (!response.ok) {
+      const text = await response.text(); // fallback to raw text
+      console.error('Backend error response:', text);
+      throw new Error('Failed to add movie');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error while adding movie:', error.message);
+    throw error;
+  }
+};
+
 
 export const recommendationMovies = async () => {
   const response = await fetch(`http://localhost:8080/api/movies`,options);
@@ -127,10 +144,11 @@ export const recentMovies = async () => {
 
 
 export const continueMovies = async () => {
-  const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+  const response = await fetch(`http://localhost:8080/api/movies/sort/rating/desc`,options);
   if (!response.ok) {
     throw new Error('Failed to fetch popular movies');
   }
+    // console.log(response)
   return response.json();
 };
 
