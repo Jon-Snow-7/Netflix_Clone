@@ -77,7 +77,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
             <span className="text-sm text-gray-300">
               {data.releaseDate}
             </span>
-            <span className="text-yellow-400 text-sm">⭐ {data.rating}/10</span>
+            <span className="text-red-400 text-sm">⭐ {data.rating}/10</span>
             <span className="text-gray-300 text-sm">{data.runTime}s</span>
           </div>
           <p className="mt-2 text-sm text-gray-200">
