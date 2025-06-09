@@ -33,16 +33,27 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const handleWatchNow = () => {
     navigate(`/movie/${data.movieId}`);
   };
- 
+  const currentURL = window.location.href;
+
+  let valuet;
+  let valuel;
+  if (currentURL.includes("/genre") || currentURL.includes("/allmovies")) {
+    valuet = 200;
+    valuel = 333;
+  } else {
+    valuet = 363;
+    valuel = 333;
+  } 
   return (
+
     <div
       ref={hoverCardRef}
       className={`absolute z-[99999] rounded-xl overflow-hidden shadow-2xl ${
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{
-        top: -20,
-        left: position.left - 195,
+        top: position.top - valuet + window.scrollY,
+        left: position.left - valuel + window.scrollX,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         maxWidth: "90vw",
@@ -66,7 +77,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
           <h2 className="text-xl font-bold">{data.movieName}</h2>
           <div className="flex justify-between">
             <span className="text-sm text-gray-300">
-              {data.releaseDate.slice(0, 4)}
+              {data.releaseDate}
             </span>
             <span className="text-yellow-400 text-sm">⭐ {data.rating}/10</span>
             <span className="text-gray-300 text-sm">{data.runTime}s</span>

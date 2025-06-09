@@ -81,20 +81,20 @@ const MovieRow = ({ movies, title }) => {
     <div className="relative bg-black text-white p-6">
       <h2 className="text-2xl font-semibold mb-4">{title}</h2>
 
-      {/* Left Scroll Zone */}
-      {
-        <div
-          onClick={() => scroll("left")}
-          className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r hover:bg-black/50 bg-black/10 to-transparent"
-        >
-          <div className="flex items-center justify-center h-full">
-            <ChevronLeft className="text-white w-10 h-10" />
-          </div>
+      {showLeft && (
+      <div
+        onClick={() => scroll("left")}
+        className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r hover:bg-black/50 bg-black/10 to-transparent"
+      >
+        <div className="flex items-center justify-center h-full">
+          <ChevronLeft className="text-white w-10 h-10" />
         </div>
-      }
+      </div>
+    )}
+
 
       {/* Right Scroll Zone */}
-      {
+      {showRight && (
         <div
           onClick={() => scroll("right")}
           className="hidden md:block absolute top-0 right-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-l hover:bg-black/50 bg-black/10 to-transparent"
@@ -103,7 +103,8 @@ const MovieRow = ({ movies, title }) => {
             <ChevronRight className="text-white w-10 h-10" />
           </div>
         </div>
-      }
+      )}
+
 
       {/* Scrollable Row */}
       <div

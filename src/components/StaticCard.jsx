@@ -1,18 +1,22 @@
-import React, { useRef } from "react";
+import React, { useRef, forwardRef } from "react";
 
-const StaticCard = ({ data, onHover, onLeave }) => {
+const StaticCard = forwardRef(({ data, onHover, onLeave }, forwardedRef) => {
   const cardRef = useRef();
   const timeoutRef = useRef(null);
 
   const handleMouseEnter = () => {
     const rect = cardRef.current.getBoundingClientRect();
     timeoutRef.current = setTimeout(() => {
-      onHover(data, {
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-      }, cardRef);
-    }, 300); // Delay of 0ms
+      onHover(
+        data,
+        {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+        },
+        cardRef
+      );
+    }, 300); // Delay of 300ms
   };
 
   const handleMouseLeave = () => {
@@ -22,10 +26,17 @@ const StaticCard = ({ data, onHover, onLeave }) => {
 
   return (
     <div
-      ref={cardRef}
+      ref={(node) => {
+        cardRef.current = node;
+        if (typeof forwardedRef === "function") {
+          forwardedRef(node);
+        } else if (forwardedRef) {
+          forwardedRef.current = node;
+        }
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="w-[210px] h-[300px] bg-zinc-800 rounded overflow-hidden flex-shrink-0" 
+      className="w-[210px] h-[300px] bg-zinc-800 rounded overflow-hidden flex-shrink-0"
     >
       <img
         src={data.moviePoster}
@@ -34,6 +45,6 @@ const StaticCard = ({ data, onHover, onLeave }) => {
       />
     </div>
   );
-};
+});
 
 export default StaticCard;
