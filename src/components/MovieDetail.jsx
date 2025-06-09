@@ -15,14 +15,7 @@ const MovieDetail = () => {
   },
 };
 
-  const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTIwNTEyNywiZXhwIjoxNzQ5MjQxMTI3fQ.mNZFB1fA_HGDn5dNv0AOBPeC1gvVKpK5cHUGH5RHXkc",
-  },
-};
+  
   useEffect(() => {
     fetch(`http://localhost:8080/api/movies/${id}`,options)
       .then((res) => res.json())
