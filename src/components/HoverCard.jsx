@@ -91,22 +91,9 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const CARD_WIDTH = position.width + 150;
   const CARD_HEIGHT = 500;
 
-  const handleWatchNow = async () => {
-    try {
-      await fetch(`http://localhost:8080/api/history/${data.movieId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-           Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
-        },
-      });
+  const handleWatchNow = () => {
+    navigate(`/movie/${data.movieId}`)};
 
-      navigate(`/movie/${data.movieId}`);
-    } catch (error) {
-      console.error("Failed to add to history:", error);
-      navigate(`/movie/${data.movieId}`); // still navigate even if history fails
-   }
-  };
  
   return (
     <div
