@@ -21,6 +21,15 @@ const options_post = {
   },
 };
 
+const options_delete = {
+  method: "DELETE",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
+  },
+};
+
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
   const response = await fetch(
@@ -50,6 +59,21 @@ export const watchlistMoviesPost = async (movie_id) => {
   return response.json();
 };
 
+export const watchlistMovieDelete = async (movie_id) => {
+  const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_delete);
+  if (!response.ok) {
+    throw new Error('Failed to fetch popular movies');
+  }
+  return response.json();
+};
+
+export const watchlistMoviesDelete = async () => {
+  const response = await fetch(`http://localhost:8080/api/watchlist/`,options_delete);
+  if (!response.ok) {
+    throw new Error('Failed to fetch popular movies');
+  }
+  return response.json();
+};
 
 
 export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page = 1) => {

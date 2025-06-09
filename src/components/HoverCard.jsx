@@ -95,7 +95,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
             <span className="text-gray-300 text-sm">{data.runTime}s</span>
           </div>
           <p className="mt-2 text-sm text-gray-200">
-            {data.description}...
+            {data.description.slice(0, 100)}...
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
