@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
+import dayjs from "dayjs";
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const navigate = useNavigate();
   const [shouldRender, setShouldRender] = useState(false);
@@ -75,7 +76,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
           <h2 className="text-xl font-bold">{data.movieName}</h2>
           <div className="flex justify-between">
             <span className="text-sm text-gray-300">
-              {data.releaseDate}
+              {dayjs(data.releaseDate).format("DD MMMM YYYY")}
             </span>
             <span className="text-yellow-400 text-sm">⭐ {data.rating}/10</span>
             <span className="text-gray-300 text-sm">{data.runTime}s</span>
