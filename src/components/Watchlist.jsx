@@ -1,52 +1,37 @@
-import React, { useEffect, useState } from "react";
-import HorizontalScroller from "./HorizontalScroller";
-
-import MovieDetail from "./MovieDetail"; // import modal component
+import React, { useEffect, useState } from "react"; // import modal component
 import { useDispatch, useSelector } from "react-redux";
 import { watchlistMovieData } from "../redux/slice/watchlistSlice";
+import MovieRow from "./MovieRow";
+import { getMovieById } from "../redux/apis"; // import MovieRow component
 const Watchlist = () => {
   const dispatch = useDispatch();
   const watchlistState = useSelector((state) => state.watchlist);
+  const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     dispatch(watchlistMovieData());
   }, [dispatch]);
 
-  const watchlist = watchlistState?.data?.results || [];
-  const [selectedMovieId, setSelectedMovieId] = useState(null);
+  useEffect(() => {
+    const fetchWatchlistMovies = async () => {
+      const watchlist = watchlistState?.data || [];
 
+      try {
+        const movieData = await Promise.all(
+          watchlist.map((movie) => getMovieById(movie.movieId))
+        );
+        setMovies(movieData);
+      } catch (error) {
+        console.error("Failed to fetch movies from watchlist:", error);
+      }
+    };
+
+    if (watchlistState?.data?.length) {
+      fetchWatchlistMovies();
+    }
+  }, [watchlistState]);
   return (
-    <>
-      <HorizontalScroller title="Your Watchlist">
-        {watchlist.map((movie) => (
-          <div
-            key={movie.id}
-            className="min-w-[250px] cursor-pointer"
-            onClick={() => setSelectedMovieId(movie.id)}
-          >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              className="rounded-md w-full h-80 object-cover"
-            />
-            <p className="mt-2 text-sm text-white">{movie.title}</p>
-          </div>
-        ))}
-      </HorizontalScroller>
-
-      {selectedMovieId && (
-        <div className="fixed inset-0 z-50 flex bg-black bg-opacity-80 items-center justify-center p-4">
-          <div className="relative bg-[#111] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setSelectedMovieId(null)}
-              className="absolute !bg-red-500 top-2 right-2 text-white text-2xl"
-            >
-              x
-            </button>
-            <MovieDetail id={selectedMovieId} isModal />
-          </div>
-        </div>
-      )}
-    </>
+    <MovieRow movies={movies} title="Your Watchlist" className="mb-8" />
   );
 };
 
