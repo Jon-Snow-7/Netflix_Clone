@@ -102,7 +102,7 @@ export const recommendationMovies = async () => {
 };
 
 export const latestMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/sort/releaseDate/desc`,options);
+  const response = await fetch(`http://localhost:8080/api/movies/recent`,options);
   if (!response.ok) {
     throw new Error('Failed to fetch latest movies');
   }
@@ -135,7 +135,7 @@ export const historyMovies = async () => {
 };
 
 export const popularMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/sort/rating/desc`,options);
+  const response = await fetch(`http://localhost:8080/api/movies/popular`,options);
   if (!response.ok) {
     throw new Error('Failed to fetch popular movies');
   }
