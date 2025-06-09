@@ -4,7 +4,16 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 
 const options = {
-  // method: "GET",
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
+  },
+};
+
+const options_post = {
+  method: "POST",
   headers: {
     accept: "application/json",
     Authorization:
