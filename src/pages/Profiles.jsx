@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SideBar from "../components/SideBar";
-import profileImg from "../assets/profile.jpg";
 import AddProfileModal from "../components/AddProfileModal";
-import { fetchProfiles } from "../redux/slice/profileSlice"; // 👈 Import the thunk
+import { fetchProfiles, createProfileThunk } from "../redux/slice/profileSlice"; // import thunk
+
+import imgBlue from "../assets/blue.jpg";
+import imgMehendi from "../assets/mehendi.jpg";
+import imgWhite from "../assets/white.jpg";
+import imgRed from "../assets/red.jpg";
+import imgOrange from "../assets/orange.jpg";
+
+
+const profileImages = [imgBlue, imgMehendi, imgWhite, imgRed, imgOrange];
 
 const Profiles = () => {
   const dispatch = useDispatch();
@@ -11,20 +18,41 @@ const Profiles = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [newProfileName, setNewProfileName] = useState("");
+  const [isKidsProfile, setIsKidsProfile] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchProfiles()); // 👈 Fetch profiles on mount
+    
+    dispatch(fetchProfiles()); // Fetch profiles on mount
   }, [dispatch]);
 
   const handleAddProfile = () => setShowModal(true);
+
   const handleClose = () => {
     setShowModal(false);
     setNewProfileName("");
+    setIsKidsProfile(false);
   };
 
-  const handleSave = () => {
-    alert(`Profile "${newProfileName}" added!`);
-    handleClose();
+  const handleSave = async () => {
+    if (!newProfileName.trim()) {
+      alert("Please enter a profile name.");
+      return;
+    }
+
+    try {
+      await dispatch(
+        createProfileThunk({
+          name: newProfileName,
+          adult: isKidsProfile ? 0 : 1,
+        })
+      ).unwrap();
+
+      dispatch(fetchProfiles()); // Refresh profiles
+      handleClose();
+    } catch (error) {
+      console.error("Failed to create profile:", error);
+      alert("Failed to create profile.");
+    }
   };
 
   if (isLoading) return <p className="text-white text-xl">Loading...</p>;
@@ -36,25 +64,28 @@ const Profiles = () => {
         Who's watching?
       </h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-        {profiles.map((profile) => (
-          <div
-            key={profile.id}
-            className="flex flex-col items-center cursor-pointer group"
-          >
-            <img
-              src={profileImg}
-              alt={profile.name}
-              className="w-36 h-36 sm:w-48 sm:h-48 rounded-md border-2 border-transparent group-hover:border-white transition"
-            />
-            <p className="mt-2 text-2xl text-gray-400 font-medium w-full text-center group-hover:text-gray-300">
-              {profile.name}
-            </p>
-          </div>
-        ))}
+      {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-8"> */}
+      <div className="flex flex-row gap-x-8">
+      {profiles.map((profile, index) => (
+        <div
+          key={profile.id}
+          className="flex flex-col items-center cursor-pointer group"
+        >
+          <img
+            src={profileImages[index % profileImages.length]} // ⬅️ Cycle through images
+            alt={profile.name}
+            className="w-36 h-36 sm:w-48 sm:h-48 rounded-md border-2 border-transparent group-hover:border-white transition"
+          />
+          <p className="mt-2 text-2xl text-gray-400 font-medium w-full text-center group-hover:text-gray-300">
+            {profile.name}
+          </p>
+        </div>
+      ))}
 
         {/* Add Profile Button */}
-        <div
+
+        { profiles.length <5 && (
+        <div 
           className="flex flex-col items-center cursor-pointer group"
           onClick={handleAddProfile}
         >
@@ -65,6 +96,7 @@ const Profiles = () => {
             Add Profile
           </p>
         </div>
+        )} 
       </div>
 
       <AddProfileModal
@@ -73,6 +105,8 @@ const Profiles = () => {
         onSave={handleSave}
         newProfileName={newProfileName}
         setNewProfileName={setNewProfileName}
+        isKidsProfile={isKidsProfile}
+        setIsKidsProfile={setIsKidsProfile}
       />
     </div>
   );

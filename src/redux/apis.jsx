@@ -12,6 +12,16 @@ const options = {
   },
 };
 
+const options_profile= {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsImlhdCI6MTc0OTUzMjk1MiwiZXhwIjoxNzQ5NTY4OTUyfQ.9VPNolsmbrUUxQ73QN5dvTfVe47XsBM01r5Bmiuee0o",
+  },
+};
+
+
 const options_post = {
   method: "POST",
   headers: {
@@ -186,3 +196,70 @@ export const continueMovies = async () => {
 };
 
 
+export const getProfiles = async () => {
+  const response = await fetch(`http://localhost:8080/api/profiles`,options_profile);
+  if (!response.ok) {
+    throw new Error('Failed to fetch profiles');
+  }
+  return response.json();
+};
+
+export const createProfile = async (profileData) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/profiles`, {
+      method: "POST",
+      headers: {
+        ...options_profile.headers, // reuse Authorization and Accept headers
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(profileData)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Profile creation error:", errorText);
+      throw new Error("Failed to create profile");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error in createProfile:", error.message);
+    throw error;
+  }
+};
+
+
+// Update profile
+export const updateProfile = async (profileId, profileData) => {
+  const response = await fetch(`http://localhost:8080/api/profiles/${profileId}`, {
+    ...options_profile,
+    method: "PUT",
+    headers: {
+      ...options_profile.headers,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(profileData),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    console.error("Failed to update profile:", err);
+    throw new Error("Update failed");
+  }
+
+  return response.json();
+};
+
+// Delete profile
+export const deleteProfile = async (profileId) => {
+  const response = await fetch(`http://localhost:8080/api/profiles/${profileId}`, {
+    ...options_profile,
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    console.error("Failed to delete profile:", err);
+    throw new Error("Delete failed");
+  }
+};
