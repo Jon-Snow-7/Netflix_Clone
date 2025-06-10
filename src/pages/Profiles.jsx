@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AddProfileModal from "../components/AddProfileModal";
 import { fetchProfiles, createProfileThunk } from "../redux/slice/profileSlice"; // import thunk
 
@@ -10,9 +11,11 @@ import imgRed from "../assets/red.jpg";
 import imgOrange from "../assets/orange.jpg";
 
 
-const profileImages = [imgBlue, imgMehendi, imgWhite, imgRed, imgOrange];
+const profileImages = [imgBlue, imgMehendi, imgOrange, imgRed, imgWhite];
 
 const Profiles = () => {
+  const navigate = useNavigate(); 
+
   const dispatch = useDispatch();
   const { data: profiles, isLoading, isError } = useSelector((state) => state.profile);
 
@@ -97,8 +100,18 @@ const Profiles = () => {
           </p>
         </div>
         )} 
-      </div>
 
+
+      </div>
+          <div>
+          <button
+            onClick={() => navigate("/manage_profiles")}
+            className="cursor-pointer mt-24 px-20 py-4 !bg-black text-white text-2xl font-semibold rounded border border-white hover:!bg-gray-200 hover:!text-black transition"
+          >
+            Manage Profiles
+          </button>
+
+        </div>
       <AddProfileModal
         isOpen={showModal}
         onClose={handleClose}
