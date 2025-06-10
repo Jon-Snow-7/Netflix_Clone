@@ -9,7 +9,7 @@ import imgMehendi from "../assets/mehendi.jpg";
 import imgWhite from "../assets/white.jpg";
 import imgRed from "../assets/red.jpg";
 import imgOrange from "../assets/orange.jpg";
-import { useNavigate } from "react-router-dom";
+
 
 
 const profileImages = [imgBlue, imgMehendi, imgOrange, imgRed, imgWhite];
