@@ -162,15 +162,17 @@ const handleToggleWatchHistory = async () => {
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
+
               onClick={handleToggleWatchHistory}
               className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
+
             >
               <span className="text-1xl">▶</span>
               <span className="tracking-wide">Watch Now</span>
             </button>
             <button 
             onClick={handleToggleWatchlist}
-            className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
+            className="cursor-pointer  flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
               <span className="text-2xl">+</span>
               <span className="tracking-wide">Add</span> 
             </button>

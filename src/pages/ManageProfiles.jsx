@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { fetchProfiles } from "../redux/slice/profileSlice";
 
 import imgBlue from "../assets/blue.jpg";
@@ -17,7 +19,7 @@ const ManageProfiles = () => {
   const { data: profiles, isLoading, isError } = useSelector(
     (state) => state.profile
   );
-
+  const navigate = useNavigate();
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [newProfileName, setNewProfileName] = useState("");
 
@@ -89,8 +91,18 @@ const ManageProfiles = () => {
             </p>
           </div>
         ))}
-      </div>
 
+
+      </div>
+          <div>
+          <button
+            onClick={() => navigate("/profiles")}
+            className="cursor-pointer mt-24 px-20 py-4 !bg-black text-white text-2xl font-semibold rounded border border-white hover:!bg-gray-200 hover:!text-black transition"
+          >
+            Go Back
+          </button>
+
+        </div>
       {selectedProfile && (
         <ManageProfileModal
           isOpen={!!selectedProfile}
