@@ -8,7 +8,7 @@ const options = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTUzMzI4MiwiZXhwIjoxNzQ5NTY5MjgyfQ.rNHK3ZpMkxxyrhzIe11yEM0kLbjlLXRBQlqCr_NAfAA",
   },
 };
 
@@ -27,7 +27,7 @@ const options_post = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTUzMzI4MiwiZXhwIjoxNzQ5NTY5MjgyfQ.rNHK3ZpMkxxyrhzIe11yEM0kLbjlLXRBQlqCr_NAfAA",
   },
 };
 
@@ -36,7 +36,7 @@ const options_delete = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTUzMzI4MiwiZXhwIjoxNzQ5NTY5MjgyfQ.rNHK3ZpMkxxyrhzIe11yEM0kLbjlLXRBQlqCr_NAfAA",
   },
 };
 
@@ -219,7 +219,7 @@ export const popularMovies = async () => {
 
 
 export const recentMovies = async () => {
-  const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+  const response = await fetch(`http://localhost:8080/api/recent`,options);
   if (!response.ok) {
     throw new Error('Failed to fetch popular movies');
   }
