@@ -8,7 +8,9 @@ import watchlistReducer from "./slice/watchlistSlice";
 import recommendReducer from "./slice/recommendationSlice";
 import searchReducer from "../redux/slice/searchSlice";
 import genreSlice from"../redux/slice/genreSlice"
-
+import trendingReducer from "../redux/slice/trendingSlice"
+import watchlistDeleteReducer from "../redux/slice/watchlistSliceDelete"
+import watchlistPostReducer from "../redux/slice/watchlistSlicePost"
 export const store = configureStore({
   reducer: {
     continue: continueReducer,
@@ -20,5 +22,8 @@ export const store = configureStore({
     recommend: recommendReducer,
     search: searchReducer, 
     genre: genreSlice,
+    trending: trendingReducer,
+    watchlistDelete: watchlistDeleteReducer,  
+    watchlistPost: watchlistPostReducer, 
   },
 });

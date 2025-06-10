@@ -3,7 +3,6 @@ import React, { useRef, forwardRef } from "react";
 const StaticCard = forwardRef(({ data, onHover, onLeave }, forwardedRef) => {
   const cardRef = useRef();
   const timeoutRef = useRef(null);
-
   const handleMouseEnter = () => {
     const rect = cardRef.current.getBoundingClientRect();
     timeoutRef.current = setTimeout(() => {
