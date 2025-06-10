@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { recentMovies } from "../apis";
 
 
-export const recentMovieData = createAsyncThunk("recent", async () => {
+export const recentMovieData = createAsyncThunk("recentData", async () => {
   return await recentMovies();
 });
 
