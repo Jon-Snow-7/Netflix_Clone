@@ -1,33 +1,3 @@
-const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
-const BASE_URL = "https://api.themoviedb.org/3";
-
-// const options={   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
-// const options_post={   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "POST",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
-// const options_delete{   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "DELETE",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
   const response = await fetch(

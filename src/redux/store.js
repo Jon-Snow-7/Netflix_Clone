@@ -14,8 +14,6 @@ import watchlistDeleteReducer from "../redux/slice/watchlistSliceDelete"
 import watchlistPostReducer from "../redux/slice/watchlistSlicePost"
 import historyPostReducer from "../redux/slice/historySlicePost"
 import historyDeleteReducer from "../redux/slice/historySliceDelete"
-
-
 export const store = configureStore({
   reducer: {
    // continue: continueReducer,
@@ -33,6 +31,5 @@ export const store = configureStore({
     trending: trendingReducer,
     watchlistDelete: watchlistDeleteReducer,  
     watchlistPost: watchlistPostReducer, 
-
   },
 });

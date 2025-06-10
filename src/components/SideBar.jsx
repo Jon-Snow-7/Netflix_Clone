@@ -15,27 +15,27 @@ const SideBar = () => {
 
   return (
 <div
-  className={`
-    
+  className=" 
+   max-sm:w-screen max-sm:flex-row max-sm:h-15 max-sm:top-0 max-sm:bg-black max-sm:transition-none max-sm:justify-around
    h-screen sticky top-0 flex flex-col
     transition-all duration-300 ease-in-out
-    w-20 hover:w-[10vw]
+    w-20 sm:hover:w-[10vw]
     bg-gradient-to-r from-black/100 to-transparent
-     border-r border-white/10 shadow-lg border-none`}
+    border-r border-white/10 shadow-lg border-none"
   onMouseEnter={() => setIsHovered(true)}
   onMouseLeave={() => setIsHovered(false)}
 >
       {/* Logo */}
-      <div className="flex items-center  py-6">
+      <div className="flex items-center py-6">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
           alt="Netflix Logo"
           className="w-20 transition-all duration-300"
         />
       </div>
-
+      
       {/* Menu */}
-      <div className="flex flex-col gap-8 px-2 mt-20">
+      <div className="flex flex-col gap-8 px-2 sm:mt-20 max-sm:flex-row max-sm:gap-7 max-sm:justify-around">
         {menuItems.map((item, idx) => (
           <Link
             to={item.path}
@@ -47,7 +47,7 @@ const SideBar = () => {
 
             {/* Label */}
             <span
-              className={`text-sm font-medium text-white whitespace-nowrap transition-opacity duration-300 ease-in-out ${
+              className={`max-sm:hidden text-sm font-medium text-white whitespace-nowrap transition-opacity duration-300 ease-in-out ${
                 isHovered ? 'opacity-100' : 'opacity-0'
               }`}
             >

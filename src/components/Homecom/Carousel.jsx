@@ -135,7 +135,7 @@ const Carousel = () => {
     }
   };
   return (
-    <div className="pl-30 relative w-full h-[85vh] overflow-hidden">
+    <div className="pl-30 max-sm:pl-10 max-sm:pt-40 relative w-screen h-[85vh] overflow-hidden">
       <div
         className="transition-all duration-700 ease-in-out relative w-full h-full"
         key={index}
@@ -143,7 +143,7 @@ const Carousel = () => {
         <img
           src={data[index].url}
           alt="slide"
-          className="w-full h-full object-cover"
+          className="w-screen max-sm:h-[40vh] h-screen object-cover"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src =
@@ -157,27 +157,26 @@ const Carousel = () => {
         {/* Content */}
         <div className="absolute bottom-20 left-10 text-white max-w-xl z-10">
           <h2 className="text-5xl font-bold mb-4">{data[index].title}</h2>
-          <div className="flex space-x-6 text-lg mb-2 font-semibold text-gray-300">
+          <div className="flex overflow-hidden space-x-6 text-lg mb-2 font-semibold text-gray-300">
             <span>{data[index].releaseyear}</span>
-            <span>{data[index].genre}</span>
             <span>{data[index].rating}</span>
             <span>{data[index].runtime}</span>
           </div>
-          <p className="text-sm text-gray-200 mb-6">{data[index].plot}</p>
+          <p className="max-sm:hidden text-sm text-gray-200 mb-6">{data[index].plot}</p>
 
           {/* Buttons */}
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => handleWatchNow({index})}
-            className="border-2 border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-26 py-4 rounded-md shadow-md transition duration-300 text-[19.5px] ">
+            className="border-2 max-sm:px-7 max-sm:py-3 max-sm:font-bold max-sm:text-base max-sm:rounded-2xl border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-26 py-4 rounded-md shadow-md transition duration-300 text-[19.5px] ">
               Watch Now
             </button>
 
             <div className="relative group">
               <button 
             onClick={handleToggleWatchlist}
-            className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
-              <span className="text-2xl">+</span>
+            className="flex max-sm:px-8 max-sm:py-3.5 max-sm:text-base rounded-2xl  items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
+              <span className="max-sm:hidden text-2xl">+</span>
               <span className="tracking-wide">Add</span> 
             </button>
             {showPopup && (
