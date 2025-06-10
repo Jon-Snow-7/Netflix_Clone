@@ -13,7 +13,7 @@ const History = ({title="Watch History",size=40}) => {
   
   useEffect(()=>{
     dispatch(historyData());
-    console.log(historyData)
+    // console.log(historyData)
   },[dispatch])
   const history=historyState?.data?.results || [];
 

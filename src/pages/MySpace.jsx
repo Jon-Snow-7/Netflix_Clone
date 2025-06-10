@@ -26,7 +26,9 @@ const MySpace = () => {
               <button
                 onClick={() => {
                   if (window.confirm('Are you sure you want to logout?')) {
-                    window.location.href = '/login';
+                    localStorage.removeItem("token");
+                    window.location.href = '/';
+                    
                   }
                 }}
                 className="text-black dark:text-white bg-black hover:bg-gray-900 px-6 py-3 rounded-lg text-lg shadow-lg "
