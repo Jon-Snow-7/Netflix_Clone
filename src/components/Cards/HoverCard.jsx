@@ -93,8 +93,8 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   console.log(position);
 
   const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
-  };
+    navigate(`/movie/${data.movieId}`)};
+
  
   return (
     <div

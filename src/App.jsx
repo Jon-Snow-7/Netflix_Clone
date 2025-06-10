@@ -11,6 +11,8 @@ import MovieDetail from "./components/MovieDetail";
 import GenrePage from "./pages/Genre";
 import AddMovies from "./pages/AddMovies";
 import ListMovies from "./components/Moviescom/ListMovies";
+import Profiles from "./pages/Profiles";
+import ManageProfiles from "./pages/ManageProfiles";
 
 function App() {
   const location=useLocation();
@@ -20,6 +22,8 @@ function App() {
     <div className={containerClass}>
       <div className=" overflow-hidden"> 
         <Routes>
+          <Route path="/profiles" element={<Profiles/>}></Route>
+          <Route path="/manage_profiles" element={<ManageProfiles/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/home" element={<Home/>}></Route>
