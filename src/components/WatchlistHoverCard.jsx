@@ -23,15 +23,17 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   
 
-  const handleDelete = async () => {
-    try {
-    const resultAction = await dispatch(removeFromWatchlist(data.id));
-    
-      dispatch(removeMovieLocally(data.id)); // ✅ update frontend state
-      setPopupMessage("Removed from watchlist!");
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000);
-    
+const handleDelete = async () => {
+  try {
+    await dispatch(removeFromWatchlist(data.id));
+    dispatch(removeMovieLocally(data.id));
+    setPopupMessage("Removed from watchlist!");
+    setShowPopup(true);
+
+    setTimeout(() => {
+      setShowPopup(false);
+      window.location.reload(); // 🔁 force refresh
+    }, 1000); // wait a moment for the popup to show
   } catch (error) {
     console.error("Failed to remove movie from watchlist:", error);
     setPopupMessage("Failed to remove.");
@@ -39,6 +41,7 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
     setTimeout(() => setShowPopup(false), 2000);
   }
 };
+
 
 
   useEffect(() => {
