@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import removeFromWatchlist from "../redux/slice/watchlistSliceDelete"
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import removeFromWatchlist from "../../redux/slice/watchlistSliceDelete"
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const location = useLocation();
@@ -17,10 +17,10 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const [scaleIn, setScaleIn] = useState(false);
   
    const dispatch = useDispatch();
-  const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
+  //const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
   const handleAdd = () => {
-    console.log(data.movieId);
+    // console.log(data.movieId);
     dispatch(addToWatchlist(data.movieId));
   };
 
@@ -68,7 +68,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   useEffect(() => {
     const fetchWatchlistStatus = async () => {
-      console.log(data);
+      // console.log(data);
       if (!isOnWatchlistPage && data?.movieId) {
         try {
           setCheckLoading(true);
@@ -89,7 +89,8 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   if (!shouldRender || !position) return null;
 
   const CARD_WIDTH = position.width + 150;
-  const CARD_HEIGHT = 500;
+  const CARD_HEIGHT = position.height +200;
+  console.log(position);
 
   const handleWatchNow = () => {
     navigate(`/movie/${data.movieId}`)};
@@ -102,8 +103,8 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{
-        top: -20,
-        left: position.left - 195,
+        top: position.top/15,
+        left: position.left-position.width,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         maxWidth: "90vw",

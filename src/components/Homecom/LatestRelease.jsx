@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { latestMovieData } from "../redux/slice/latestmovieSlice";
-import MovieRow from "./MovieRow";
+import { latestMovieData } from "../../redux/slice/latestmovieSlice";
+import MovieRow from "../Rows/MovieRow";
 
 const LatestRelease = () => {
   const dispatch = useDispatch();

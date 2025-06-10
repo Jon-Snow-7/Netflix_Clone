@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { watchlistMovieData } from "../redux/slice/watchlistSlice";
-import WatchlistRow from "./WatchlistRow";
-import { getMovieById } from "../redux/apis";
+import { watchlistMovieData } from "../../redux/slice/watchlistSlice";
+import MovieRow from "../Rows/MovieRow";
+import { getMovieById } from "../../redux/apis";
 
 const Watchlist = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const Watchlist = () => {
   }, [watchlist]);
 
   return (
-    <WatchlistRow
+    <MovieRow
       movies={movies}
       title="Your Watchlist"
       className="mb-8"

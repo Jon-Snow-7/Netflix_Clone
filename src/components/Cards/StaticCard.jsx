@@ -12,6 +12,7 @@ const StaticCard = forwardRef(({ data, onHover, onLeave }, forwardedRef) => {
           top: rect.top,
           left: rect.left,
           width: rect.width,
+          height: rect.height,
         },
         cardRef
       );
