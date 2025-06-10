@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,7 +21,9 @@ const Login = () => {
       const data = await res.json();
       console.log(data);
       localStorage.setItem("token", data.token);
-      navigate("/home");
+    
+        navigate("/profiles");
+     
     } catch (err) {
       alert("Login failed: " + err.message);
     }

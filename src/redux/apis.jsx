@@ -1,50 +1,44 @@
-const API_KEY = '9908b852951e7ca6dd735fa8b567a5d1';
-const BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
+const BASE_URL = "https://api.themoviedb.org/3";
 
+// const {   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+//   method: "GET",
+//   headers: {
+//     accept: "application/json",
+//     Authorization:
+//       `Bearer ${localStorage.getItem("token")}`,
+//   },
+// };
 
+// const {   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+//   method: "POST",
+//   headers: {
+//     accept: "application/json",
+//     Authorization:
+//       `Bearer ${localStorage.getItem("token")}`,
+//   },
+// };
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTUzNDc1NSwiZXhwIjoxNzQ5NTcwNzU1fQ.8JyEBTLs7HgJG-xqRypwVml8oFkao-C2gVQ95ZPEOtI",
-  },
-};
-
-const options_profile= {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsImlhdCI6MTc0OTUzMjk1MiwiZXhwIjoxNzQ5NTY4OTUyfQ.9VPNolsmbrUUxQ73QN5dvTfVe47XsBM01r5Bmiuee0o",
-  },
-};
-
-
-const options_post = {
-  method: "POST",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTUzNDc1NSwiZXhwIjoxNzQ5NTcwNzU1fQ.8JyEBTLs7HgJG-xqRypwVml8oFkao-C2gVQ95ZPEOtI",
-  },
-};
-
-const options_delete = {
-  method: "DELETE",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTUzNDc1NSwiZXhwIjoxNzQ5NTcwNzU1fQ.8JyEBTLs7HgJG-xqRypwVml8oFkao-C2gVQ95ZPEOtI",
-  },
-};
+// const {   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+//   method: "DELETE",
+//   headers: {
+//     accept: "application/json",
+//     Authorization:
+//       `Bearer ${localStorage.getItem("token")}`,
+//   },
+// };
 
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
   const response = await fetch(
     `http://localhost:8080/api/movies/genre/${genreId}?page=${page}&size=12`,
-    options
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
   );
 
   if (!response.ok) {
@@ -54,10 +48,16 @@ export const genreMovies = async (genreId, page = 0) => {
 };
 
 export const getMovieById = async (id) => {
-  const response = await fetch(`http://localhost:8080/api/movies/${id}`, options);
+  const response = await fetch(`http://localhost:8080/api/movies/${id}`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch movie');
+    throw new Error("Failed to fetch movie");
   }
 
   const data = await response.json();
@@ -65,20 +65,37 @@ export const getMovieById = async (id) => {
   return data;
 };
 
-
 export const watchlistMoviesPost = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_post);
+  const response = await fetch(
+    `http://localhost:8080/api/watchlist/${movie_id}`,
+    {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
 export const watchlistMoviesDelete = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_delete);
+  const response = await fetch(
+    `http://localhost:8080/api/watchlist/${movie_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   console.log("no");
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
@@ -91,8 +108,13 @@ export const watchlistMoviesDelete = async (movie_id) => {
 //   return response.json();
 // };
 
-
-export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page = 1) => {
+export const searchMoviesApi = async (
+  query,
+  genre,
+  ratingMin,
+  ratingMax,
+  page = 1
+) => {
   const url = new URL("http://localhost:8080/api/search");
   const sanitizedQuery = query.replace(/[^\w\s]/gi, " ").trim();
   url.searchParams.append("q", sanitizedQuery);
@@ -102,43 +124,66 @@ export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page =
   url.searchParams.append("page", page);
   url.searchParams.append("size", 20); // Set default page size
 
-  const res = await fetch(url, options);
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!res.ok) throw new Error("Search failed");
   return await res.json();
 };
 
 export const addMovie = async (movieData) => {
   try {
-    const response = await fetch('http://localhost:8080/api/movies', {
-      ...options, // reuse Authorization and accept headers
-      method: 'POST',
+    const response = await fetch("http://localhost:8080/api/movies", {
+      ...{
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }, // reuse Authorization and accept headers
+      method: "POST",
       headers: {
-        ...options.headers,
-        'Content-Type': 'application/json' // add this for POST
+        ...{
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }.headers,
+        "Content-Type": "application/json", // add this for POST
       },
-      body: JSON.stringify(movieData)
+      body: JSON.stringify(movieData),
     });
 
     if (!response.ok) {
       const text = await response.text(); // fallback to raw text
-      console.error('Backend error response:', text);
-      throw new Error('Failed to add movie');
+      console.error("Backend error response:", text);
+      throw new Error("Failed to add movie");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error while adding movie:', error.message);
+    console.error("Error while adding movie:", error.message);
     throw error;
   }
 };
 
-
 export const recommendationMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies`,options);
+  const response = await fetch(`http://localhost:8080/api/movies`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch recommendation movies');
+    throw new Error("Failed to fetch recommendation movies");
   }
-  return  response.json();
+  return response.json();
 };
 export const trendingMovies = async () => {
   const MAX_ID = 150;
@@ -177,78 +222,131 @@ export const resetTrendingIds = () => {
 };
 
 export const latestMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/recent`,options);
+  const response = await fetch(`http://localhost:8080/api/movies/recent`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch latest movies');
+    throw new Error("Failed to fetch latest movies");
   }
   return response.json();
 };
 
 export const watchlistMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/watchlist`,options);
+  const response = await fetch(`http://localhost:8080/api/watchlist`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
-
 export const historyMoviesPost = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/history/${movie_id}`,options_post);
+  const response = await fetch(
+    `http://localhost:8080/api/history/${movie_id}`,
+    {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
 export const historyMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/history`,options);
+  const response = await fetch(`http://localhost:8080/api/history`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
 export const popularMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/popular`,options);
+  const response = await fetch(`http://localhost:8080/api/movies/popular`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
-  return  response.json();
+  return response.json();
 };
-
 
 export const recentMovies = async () => {
   const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
-
 export const continueMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/sort/rating/desc`,options);
+  const response = await fetch(
+    `http://localhost:8080/api/movies/sort/rating/desc`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
-    // console.log(response)
+  // console.log(response)
   return response.json();
 };
 
 export const isInWatchlist = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/check/${movie_id}`, options);
+  const response = await fetch(
+    `http://localhost:8080/api/watchlist/check/${movie_id}`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   if (!response.ok) {
     throw new Error("Failed to check watchlist status");
   }
   return response.json(); // returns true or false
 };
 
-
 export const getProfiles = async () => {
-  const response = await fetch(`http://localhost:8080/api/profiles`,options_profile);
+  const response = await fetch(`http://localhost:8080/api/profiles`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch profiles');
+    throw new Error("Failed to fetch profiles");
   }
   return response.json();
 };
@@ -258,10 +356,16 @@ export const createProfile = async (profileData) => {
     const response = await fetch(`http://localhost:8080/api/profiles`, {
       method: "POST",
       headers: {
-        ...options_profile.headers, // reuse Authorization and Accept headers
-        "Content-Type": "application/json"
+        ...{
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }.headers, // reuse Authorization and Accept headers
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(profileData)
+      body: JSON.stringify(profileData),
     });
 
     if (!response.ok) {
@@ -277,18 +381,32 @@ export const createProfile = async (profileData) => {
   }
 };
 
-
 // Update profile
 export const updateProfile = async (profileId, profileData) => {
-  const response = await fetch(`http://localhost:8080/api/profiles/${profileId}`, {
-    ...options_profile,
-    method: "PUT",
-    headers: {
-      ...options_profile.headers,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(profileData),
-  });
+  const response = await fetch(
+    `http://localhost:8080/api/profiles/${profileId}`,
+    {
+      ...{
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+      method: "PUT",
+      headers: {
+        ...{
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }.headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profileData),
+    }
+  );
 
   if (!response.ok) {
     const err = await response.text();
@@ -301,10 +419,16 @@ export const updateProfile = async (profileId, profileData) => {
 
 // Delete profile
 export const deleteProfile = async (profileId) => {
-  const response = await fetch(`http://localhost:8080/api/profiles/${profileId}`, {
-    ...options_profile,
-    method: "DELETE",
-  });
+  const response = await fetch(
+    `http://localhost:8080/api/profiles/${profileId}`,
+      {
+        method: "DELETE",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+  );
 
   if (!response.ok) {
     const err = await response.text();
