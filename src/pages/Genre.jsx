@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SideBar from "../components/SideBar";
-import MovieGrid from "../components/MoviesGrid";
+import MovieGrid from "../components/Rows/MoviesGrid";
 import { genreData, resetGenreData } from "../redux/slice/genreSlice";
 
 const GenrePage = ({ id: propId }) => {
@@ -40,7 +40,7 @@ const GenrePage = ({ id: propId }) => {
   }, [isLoading, page, totalPages]);
 
   return (
-    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
+    <div className="w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
       <div className="fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>

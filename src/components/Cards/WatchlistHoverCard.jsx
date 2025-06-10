@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import {removeFromWatchlist} from "../redux/slice/watchlistSliceDelete"
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import {removeFromWatchlist} from "../../redux/slice/watchlistSliceDelete"
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
-import { removeMovieLocally } from "../redux/slice/watchlistSlice";
+import { removeMovieLocally } from "../../redux/slice/watchlistSlice";
 
 const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const location = useLocation();
@@ -85,7 +85,7 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const CARD_HEIGHT = 500;
 
   const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
+    navigate(`/movie/${data.id}`);
   };
  
   return (
@@ -140,7 +140,7 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
             onClick={handleDelete}
             className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
               <span className="text-2xl">-</span>
-              <span className="tracking-wide">Delete</span> 
+              <span className="tracking-wide">Remove</span> 
             </button>
             {showPopup && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">

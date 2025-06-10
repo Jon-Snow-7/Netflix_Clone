@@ -1,14 +1,9 @@
-const API_KEY = '9908b852951e7ca6dd735fa8b567a5d1';
-const BASE_URL = 'https://api.themoviedb.org/3';
-
-
-
 const options = {
   method: "GET",
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTUzOTkyMSwiZXhwIjoxNzQ5NTc1OTIxfQ.Hc6w9rqszcnx25_CjL8VWxl2_FdJ1PpOsJt9zMUGhxE",
   },
 };
 
@@ -17,9 +12,10 @@ const options_profile= {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsImlhdCI6MTc0OTUzMjk1MiwiZXhwIjoxNzQ5NTY4OTUyfQ.9VPNolsmbrUUxQ73QN5dvTfVe47XsBM01r5Bmiuee0o",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJpYXQiOjE3NDk1NDY0ODcsImV4cCI6MTc0OTU4MjQ4N30.VJIMY-UkAxA4LR10LpWkkdRc-Taof37MG1UCCYEQLzM",
   },
 };
+
 
 
 const options_post = {
@@ -27,7 +23,7 @@ const options_post = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTUzOTkyMSwiZXhwIjoxNzQ5NTc1OTIxfQ.Hc6w9rqszcnx25_CjL8VWxl2_FdJ1PpOsJt9zMUGhxE",
   },
 };
 
@@ -36,7 +32,7 @@ const options_delete = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTUzOTkyMSwiZXhwIjoxNzQ5NTc1OTIxfQ.Hc6w9rqszcnx25_CjL8VWxl2_FdJ1PpOsJt9zMUGhxE",
   },
 };
 
@@ -54,10 +50,13 @@ export const genreMovies = async (genreId, page = 0) => {
 };
 
 export const getMovieById = async (id) => {
-  const response = await fetch(`http://localhost:8080/api/movies/${id}`, options);
+  const response = await fetch(
+    `http://localhost:8080/api/movies/${id}`,
+    options
+  );
 
   if (!response.ok) {
-    throw new Error('Failed to fetch movie');
+    throw new Error("Failed to fetch movie");
   }
 
   const data = await response.json();
@@ -65,34 +64,36 @@ export const getMovieById = async (id) => {
   return data;
 };
 
-
 export const watchlistMoviesPost = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_post);
+  const response = await fetch(
+    `http://localhost:8080/api/watchlist/${movie_id}`,
+    options_post
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
 export const watchlistMoviesDelete = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_delete);
+  const response = await fetch(
+    `http://localhost:8080/api/watchlist/${movie_id}`,
+    options_delete
+  );
   console.log("no");
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
-// export const watchlistMoviesDelete = async () => {
-//   const response = await fetch(`http://localhost:8080/api/watchlist/`,options_delete);
-//   if (!response.ok) {
-//     throw new Error('Failed to fetch popular movies');
-//   }
-//   return response.json();
-// };
-
-
-export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page = 1) => {
+export const searchMoviesApi = async (
+  query,
+  genre,
+  ratingMin,
+  ratingMax,
+  page = 1
+) => {
   const url = new URL("http://localhost:8080/api/search");
   const sanitizedQuery = query.replace(/[^\w\s]/gi, " ").trim();
   url.searchParams.append("q", sanitizedQuery);
@@ -109,37 +110,37 @@ export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page =
 
 export const addMovie = async (movieData) => {
   try {
-    const response = await fetch('http://localhost:8080/api/movies', {
+    const response = await fetch("http://localhost:8080/api/movies", {
       ...options, // reuse Authorization and accept headers
-      method: 'POST',
+      method: "POST",
       headers: {
         ...options.headers,
-        'Content-Type': 'application/json' // add this for POST
+        "Content-Type": "application/json", // add this for POST
       },
-      body: JSON.stringify(movieData)
+      body: JSON.stringify(movieData),
     });
 
     if (!response.ok) {
       const text = await response.text(); // fallback to raw text
-      console.error('Backend error response:', text);
-      throw new Error('Failed to add movie');
+      console.error("Backend error response:", text);
+      throw new Error("Failed to add movie");
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error while adding movie:', error.message);
+    console.error("Error while adding movie:", error.message);
     throw error;
   }
 };
 
-
 export const recommendationMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies`,options);
+  const response = await fetch(`http://localhost:8080/api/movies`, options);
   if (!response.ok) {
-    throw new Error('Failed to fetch recommendation movies');
+    throw new Error("Failed to fetch recommendation movies");
   }
-  return  response.json();
+  return response.json();
 };
+
 export const trendingMovies = async () => {
   const MAX_ID = 150;
   let uniqueIds = [];
@@ -177,67 +178,59 @@ export const resetTrendingIds = () => {
 };
 
 export const latestMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/recent`,options);
+  const response = await fetch(
+    `http://localhost:8080/api/movies/recent`,
+    options
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch latest movies');
+    throw new Error("Failed to fetch latest movies");
   }
   return response.json();
 };
 
 export const watchlistMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/watchlist`,options);
+  const response = await fetch(`http://localhost:8080/api/watchlist`, options);
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
-
 export const historyMoviesPost = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/history/${movie_id}`,options_post);
+  const response = await fetch(
+    `http://localhost:8080/api/history/${movie_id}`,
+    options_post
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
 export const historyMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/history`,options);
+  const response = await fetch(`http://localhost:8080/api/history`, options);
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
 
 export const popularMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/popular`,options);
+  const response = await fetch(
+    `http://localhost:8080/api/movies/popular`,
+    options
+  );
   if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
+    throw new Error("Failed to fetch popular movies");
   }
-  return  response.json();
-};
-
-
-export const recentMovies = async () => {
-  const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
-  }
-  return response.json();
-};
-
-
-export const continueMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/sort/rating/desc`,options);
-  if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
-  }
-    // console.log(response)
   return response.json();
 };
 
 export const isInWatchlist = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/check/${movie_id}`, options);
+  const response = await fetch(
+    `http://localhost:8080/api/watchlist/check/${movie_id}`,
+    options
+  );
   if (!response.ok) {
     throw new Error("Failed to check watchlist status");
   }

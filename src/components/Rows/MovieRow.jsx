@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import StaticCard from "./StaticCard";
-import TrendingHoverCard from "./TrendingHoverCard";
+import StaticCard from "../Cards/StaticCard";
+import HoverCard from "../Cards/HoverCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import TrendingCard from "./TrendingCard";
-const TrendingRow = ({ movies, title }) => {
+import TrendingCard from "../Cards/TrendingCard";
+import TrendingHoverCard from "../Cards/TrendingHoverCard";
+import WatchlistHoverCard from "../Cards/WatchlistHoverCard";
+
+const MovieRow = ({ movies, title }) => {
   const [hoverData, setHoverData] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -24,25 +27,22 @@ const TrendingRow = ({ movies, title }) => {
 
     if (hoverData) {
       document.addEventListener("mousemove", handleMouseMove);
-     // document.body.style.overflow = "auto";
     }
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
-      //document.body.style.overflow = "auto";
     };
   }, [hoverData]);
 
   const handleHover = (data, position, ref) => {
     setHoverData(data);
     setHoverPosition(position);
-    //setIsVisible(true);
     staticCardRef.current = ref.current;
     setTimeout(() => {
-    setIsVisible(true);
-  }, 50);
+      setIsVisible(true);
+    }, 50);
   };
-  
+
   const scroll = (direction) => {
     if (!scrollRef.current) return;
 
@@ -55,7 +55,6 @@ const TrendingRow = ({ movies, title }) => {
       container.scrollLeft += amount;
     }
 
-    // Give scroll time to update before checking
     setTimeout(() => updateScrollVisibility(), 200);
   };
 
@@ -82,16 +81,15 @@ const TrendingRow = ({ movies, title }) => {
       <h2 className="text-2xl font-semibold mb-4">{title}</h2>
 
       {
-      <div
-        onClick={() => scroll("left")}
-        className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r hover:bg-black/50 bg-black/10 to-transparent"
-      >
-        <div className="flex items-center justify-center h-full">
-          <ChevronLeft className="text-white w-10 h-10" />
+        <div
+          onClick={() => scroll("left")}
+          className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r hover:bg-black/50 bg-black/10 to-transparent"
+        >
+          <div className="flex items-center justify-center h-full">
+            <ChevronLeft className="text-white w-10 h-10" />
+          </div>
         </div>
-      </div>
-    }
-
+      }
 
       {/* Right Scroll Zone */}
       {
@@ -104,33 +102,50 @@ const TrendingRow = ({ movies, title }) => {
           </div>
         </div>
       }
-      
-        <div
-          ref={scrollRef}
-          className="flex gap-8 no-scrollbar scroll-smooth"
-          style={{ overflowX: "hidden" }}
-        >
-          {title !== "Trending Now" ? (
-            movies.map((movie, index) => (
-              <StaticCard key={index} data={movie} onHover={handleHover} />
-            ))
-          ) : (
-            movies.map((movie, index) => (
-              <TrendingCard key={index} data={movie} index={index} onHover={handleHover} />
-            ))
-          )}
-        </div>
 
-      
-      {/* HoverCard */}
-      <TrendingHoverCard
-        data={hoverData}
-        position={hoverPosition}
-        isVisible={isVisible}
-        hoverCardRef={hoverCardRef}
-      />
+      <div
+        ref={scrollRef}
+        className="flex gap-8 no-scrollbar scroll-smooth"
+        style={{ overflowX: "hidden" }}
+      >
+        {title === "Trending Now"
+          ? movies.map((movie, index) => (
+              <TrendingCard
+                key={index}
+                data={movie}
+                index={index}
+                onHover={handleHover}
+              />
+            ))
+          : movies.map((movie, index) => (
+              <StaticCard key={index} data={movie} onHover={handleHover} />
+            ))}
+      </div>
+
+      {title === "Trending Now" ? (
+        <TrendingHoverCard
+          data={hoverData}
+          position={hoverPosition}
+          isVisible={isVisible}
+          hoverCardRef={hoverCardRef}
+        />
+      ) : title === "Your Watchlist" ? (
+        <WatchlistHoverCard
+          data={hoverData}
+          position={hoverPosition}
+          isVisible={isVisible}
+          hoverCardRef={hoverCardRef}
+        />
+      ) : (
+        <HoverCard
+          data={hoverData}
+          position={hoverPosition}
+          isVisible={isVisible}
+          hoverCardRef={hoverCardRef}
+        />
+      )}
     </div>
   );
 };
 
-export default TrendingRow;
+export default MovieRow;

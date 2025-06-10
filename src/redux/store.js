@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import continueReducer from './slice/continueSlice';
+//import continueReducer from './slice/continueSlice';
 import historyReducer from './slice/historySlice';
 import popularReducer from "./slice/popularSlice";
 import latestReducer from "./slice/latestmovieSlice";
-import recentMovieReducer from "./slice/recentlyWatchSlice";
+//import recentMovieReducer from "./slice/recentlyWatchSlice";
 import watchlistReducer from "./slice/watchlistSlice";
 import recommendReducer from "./slice/recommendationSlice";
 import searchReducer from "../redux/slice/searchSlice";
@@ -14,11 +14,11 @@ import watchlistDeleteReducer from "../redux/slice/watchlistSliceDelete"
 import watchlistPostReducer from "../redux/slice/watchlistSlicePost"
 export const store = configureStore({
   reducer: {
-    continue: continueReducer,
+   // continue: continueReducer,
     history: historyReducer,
     popular: popularReducer,
     latest: latestReducer,
-    recent: recentMovieReducer,
+    //recent: recentMovieReducer,
     watchlist: watchlistReducer,
     recommend: recommendReducer,
     search: searchReducer, 

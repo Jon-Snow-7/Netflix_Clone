@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate,useLocation  } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
    const navigate = useNavigate();
