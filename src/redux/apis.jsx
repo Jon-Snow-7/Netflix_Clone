@@ -12,9 +12,10 @@ const options_profile= {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsImlhdCI6MTc0OTUzMjk1MiwiZXhwIjoxNzQ5NTY4OTUyfQ.9VPNolsmbrUUxQ73QN5dvTfVe47XsBM01r5Bmiuee0o",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJpYXQiOjE3NDk1NDY0ODcsImV4cCI6MTc0OTU4MjQ4N30.VJIMY-UkAxA4LR10LpWkkdRc-Taof37MG1UCCYEQLzM",
   },
 };
+
 
 
 const options_post = {
