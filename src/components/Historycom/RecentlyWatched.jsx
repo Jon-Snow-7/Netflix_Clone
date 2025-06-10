@@ -2,27 +2,24 @@
 
 
 // components/History.jsx
-import React, { useEffect, useState } from 'react';
- // Import MovieDetail for modal
+import React, { useEffect} from 'react';
+import MovieRow from '../Rows/MovieRow';
+import MovieDetail from '../MovieDetail'; // Import MovieDetail for modal
 import { useDispatch, useSelector } from 'react-redux';
-//import { recentMovieData } from '../../redux/slice/recentlyWatchSlice';
+import { recentMovieData } from '../../redux/slice/recentlyWatchSlice';
 
 const RecentlyWatched = () => {
-  // const dispatch=useDispatch();
-  // const recentMovieState=useSelector((state)=>state.recent);
-  //   const [selectedMovieId, setSelectedMovieId] = useState(null);
-  
+  const dispatch = useDispatch();
+  const recentMovieState = useSelector((state) => state.recent);
 
-  // useEffect(() => {
-  //   dispatch(recentMovieData())
-  // }, [dispatch]);
-  // const recentMovie=recentMovieState?.data?.results || [];
+  useEffect(() => {
+    dispatch(recentMovieData());
+  }, [dispatch]);
 
+  const recentMovie=recentMovieState?.data || [];
+  console.log(recentMovieState.data)
   return (
-    <>
-      
-       
-    </>
+    <MovieRow movies={recentMovie} title="Recent Movies"  className="mb-8" />
   );
 };
 
