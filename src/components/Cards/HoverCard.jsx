@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import { addToWatchHistory } from "../../redux/slice/historySlicePost";
+import { isInWatchHistory } from "../../redux/apis";
 import removeFromWatchlist from "../../redux/slice/watchlistSliceDelete"
 import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
@@ -43,9 +45,31 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   }
 
   setShowPopup(true);
-  setTimeout(() => setShowPopup(false), 3000);
+  setTimeout(() => setShowPopup(false), 1000);
 };
 
+const handleToggleWatchHistory = async () => {
+  if (checkLoading) return;
+
+  try {
+    const isAlreadyInHistory = await isInWatchHistory(data.movieId);
+
+    if (isAlreadyInHistory) {
+      setPopupMessage("ℹ️ Already in watch history.");
+    } else {
+      dispatch(addToWatchHistory(data.movieId));
+      setPopupMessage("🎥 Movie added to watch history!");
+    }
+
+    navigate(`/movie/${data.movieId}`); // Navigate regardless
+  } catch (error) {
+    console.error("Error checking/adding to watch history:", error);
+    setPopupMessage("❌ Failed to update watch history.");
+  }
+
+  setShowPopup(true);
+  setTimeout(() => setShowPopup(false), 3000);
+};
 
   useEffect(() => {
     if (data && position) {
@@ -138,8 +162,8 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
-              onClick={handleWatchNow}
-              className="cursor-pointer  flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
+              onClick={handleToggleWatchHistory}
+              className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
             >
               <span className="text-1xl">▶</span>
               <span className="tracking-wide">Watch Now</span>

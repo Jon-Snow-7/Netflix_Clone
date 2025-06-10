@@ -1,40 +1,32 @@
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsInByb2ZpbGVJZCI6MjUsImlhdCI6MTc0OTUzODU3NywiZXhwIjoxNzQ5NTc0NTc3fQ.j7iUVKchMDLHWrn9hPrnUIuGSX59JEBuGDjrlnvlXso",
-  },
-};
+const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
+const BASE_URL = "https://api.themoviedb.org/3";
 
-const options_profile= {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJpYXQiOjE3NDk1NDY0ODcsImV4cCI6MTc0OTU4MjQ4N30.VJIMY-UkAxA4LR10LpWkkdRc-Taof37MG1UCCYEQLzM",
-  },
-};
+// const options={   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+//   method: "GET",
+//   headers: {
+//     accept: "application/json",
+//     Authorization:
+//       `Bearer ${localStorage.getItem("token")}`,
+//   },
+// };
 
+// const options_post={   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+//   method: "POST",
+//   headers: {
+//     accept: "application/json",
+//     Authorization:
+//       `Bearer ${localStorage.getItem("token")}`,
+//   },
+// };
 
-
-const options_post = {
-  method: "POST",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsInByb2ZpbGVJZCI6MjUsImlhdCI6MTc0OTUzODU3NywiZXhwIjoxNzQ5NTc0NTc3fQ.j7iUVKchMDLHWrn9hPrnUIuGSX59JEBuGDjrlnvlXso",
-  },
-};
-
-const options_delete = {
-  method: "DELETE",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXlhbmsyYmhha2F0QGdtYWlsLmNvbSIsInByb2ZpbGVJZCI6MjUsImlhdCI6MTc0OTUzODU3NywiZXhwIjoxNzQ5NTc0NTc3fQ.j7iUVKchMDLHWrn9hPrnUIuGSX59JEBuGDjrlnvlXso",
-  },
-};
+// const options_delete{   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+//   method: "DELETE",
+//   headers: {
+//     accept: "application/json",
+//     Authorization:
+//       `Bearer ${localStorage.getItem("token")}`,
+//   },
+// };
 
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
@@ -457,4 +449,35 @@ export const deleteProfile = async (profileId) => {
     console.error("Failed to delete profile:", err);
     throw new Error("Delete failed");
   }
+};
+
+export const historyMoviesDelete = async (movie_id) => {
+  const response = await fetch(`http://localhost:8080/api/history/${movie_id}`,{
+      method: "DELETE",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+    );
+
+  console.log("no");
+  if (!response.ok) {
+    throw new Error('Failed to delete from watch history');
+  }
+  return response.json();
+};
+
+
+export const isInWatchHistory = async (movie_id) => {
+  const response = await fetch(`http://localhost:8080/api/history/check/${movie_id}`,{
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },});
+  if (!response.ok) {
+    throw new Error("Failed to check watch history status");
+  }
+  return response.json(); // returns true or false
 };

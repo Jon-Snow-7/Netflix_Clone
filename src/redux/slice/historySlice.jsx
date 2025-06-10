@@ -9,8 +9,14 @@ const historySlice = createSlice({
   name:'history',
   initialState: {
       isLoading: false,
-      data: null,
+      data: [],
       isError: false,
+    },
+    reducers: {
+      removeMovieLocally: (state, action) => {
+        const movieIdToRemove = action.payload;
+        state.data = state.data.filter(movie => movie.id !== movieIdToRemove);
+      }
     },
     extraReducers: (builder) => {
       builder
@@ -29,4 +35,5 @@ const historySlice = createSlice({
     },
 })
 
+export const { removeMovieLocally } = historySlice.actions;
 export default historySlice.reducer;
