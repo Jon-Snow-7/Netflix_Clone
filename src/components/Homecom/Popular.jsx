@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import MovieRow from './MovieRow'; 
+import MovieRow from '../Rows/MovieRow'; 
 import { useDispatch,useSelector } from 'react-redux';
-import { popularData } from '../redux/slice/popularSlice';
+import { popularData } from '../../redux/slice/popularSlice';
 
 const Popular = () => {
   const dispatch=useDispatch();

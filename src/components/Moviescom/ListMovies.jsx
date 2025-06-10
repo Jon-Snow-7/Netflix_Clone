@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import MoviesGrid from "./MoviesGrid"; // Import MovieDetail for modal
+import MoviesGrid from "../Rows/MoviesGrid"; // Import MovieDetail for modal
 import { useDispatch, useSelector } from "react-redux";
-import { recommendationMovieData } from "../redux/slice/recommendationSlice";
-import SideBar from "./SideBar";
+import { recommendationMovieData } from "../../redux/slice/recommendationSlice";
+import SideBar from "../SideBar";
 const ListMovies = () => {
   const dispatch=useDispatch();
   const recommendMovieState=useSelector((state)=>state.recommend)

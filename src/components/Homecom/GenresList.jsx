@@ -2,14 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 // Import images
-import img1 from "../assets/romance.webp";
-import img2 from "../assets/drama.webp";
-import img3 from "../assets/comedy.webp";
-import img4 from "../assets/action.webp";
-import img5 from "../assets/horror.webp";
-import img6 from "../assets/thriller.webp";
-import img7 from "../assets/adventure.webp";
-import img8 from "../assets/scifi.webp";
+import img1 from "../../assets/romance.webp";
+import img2 from "../../assets/drama.webp";
+import img3 from "../../assets/comedy.webp";
+import img4 from "../../assets/action.webp";
+import img5 from "../../assets/horror.webp";
+import img6 from "../../assets/thriller.webp";
+import img7 from "../../assets/adventure.webp";
+import img8 from "../../assets/scifi.webp";
 
 // Genre names
 const genres = [

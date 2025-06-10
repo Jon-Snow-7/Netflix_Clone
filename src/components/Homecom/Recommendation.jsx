@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import MovieRow from "./MovieRow"; // Import MovieDetail for modal
+import MovieRow from "../Rows/MovieRow"; // Import MovieDetail for modal
 import { useDispatch, useSelector } from "react-redux";
-import { recommendationMovieData } from "../redux/slice/recommendationSlice";
+import { recommendationMovieData } from "../../redux/slice/recommendationSlice";
 
 const Recommendation = () => {
   const dispatch=useDispatch();

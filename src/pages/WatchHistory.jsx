@@ -3,7 +3,7 @@ import History from '../components/History'
 //import RecentlyWatched from '../components/RecentlyWatched'
 import SideBar from '../components/SideBar'
 import Footer from '../components/Footer'  
-import RecentlyWatched from '../components/RecentlyWatched'
+import RecentlyWatched from '../components/Historycom/RecentlyWatched'
 const WatchHistory = () => {
   return (
     <div className="flex min-h-screen bg-black text-white overflow-hidden">

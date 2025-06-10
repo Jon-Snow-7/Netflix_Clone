@@ -1,14 +1,11 @@
-//import React from "react";
 import SideBar from "../components/SideBar";
-
-import Carousel from "../components/Carousel";
-import ContinueWatching2 from "../components/ContinueWatching";
+import Carousel from "../components/Homecom/Carousel";
 import Footer from "../components/Footer";
-import Popular from "../components/Popular";
-import Recommendation from "../components/Recommendation";
-import LatestRelease from "../components/LatestRelease";
-import GenreList from "../components/GenresList";
-import Trending from "../components/Trending";
+import Popular from "../components/Homecom/Popular";
+import Recommendation from "../components/Homecom/Recommendation";
+import LatestRelease from "../components/Homecom/LatestRelease";
+import GenreList from "../components/Homecom/GenresList";
+import Trending from "../components/Homecom/Trending";
 const Home = () => {
   return (
     <>
@@ -18,20 +15,16 @@ const Home = () => {
         </div>
         <div className="flex-1 overflow-x-hidden z-0">
           <Carousel />
-          
           <div className="pl-30 px-6 py-8">
-          
           <LatestRelease />
           <Popular />
           <Trending />
           <p className="text-2xl font-semibold px-6">Genre</p>
           <GenreList />
           <Recommendation />
-          
           </div>
           <Footer/>
         </div>
-        
       </div>
     </>
   );
