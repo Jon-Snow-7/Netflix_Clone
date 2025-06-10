@@ -1,7 +1,7 @@
 const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
 const BASE_URL = "https://api.themoviedb.org/3";
 
-// const {   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+// const options={   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
 //   method: "GET",
 //   headers: {
 //     accept: "application/json",
@@ -10,7 +10,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 //   },
 // };
 
-// const {   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+// const options_post={   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
 //   method: "POST",
 //   headers: {
 //     accept: "application/json",
@@ -19,7 +19,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 //   },
 // };
 
-// const {   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
+// const options_delete{   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
 //   method: "DELETE",
 //   headers: {
 //     accept: "application/json",
@@ -452,7 +452,15 @@ export const deleteProfile = async (profileId) => {
 };
 
 export const historyMoviesDelete = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/history/${movie_id}`,options_delete);
+  const response = await fetch(`http://localhost:8080/api/history/${movie_id}`,{
+      method: "DELETE",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+    );
+
   console.log("no");
   if (!response.ok) {
     throw new Error('Failed to delete from watch history');
@@ -462,7 +470,12 @@ export const historyMoviesDelete = async (movie_id) => {
 
 
 export const isInWatchHistory = async (movie_id) => {
-  const response = await fetch(`http://localhost:8080/api/history/check/${movie_id}`, options);
+  const response = await fetch(`http://localhost:8080/api/history/check/${movie_id}`,{
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },});
   if (!response.ok) {
     throw new Error("Failed to check watch history status");
   }
