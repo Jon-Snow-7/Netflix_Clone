@@ -38,7 +38,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
       }
     
       setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 3000);
+      setTimeout(() => setShowPopup(false), 1000);
     };
     
     useEffect(() => {
