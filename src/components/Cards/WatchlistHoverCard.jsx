@@ -42,6 +42,7 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 };
 
 
+
   useEffect(() => {
     if (data && position) {
       setShouldRender(true);
