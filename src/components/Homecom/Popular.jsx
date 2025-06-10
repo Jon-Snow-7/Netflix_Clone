@@ -9,7 +9,7 @@ const Popular = () => {
 
   useEffect(() => {
     dispatch(popularData());
-  }, [dispatch]);
+  }, []);
   const popular=popularState?.data || [];
   // console.log(popular);
 
