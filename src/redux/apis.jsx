@@ -305,3 +305,21 @@ export const deleteProfile = async (profileId) => {
     throw new Error("Delete failed");
   }
 };
+
+export const historyMoviesDelete = async (movie_id) => {
+  const response = await fetch(`http://localhost:8080/api/history/${movie_id}`,options_delete);
+  console.log("no");
+  if (!response.ok) {
+    throw new Error('Failed to delete from watch history');
+  }
+  return response.json();
+};
+
+
+export const isInWatchHistory = async (movie_id) => {
+  const response = await fetch(`http://localhost:8080/api/history/check/${movie_id}`, options);
+  if (!response.ok) {
+    throw new Error("Failed to check watch history status");
+  }
+  return response.json(); // returns true or false
+};
