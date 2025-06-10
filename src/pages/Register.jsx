@@ -1,23 +1,50 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 export default function RegisterForm() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
+    passwordHash: '',
   });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Submitted:', formData);
-    setTimeout(() => {
-      alert('Registration successful!');
-      //navigate('/login');
-    }, 1000);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const newUser = {
+    ...formData,
+    active: 1,
   };
+
+  try {
+    const response = await fetch('http://localhost:8080/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    const result = await response.text();
+
+    if (!response.ok) {
+      console.error("Registration error:", result);
+      throw new Error(result || 'Failed to register');
+    }
+
+    alert(result);
+    navigate('/');
+  } catch (error) {
+    console.error('Error during registration:', error);
+    alert('Registration failed: ' + error.message);
+  }
+};
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <form
@@ -51,8 +78,8 @@ export default function RegisterForm() {
           <label className="block text-sm font-medium mb-1">Password</label>
           <input
             type="password"
-            name="password"
-            value={formData.password}
+            name="passwordHash"
+            value={formData.passwordHash}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -65,16 +92,15 @@ export default function RegisterForm() {
           Sign up
         </button>
         <p className="mt-4">
-           Already have an account?{" "}
-            <a
-              onClick={() => navigate("/login")}
-              className="text-blue-400 hover:underline cursor-pointer"
-            >
-              Login
-            </a>
-          </p>
+          Already have an account?{' '}
+          <a
+            onClick={() => navigate('/')}
+            className="text-blue-400 hover:underline cursor-pointer"
+          >
+            Login
+          </a>
+        </p>
       </form>
-      
     </div>
   );
 }
