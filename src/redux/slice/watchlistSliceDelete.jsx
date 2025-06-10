@@ -30,8 +30,9 @@ const watchlistSliceDelete = createSlice({
       })
       .addCase(removeFromWatchlist.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = true;
-        state.message = "Movie removed from watchlist!";
+        state.isError = true;
+        state.message = action.error.message;
+        console.error("Error removing from watchlist:", action.error);
       });
   },
 });

@@ -3,8 +3,8 @@ import { ChevronLeft, ChevronRight , Plus} from 'lucide-react'; // Optional: use
 import { useNavigate } from 'react-router-dom';
 import { useLocation  } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import { isInWatchlist } from "../../redux/apis";
 
 const Carousel = () => {
   const navigate = useNavigate();

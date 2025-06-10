@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import removeFromWatchlist from "../redux/slice/watchlistSliceDelete"
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import {removeFromWatchlist} from "../../redux/slice/watchlistSliceDelete"
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
-const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
+import { removeMovieLocally } from "../../redux/slice/watchlistSlice";
+
+const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const location = useLocation();
   const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
   const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
@@ -19,31 +21,23 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
    const dispatch = useDispatch();
   const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
-  const handleAdd = () => {
-    console.log(data.movieId);
-    dispatch(addToWatchlist(data.movieId));
-  };
+  
 
-  const handleToggleWatchlist = async () => {
-  if (checkLoading) return;
-
-  try {
-    const isAlreadyInWatchlist = await isInWatchlist(data.movieId);
-
-    if (isAlreadyInWatchlist) {
-      setPopupMessage("ℹ️ Already in watchlist.");
-    } else {
-      dispatch(addToWatchlist(data.movieId));
-      setIsWatchlisted(true);
-      setPopupMessage("✅ Movie added to watchlist!");
-    }
+  const handleDelete = async () => {
+    try {
+    const resultAction = await dispatch(removeFromWatchlist(data.id));
+    
+      dispatch(removeMovieLocally(data.id)); // ✅ update frontend state
+      setPopupMessage("Removed from watchlist!");
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+    
   } catch (error) {
-    console.error("Error checking/adding to watchlist:", error);
-    setPopupMessage("❌ Failed to update watchlist.");
+    console.error("Failed to remove movie from watchlist:", error);
+    setPopupMessage("Failed to remove.");
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 2000);
   }
-
-  setShowPopup(true);
-  setTimeout(() => setShowPopup(false), 3000);
 };
 
 
@@ -68,7 +62,6 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   useEffect(() => {
     const fetchWatchlistStatus = async () => {
-      console.log(data);
       if (!isOnWatchlistPage && data?.movieId) {
         try {
           setCheckLoading(true);
@@ -92,7 +85,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const CARD_HEIGHT = 500;
 
   const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
+    navigate(`/movie/${data.id}`);
   };
  
   return (
@@ -144,10 +137,10 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
               <span className="tracking-wide">Watch Now</span>
             </button>
             <button 
-            onClick={handleToggleWatchlist}
+            onClick={handleDelete}
             className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
-              <span className="text-2xl">+</span>
-              <span className="tracking-wide">Add</span> 
+              <span className="text-2xl">-</span>
+              <span className="tracking-wide">Remove</span> 
             </button>
             {showPopup && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
@@ -161,4 +154,4 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   );
 };
 
-export default HoverCard;
+export default WatchlistHoverCard;
