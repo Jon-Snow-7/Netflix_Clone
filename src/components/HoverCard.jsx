@@ -20,7 +20,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
   const handleAdd = () => {
-    console.log(data.movieId);
+    // console.log(data.movieId);
     dispatch(addToWatchlist(data.movieId));
   };
 
@@ -68,7 +68,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   useEffect(() => {
     const fetchWatchlistStatus = async () => {
-      console.log(data);
+      // console.log(data);
       if (!isOnWatchlistPage && data?.movieId) {
         try {
           setCheckLoading(true);

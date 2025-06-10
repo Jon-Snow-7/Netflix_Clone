@@ -157,7 +157,7 @@ export const trendingMovies = async () => {
     trendMovies.push(movie);
   }
 
-  console.log("Trending IDs:", uniqueIds);
+  // console.log("Trending IDs:", uniqueIds);
   return trendMovies;
 };
 const UNIQUE_ID_KEY = "trending_movie_ids";

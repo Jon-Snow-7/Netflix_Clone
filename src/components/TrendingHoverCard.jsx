@@ -21,7 +21,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   const handleToggleWatchlist = async () => {
       if (checkLoading) return;
-      console.log(data);
+      // console.log(data);
       try {
         const isAlreadyInWatchlist = await isInWatchlist(data.id);
     
@@ -43,7 +43,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
     
     useEffect(() => {
         const fetchWatchlistStatus = async () => {
-          console.log(data);
+          // console.log(data);
           if (!isOnWatchlistPage && data?.id) {
             try {
               setCheckLoading(true);
