@@ -17,6 +17,8 @@ import MovieDetail from "./components/MovieDetail";
 import GenrePage from "./pages/Genre";
 import AddMovies from "./pages/AddMovies";
 import ListMovies from "./components/ListMovies";
+import Profiles from "./pages/Profiles";
+import ManageProfiles from "./pages/ManageProfiles";
 import { Navigate } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 // import { decrement, increment } from "./components/CounterSlice";
@@ -42,8 +44,11 @@ function App() {
           {/* Always accessible */}
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
 
           {/* Protected Routes */}
+                    <Route path="/profiles" element={<Profiles/>}></Route>
+          <Route path="/manage_profiles" element={<ManageProfiles/>}></Route>
           <Route
             path="/home"
             element={
