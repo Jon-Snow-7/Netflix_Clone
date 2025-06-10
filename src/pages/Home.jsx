@@ -8,6 +8,7 @@ import Popular from "../components/Popular";
 import Recommendation from "../components/Recommendation";
 import LatestRelease from "../components/LatestRelease";
 import GenreList from "../components/GenresList";
+import Trending from "../components/Trending";
 const Home = () => {
   return (
     <>
@@ -22,6 +23,7 @@ const Home = () => {
           
           <LatestRelease />
           <Popular />
+          <Trending />
           <p className="text-2xl font-semibold px-6">Genre</p>
           <GenreList />
           <Recommendation />

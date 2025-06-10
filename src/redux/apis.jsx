@@ -8,7 +8,7 @@ const options = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
   },
 };
 
@@ -27,7 +27,7 @@ const options_post = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
   },
 };
 
@@ -36,7 +36,7 @@ const options_delete = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjUsImlhdCI6MTc0OTQ0ODAxNiwiZXhwIjoxNzQ5NDg0MDE2fQ.aLZyu3I2tKdR7QfSNojW4NRi7HQO7vWZffcOiyKIVq4",
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZqeW90aTU5OEBnbWFpbC5jb20iLCJwcm9maWxlSWQiOjYsImlhdCI6MTc0OTQ4MDc4OCwiZXhwIjoxNzQ5NTE2Nzg4fQ.uWqXklqpK5B_kabefK3xr1az_GWc9Q39PL9fCYvDsY0",
   },
 };
 
@@ -54,12 +54,17 @@ export const genreMovies = async (genreId, page = 0) => {
 };
 
 export const getMovieById = async (id) => {
-  const response = await fetch(`http://localhost:8080/api/movies/${id}`,options);
+  const response = await fetch(`http://localhost:8080/api/movies/${id}`, options);
+
   if (!response.ok) {
     throw new Error('Failed to fetch movie');
   }
-  return response.json();
-}
+
+  const data = await response.json();
+  data.id = id; // add or override the id property
+  return data;
+};
+
 
 export const watchlistMoviesPost = async (movie_id) => {
   const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_post);
@@ -69,21 +74,22 @@ export const watchlistMoviesPost = async (movie_id) => {
   return response.json();
 };
 
-export const watchlistMovieDelete = async (movie_id) => {
+export const watchlistMoviesDelete = async (movie_id) => {
   const response = await fetch(`http://localhost:8080/api/watchlist/${movie_id}`,options_delete);
+  console.log("no");
   if (!response.ok) {
     throw new Error('Failed to fetch popular movies');
   }
   return response.json();
 };
 
-export const watchlistMoviesDelete = async () => {
-  const response = await fetch(`http://localhost:8080/api/watchlist/`,options_delete);
-  if (!response.ok) {
-    throw new Error('Failed to fetch popular movies');
-  }
-  return response.json();
-};
+// export const watchlistMoviesDelete = async () => {
+//   const response = await fetch(`http://localhost:8080/api/watchlist/`,options_delete);
+//   if (!response.ok) {
+//     throw new Error('Failed to fetch popular movies');
+//   }
+//   return response.json();
+// };
 
 
 export const searchMoviesApi = async (query, genre, ratingMin, ratingMax, page = 1) => {
@@ -133,6 +139,41 @@ export const recommendationMovies = async () => {
     throw new Error('Failed to fetch recommendation movies');
   }
   return  response.json();
+};
+export const trendingMovies = async () => {
+  const MAX_ID = 150;
+  let uniqueIds = [];
+
+  // 🔍 Load from localStorage if available
+  const storedIds = localStorage.getItem(UNIQUE_ID_KEY);
+  if (storedIds) {
+    uniqueIds = JSON.parse(storedIds);
+  } else {
+    // 🆕 Generate 10 unique random IDs
+    const idSet = new Set();
+    while (idSet.size < 10) {
+      const id = Math.floor(Math.random() * MAX_ID) + 1;
+      idSet.add(id);
+    }
+
+    uniqueIds = [...idSet];
+    localStorage.setItem(UNIQUE_ID_KEY, JSON.stringify(uniqueIds));
+  }
+
+  // 🎬 Fetch movies by ID
+  const trendMovies = [];
+  for (const id of uniqueIds) {
+    const movie = await getMovieById(id);
+    trendMovies.push(movie);
+  }
+
+  console.log("Trending IDs:", uniqueIds);
+  return trendMovies;
+};
+const UNIQUE_ID_KEY = "trending_movie_ids";
+// Optional: to manually reset
+export const resetTrendingIds = () => {
+  localStorage.removeItem(UNIQUE_ID_KEY);
 };
 
 export const latestMovies = async () => {
@@ -193,6 +234,14 @@ export const continueMovies = async () => {
   }
     // console.log(response)
   return response.json();
+};
+
+export const isInWatchlist = async (movie_id) => {
+  const response = await fetch(`http://localhost:8080/api/watchlist/check/${movie_id}`, options);
+  if (!response.ok) {
+    throw new Error("Failed to check watchlist status");
+  }
+  return response.json(); // returns true or false
 };
 
 

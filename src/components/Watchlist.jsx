@@ -1,37 +1,40 @@
-import React, { useEffect, useState } from "react"; // import modal component
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { watchlistMovieData } from "../redux/slice/watchlistSlice";
-import MovieRow from "./MovieRow";
-import { getMovieById } from "../redux/apis"; // import MovieRow component
+import WatchlistRow from "./WatchlistRow";
+import { getMovieById } from "../redux/apis";
+
 const Watchlist = () => {
   const dispatch = useDispatch();
-  const watchlistState = useSelector((state) => state.watchlist);
-  const [movies, setMovies] = useState([]);
+  const { data: watchlist = [] } = useSelector((state) => state.watchlist);
 
+  // Fetch watchlist data on mount
   useEffect(() => {
     dispatch(watchlistMovieData());
   }, [dispatch]);
 
-  useEffect(() => {
-    const fetchWatchlistMovies = async () => {
-      const watchlist = watchlistState?.data || [];
+  // Use memoized logic to fetch full movie details from TMDB/OMDb
+  const [movies, setMovies] = React.useState([]);
 
-      try {
-        const movieData = await Promise.all(
-          watchlist.map((movie) => getMovieById(movie.movieId))
+  useEffect(() => {
+    const fetchMovies = async () => {
+      if (watchlist.length) {
+        const movieDetails = await Promise.all(
+          watchlist.map((item) => getMovieById(item.movieId))
         );
-        setMovies(movieData);
-      } catch (error) {
-        console.error("Failed to fetch movies from watchlist:", error);
+        setMovies(movieDetails);
       }
     };
 
-    if (watchlistState?.data?.length) {
-      fetchWatchlistMovies();
-    }
-  }, [watchlistState]);
+    fetchMovies();
+  }, [watchlist]);
+
   return (
-    <MovieRow movies={movies} title="Your Watchlist" className="mb-8" />
+    <WatchlistRow
+      movies={movies}
+      title="Your Watchlist"
+      className="mb-8"
+    />
   );
 };
 

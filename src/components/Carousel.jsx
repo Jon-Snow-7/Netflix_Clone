@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight , Plus} from 'lucide-react'; // Optional: use lucide-react icons
 import { useNavigate } from 'react-router-dom';
+import { useLocation  } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
+import { isInWatchlist } from "../redux/apis";
 
 const Carousel = () => {
   const navigate = useNavigate();
-  const sliderData = [
+  const data = [
     {
+      id:37,
       url: "images/Batman.jpg",
       title: "The Batman",
       releaseyear: "2022",
@@ -15,6 +20,7 @@ const Carousel = () => {
       plot: "Batman is called to intervene when the mayor of Gotham City is murdered. Soon, his investigation leads him to uncover a web of corruption, linked to his own dark past.",
     },
     {
+      id:16,
       url: "images/Avenger.jpg",
       title: "Avengers: Endgame",
       releaseyear: "2019",
@@ -24,6 +30,7 @@ const Carousel = () => {
       plot: "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
     },
     {
+      id:84,
       url: "images/Imitation.jpg",
       title: "The Imitation Game",
       releaseyear: "2014",
@@ -33,24 +40,87 @@ const Carousel = () => {
       plot: "During World War II, the English mathematical genius Alan Turing tries to crack the German Enigma code with help from fellow mathematicians while attempting to come to terms with his troubled private life.",
     },
   ];
+  
+    const [shouldRender, setShouldRender] = useState(false);
+    const [scaleIn, setScaleIn] = useState(false);
+    const location = useLocation();
+    const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
+    const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
+    const [checkLoading, setCheckLoading] = useState(true);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState("");
+  
+    
+   const dispatch = useDispatch();
+  const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
-  const [index, setIndex] = useState(0);
+
+   const [index, setIndex] = useState(0);
   const intervalRef = useRef(null);
 
   const handlePrev = () => {
-    setIndex((prev) => (prev + sliderData.length - 1) % sliderData.length);
+    setIndex((prev) => (prev + data.length - 1) % data.length);
   };
 
   const handleNext = () => {
-    setIndex((prev) => (prev + 1) % sliderData.length);
+    setIndex((prev) => (prev + 1) % data.length);
   };
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % sliderData.length);
+      setIndex((prev) => (prev + 1) % data.length);
     }, 7000);
     return () => clearInterval(intervalRef.current);
   }, []);
+  const handleToggleWatchlist = async () => {
+  const currentMovie = data[index]; // <-- get the visible movie object
+
+  if (checkLoading) return;
+
+  try {
+    const isAlreadyInWatchlist = await isInWatchlist(currentMovie.id);
+
+    if (isAlreadyInWatchlist) {
+      setPopupMessage("ℹ️ Already in watchlist.");
+    } else {
+      dispatch(addToWatchlist(currentMovie.id));
+      setIsWatchlisted(true);
+      setPopupMessage("✅ Movie added to watchlist!");
+    }
+  } catch (error) {
+    console.error("Error checking/adding to watchlist:", error);
+    setPopupMessage("❌ Failed to update watchlist.");
+  }
+
+  setShowPopup(true);
+  setTimeout(() => setShowPopup(false), 3000);
+};
+
+    
+    useEffect(() => {
+  const fetchWatchlistStatus = async () => {
+    const currentMovie = data[index]; // get the currently visible movie
+
+    if (!isOnWatchlistPage && currentMovie?.id) {
+      try {
+        setCheckLoading(true);
+        const result = await isInWatchlist(currentMovie.id);
+        setIsWatchlisted(result);
+      } catch (err) {
+        console.error("Error checking watchlist:", err);
+      } finally {
+        setCheckLoading(false);
+      }
+    } else {
+      setCheckLoading(false); // Skip API call, already true
+    }
+  };
+
+  fetchWatchlistStatus();
+}, [index, isOnWatchlistPage]); // run whenever the index changes
+
+
+ 
 
   const handleWatchNow = ({index}) => {
     if (index === 1) {
@@ -71,7 +141,7 @@ const Carousel = () => {
         key={index}
       >
         <img
-          src={sliderData[index].url}
+          src={data[index].url}
           alt="slide"
           className="w-full h-full object-cover"
           onError={(e) => {
@@ -86,14 +156,14 @@ const Carousel = () => {
 
         {/* Content */}
         <div className="absolute bottom-20 left-10 text-white max-w-xl z-10">
-          <h2 className="text-5xl font-bold mb-4">{sliderData[index].title}</h2>
+          <h2 className="text-5xl font-bold mb-4">{data[index].title}</h2>
           <div className="flex space-x-6 text-lg mb-2 font-semibold text-gray-300">
-            <span>{sliderData[index].releaseyear}</span>
-            <span>{sliderData[index].genre}</span>
-            <span>{sliderData[index].rating}</span>
-            <span>{sliderData[index].runtime}</span>
+            <span>{data[index].releaseyear}</span>
+            <span>{data[index].genre}</span>
+            <span>{data[index].rating}</span>
+            <span>{data[index].runtime}</span>
           </div>
-          <p className="text-sm text-gray-200 mb-6">{sliderData[index].plot}</p>
+          <p className="text-sm text-gray-200 mb-6">{data[index].plot}</p>
 
           {/* Buttons */}
           <div className="flex items-center space-x-4">
@@ -104,9 +174,17 @@ const Carousel = () => {
             </button>
 
             <div className="relative group">
-              <button className= "border-2 border-white hover:bg-black bg-white text-black hover:text-white p-4 rounded-full transition duration-300">
-                <Plus className="w-9 h-9" />
-              </button>
+              <button 
+            onClick={handleToggleWatchlist}
+            className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
+              <span className="text-2xl">+</span>
+              <span className="tracking-wide">Add</span> 
+            </button>
+            {showPopup && (
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
+              {popupMessage}
+            </div>
+            )}
               <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 bg-white text-black text-xs px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition duration-200">
                 Watchlist
               </div>
