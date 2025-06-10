@@ -1,26 +1,39 @@
-// components/History.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { historyData } from "../redux/slice/historySlice";
+import HistoryRow from "./HistoryRow";
+import { getMovieById } from "../redux/apis";
 
-import { useDispatch,useSelector } from 'react-redux';
-import { historyData } from '../redux/slice/historySlice';
-import MovieDetail from './MovieDetail';
+const History = () => {
+  const dispatch = useDispatch();
+  const { data: history = [] } = useSelector((state) => state.history);
 
-const History = ({title="Watch History",size=40}) => {
-  
-  const dispatch=useDispatch();
-  const historyState=useSelector((state)=>state.history);
-    const [selectedMovieId, setSelectedMovieId] = useState(null);
-  
-  useEffect(()=>{
+  const [movies, setMovies] = useState([]);
+
+  // Fetch history data on mount
+  useEffect(() => {
     dispatch(historyData());
-    // console.log(historyData)
-  },[dispatch])
-  const history=historyState?.data?.results || [];
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      if (history.length) {
+        const movieDetails = await Promise.all(
+          history.map((item) => getMovieById(item.movieId))
+        );
+        setMovies(movieDetails);
+      }
+    };
+
+    fetchMovies();
+  }, [history]);
 
   return (
-    <>
-      
-    </>
+    <HistoryRow
+      movies={movies}
+      title="Watch History"
+      className="mb-8"
+    />
   );
 };
 

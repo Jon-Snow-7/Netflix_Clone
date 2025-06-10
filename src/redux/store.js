@@ -12,10 +12,16 @@ import profileReducer from"../redux/slice/profileSlice"
 import trendingReducer from "../redux/slice/trendingSlice"
 import watchlistDeleteReducer from "../redux/slice/watchlistSliceDelete"
 import watchlistPostReducer from "../redux/slice/watchlistSlicePost"
+import historyPostReducer from "../redux/slice/historySlicePost"
+import historyDeleteReducer from "../redux/slice/historySliceDelete"
+
+
 export const store = configureStore({
   reducer: {
    // continue: continueReducer,
     history: historyReducer,
+    historyMoviesDelete : historyDeleteReducer,
+    historyMoviesPost : historyPostReducer,
     popular: popularReducer,
     latest: latestReducer,
     recent: recentMovieReducer,
@@ -27,5 +33,6 @@ export const store = configureStore({
     trending: trendingReducer,
     watchlistDelete: watchlistDeleteReducer,  
     watchlistPost: watchlistPostReducer, 
+
   },
 });
