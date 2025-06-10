@@ -25,15 +25,15 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
 const handleDelete = async () => {
   try {
-    await dispatch(removeFromWatchlist(data.id));
+     dispatch(removeFromWatchlist(data.id));
     dispatch(removeMovieLocally(data.id));
     setPopupMessage("Removed from watchlist!");
     setShowPopup(true);
 
     setTimeout(() => {
       setShowPopup(false);
-      window.location.reload(); // 🔁 force refresh
-    }, 1000); // wait a moment for the popup to show
+      window.location.reload(); 
+    }, 1000); 
   } catch (error) {
     console.error("Failed to remove movie from watchlist:", error);
     setPopupMessage("Failed to remove.");
