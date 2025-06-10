@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import {removeFromWatchlist} from "../redux/slice/watchlistSliceDelete"
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import removeFromWatchlist from "../../redux/slice/watchlistSliceDelete"
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
-import { removeMovieLocally } from "../redux/slice/watchlistSlice";
-
-const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
+const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const location = useLocation();
   const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
   const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
@@ -19,25 +17,33 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const [scaleIn, setScaleIn] = useState(false);
   
    const dispatch = useDispatch();
-  const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
+  //const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
-  
+  const handleAdd = () => {
+    // console.log(data.movieId);
+    dispatch(addToWatchlist(data.movieId));
+  };
 
-  const handleDelete = async () => {
-    try {
-    const resultAction = await dispatch(removeFromWatchlist(data.id));
-    
-      dispatch(removeMovieLocally(data.id)); // ✅ update frontend state
-      setPopupMessage("Removed from watchlist!");
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000);
-    
+  const handleToggleWatchlist = async () => {
+  if (checkLoading) return;
+
+  try {
+    const isAlreadyInWatchlist = await isInWatchlist(data.movieId);
+
+    if (isAlreadyInWatchlist) {
+      setPopupMessage("ℹ️ Already in watchlist.");
+    } else {
+      dispatch(addToWatchlist(data.movieId));
+      setIsWatchlisted(true);
+      setPopupMessage("✅ Movie added to watchlist!");
+    }
   } catch (error) {
-    console.error("Failed to remove movie from watchlist:", error);
-    setPopupMessage("Failed to remove.");
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 2000);
+    console.error("Error checking/adding to watchlist:", error);
+    setPopupMessage("❌ Failed to update watchlist.");
   }
+
+  setShowPopup(true);
+  setTimeout(() => setShowPopup(false), 3000);
 };
 
 
@@ -62,6 +68,7 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   useEffect(() => {
     const fetchWatchlistStatus = async () => {
+      // console.log(data);
       if (!isOnWatchlistPage && data?.movieId) {
         try {
           setCheckLoading(true);
@@ -82,11 +89,12 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   if (!shouldRender || !position) return null;
 
   const CARD_WIDTH = position.width + 150;
-  const CARD_HEIGHT = 500;
+  const CARD_HEIGHT = position.height +200;
+  console.log(position);
 
   const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
-  };
+    navigate(`/movie/${data.movieId}`)};
+
  
   return (
     <div
@@ -95,8 +103,8 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{
-        top: -20,
-        left: position.left - 195,
+        top: position.top/15,
+        left: position.left-position.width,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         maxWidth: "90vw",
@@ -137,10 +145,10 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
               <span className="tracking-wide">Watch Now</span>
             </button>
             <button 
-            onClick={handleDelete}
+            onClick={handleToggleWatchlist}
             className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
-              <span className="text-2xl">-</span>
-              <span className="tracking-wide">Delete</span> 
+              <span className="text-2xl">+</span>
+              <span className="tracking-wide">Add</span> 
             </button>
             {showPopup && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
@@ -154,4 +162,4 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   );
 };
 
-export default WatchlistHoverCard;
+export default HoverCard;

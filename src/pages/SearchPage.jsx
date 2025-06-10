@@ -1,17 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Search } from "lucide-react";
 import debounce from "lodash.debounce"; 
-import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
-import TwoThumbSlider from "../components/TwoThumbSlider";
+import TwoThumbSlider from "../components/Searchcom/TwoThumbSlider";
 import Typography from "@mui/material/Typography";
-import MovieGrid from "../components/MoviesGrid";
+import MovieGrid from "../components/Rows/MoviesGrid";
 import { fetchSearchResults } from "../redux/slice/searchSlice";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-
-
 
 const GENRE_OPTIONS = ["Action", "Adventure", "Animation", "Biography", 
     "Comedy", "Crime", "Drama", "Family", "Fantasy", "History", "Horror", 
@@ -57,13 +53,6 @@ const SearchPage = () => {
     },
     [isLoading, hasMore, dispatch, searchText, selectedGenre, ratingRange, page]
   );
-
-  // const debouncedFetchMovies = useCallback(
-  //   debounce((query, genre, ratingMin, ratingMax) => {
-  //     dispatch(fetchSearchResults({ query, genre, ratingMin, ratingMax }));
-  //   }, 500),
-  //   [dispatch]
-  // );
     const handleSearchInput = (e) => setSearchText(e.target.value);
     const handleRatingChange = (val) => setRatingRange(val);
     const handleSuggestionClick = (suggestion) => {

@@ -58,6 +58,7 @@ export const getMovieById = async (id) => {
 
   if (!response.ok) {
     throw new Error("Failed to fetch movie");
+    throw new Error("Failed to fetch movie");
   }
 
   const data = await response.json();
@@ -78,6 +79,7 @@ export const watchlistMoviesPost = async (movie_id) => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch popular movies");
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
@@ -95,6 +97,7 @@ export const watchlistMoviesDelete = async (movie_id) => {
   );
   console.log("no");
   if (!response.ok) {
+    throw new Error("Failed to fetch popular movies");
     throw new Error("Failed to fetch popular movies");
   }
   return response.json();
@@ -157,16 +160,20 @@ export const addMovie = async (movieData) => {
         "Content-Type": "application/json", // add this for POST
       },
       body: JSON.stringify(movieData),
+      body: JSON.stringify(movieData),
     });
 
     if (!response.ok) {
       const text = await response.text(); // fallback to raw text
       console.error("Backend error response:", text);
       throw new Error("Failed to add movie");
+      console.error("Backend error response:", text);
+      throw new Error("Failed to add movie");
     }
 
     return await response.json();
   } catch (error) {
+    console.error("Error while adding movie:", error.message);
     console.error("Error while adding movie:", error.message);
     throw error;
   }
@@ -182,9 +189,12 @@ export const recommendationMovies = async () => {
   });
   if (!response.ok) {
     throw new Error("Failed to fetch recommendation movies");
+    throw new Error("Failed to fetch recommendation movies");
   }
   return response.json();
+  return response.json();
 };
+
 export const trendingMovies = async () => {
   const MAX_ID = 150;
   let uniqueIds = [];
@@ -231,6 +241,7 @@ export const latestMovies = async () => {
   });
   if (!response.ok) {
     throw new Error("Failed to fetch latest movies");
+    throw new Error("Failed to fetch latest movies");
   }
   return response.json();
 };
@@ -244,6 +255,7 @@ export const watchlistMovies = async () => {
     },
   });
   if (!response.ok) {
+    throw new Error("Failed to fetch popular movies");
     throw new Error("Failed to fetch popular movies");
   }
   return response.json();
@@ -262,6 +274,7 @@ export const historyMoviesPost = async (movie_id) => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch popular movies");
+    throw new Error("Failed to fetch popular movies");
   }
   return response.json();
 };
@@ -275,6 +288,7 @@ export const historyMovies = async () => {
     },
   });
   if (!response.ok) {
+    throw new Error("Failed to fetch popular movies");
     throw new Error("Failed to fetch popular movies");
   }
   return response.json();

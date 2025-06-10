@@ -1,52 +1,68 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate ,useLocation } from "react-router-dom";
+import { useNavigate,useLocation  } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import removeFromWatchlist from "../redux/slice/watchlistSliceDelete"
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
-  const location = useLocation();
-  const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
-  const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
-  const [checkLoading, setCheckLoading] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-  const navigate = useNavigate();
-  const [shouldRender, setShouldRender] = useState(false);
-  const [scaleIn, setScaleIn] = useState(false);
+   const navigate = useNavigate();
+    const [shouldRender, setShouldRender] = useState(false);
+    const [scaleIn, setScaleIn] = useState(false);
+    const location = useLocation();
+    const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
+    const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
+    const [checkLoading, setCheckLoading] = useState(true);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState("");
   
+    
    const dispatch = useDispatch();
   const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
-  const handleAdd = () => {
-    // console.log(data.movieId);
-    dispatch(addToWatchlist(data.movieId));
-  };
-
   const handleToggleWatchlist = async () => {
-  if (checkLoading) return;
+      if (checkLoading) return;
+      // console.log(data);
+      try {
+        const isAlreadyInWatchlist = await isInWatchlist(data.id);
+    
+        if (isAlreadyInWatchlist) {
+          setPopupMessage("ℹ️ Already in watchlist.");
+        } else {
+          dispatch(addToWatchlist(data.id));
+          setIsWatchlisted(true);
+          setPopupMessage("✅ Movie added to watchlist!");
+        }
+      } catch (error) {
+        console.error("Error checking/adding to watchlist:", error);
+        setPopupMessage("❌ Failed to update watchlist.");
+      }
+    
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000);
+    };
+    
+    useEffect(() => {
+        const fetchWatchlistStatus = async () => {
+          // console.log(data);
+          if (!isOnWatchlistPage && data?.id) {
+            try {
+              setCheckLoading(true);
+              const result = await isInWatchlist(data.id);
+              setIsWatchlisted(result);
+            } catch (err) {
+              console.error("Error checking watchlist:", err);
+            } finally {
+              setCheckLoading(false);
+            }
+          } else {
+            setCheckLoading(false); // Skip API call, already true
+          }
+        };
+        fetchWatchlistStatus();
+      }, [data?.id, isOnWatchlistPage]);
+    
 
-  try {
-    const isAlreadyInWatchlist = await isInWatchlist(data.movieId);
-
-    if (isAlreadyInWatchlist) {
-      setPopupMessage("ℹ️ Already in watchlist.");
-    } else {
-      dispatch(addToWatchlist(data.movieId));
-      setIsWatchlisted(true);
-      setPopupMessage("✅ Movie added to watchlist!");
-    }
-  } catch (error) {
-    console.error("Error checking/adding to watchlist:", error);
-    setPopupMessage("❌ Failed to update watchlist.");
-  }
-
-  setShowPopup(true);
-  setTimeout(() => setShowPopup(false), 3000);
-};
-
-
+  
   useEffect(() => {
     if (data && position) {
       setShouldRender(true);
@@ -66,34 +82,14 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
     }
   }, [isVisible]);
 
-  useEffect(() => {
-    const fetchWatchlistStatus = async () => {
-      // console.log(data);
-      if (!isOnWatchlistPage && data?.movieId) {
-        try {
-          setCheckLoading(true);
-          const result = await isInWatchlist(data.movieId);
-          setIsWatchlisted(result);
-        } catch (err) {
-          console.error("Error checking watchlist:", err);
-        } finally {
-          setCheckLoading(false);
-        }
-      } else {
-        setCheckLoading(false); // Skip API call, already true
-      }
-    };
-    fetchWatchlistStatus();
-  }, [data?.movieId, isOnWatchlistPage]);
-
   if (!shouldRender || !position) return null;
 
-  const CARD_WIDTH = position.width + 150;
-  const CARD_HEIGHT = 500;
+  const CARD_WIDTH = position.width + 100;
+  const CARD_HEIGHT = 600;
 
   const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`)};
-
+    navigate(`/movie/${data.id}`);
+  };
  
   return (
     <div
@@ -102,8 +98,8 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{
-        top: -20,
-        left: position.left - 195,
+        top: -10,
+        left: position.left - 175,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         maxWidth: "90vw",
@@ -153,7 +149,8 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
               {popupMessage}
             </div>
-          )}
+            )}
+            
           </div>
         </div>
       </div>

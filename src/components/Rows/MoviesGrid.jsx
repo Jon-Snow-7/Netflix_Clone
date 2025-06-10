@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import StaticCard from "./StaticCard";
-import GridHoverCard from "./GridHoverCard";
+import StaticCard from "../Cards/StaticCard";
+import GridHoverCard from "../Cards/GridHoverCard";
 
 const MovieGrid = ({ movies, lastMovieRef }) => {
   const [hoverData, setHoverData] = useState(null);

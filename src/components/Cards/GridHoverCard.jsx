@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWatchlist } from "../redux/slice/watchlistSlicePost";
-import { isInWatchlist } from "../redux/apis";
+import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
+import { isInWatchlist } from "../../redux/apis";
 
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   if (!shouldRender || !position) return null;
 
   const CARD_WIDTH = position.width + 150;
-  const CARD_HEIGHT = 500;
+  const CARD_HEIGHT = position.height + 200;
 
   const handleWatchNow = () => {
     navigate(`/movie/${data.movieId}`);

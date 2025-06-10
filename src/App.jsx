@@ -1,14 +1,8 @@
-// import { useState } from "react";
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-//import Counter from "./components/Counter";
 import { useLocation } from "react-router-dom";
-import MovieSearch from "./components/MovieSearch";
 import Home from "./pages/Home";
 import MySpace from "./pages/MySpace";
 import SearchPage from "./pages/SearchPage";
@@ -16,7 +10,7 @@ import WatchHistory from "./pages/WatchHistory";
 import MovieDetail from "./components/MovieDetail";
 import GenrePage from "./pages/Genre";
 import AddMovies from "./pages/AddMovies";
-import ListMovies from "./components/ListMovies";
+import ListMovies from "./components/Moviescom/ListMovies";
 import Profiles from "./pages/Profiles";
 import ManageProfiles from "./pages/ManageProfiles";
 import { Navigate } from "react-router-dom";

@@ -1,20 +1,15 @@
-import React from 'react';
-import Watchlist from '../components/Watchlist';
-import ContinueWatching2 from '../components/ContinueWatching';
+import Watchlist from '../components/Myspacecom/Watchlist';
 import SideBar from '../components/SideBar';
 import History from '../components/History';
 import Footer from '../components/Footer';
 const MySpace = () => {
   const username = 'John Doe';
-
   return (
     <div className="flex min-h-screen bg-black text-white overflow-hidden">
       {/* Sidebar (always visible on left) */}
       <div className=" fixed top-0 left-0 h-screen  z-50">
          <SideBar />
       </div>
-   
-
       {/* Main Content */}
       <div className="flex-1 overflow-x-hidden z-0">
         {/* Header with background image */}
@@ -36,24 +31,16 @@ const MySpace = () => {
                     
                   }
                 }}
-                className="text-black dark:text-white bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg text-lg shadow-lg "
+                className="text-black dark:text-white bg-black hover:bg-gray-900 px-6 py-3 rounded-lg text-lg shadow-lg "
               >
                 Logout
               </button>
             </div>
-
-            
-            
           </div>
         </div>
-
-        {/* Continue Watching below header */}
         <div className="pl-30 px-6 py-8">
               <Watchlist />
         </div>
-        {/* <div className="pl-30 px-6 py-8">
-          <ContinueWatching2 />
-        </div> */}
         <div className="pl-30 px-6 py-8">
           <History />
         </div>
