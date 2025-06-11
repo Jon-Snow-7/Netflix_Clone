@@ -40,7 +40,7 @@ const MySpace = () => {
         <div className="!ml-30 !mt-20">
         <ProfileSelector hideHeader={true} hideManageButton={true} profile_wide={6.5} profile_height={6.5} rounded={9999} plus_margin_text={0.25} plus_margin_top={0.75} navigation = {"/myspace"}/>
         </div>
-        <div className="pl-30 px-6 py-8">
+        <div className="max-sm:pl-3 max-sm:pt-0 pl-30 px-6 py-8">
           <Watchlist />
         </div>
         <div className="max-sm:pl-3 max-sm:pt-0 pl-30 px-6 py-8">

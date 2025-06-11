@@ -8,6 +8,7 @@ import imgMehendi from "../assets/mehendi.jpg";
 import imgWhite from "../assets/white.jpg";
 import imgRed from "../assets/red.jpg";
 import imgOrange from "../assets/orange.jpg";
+import { useLocation } from "react-router-dom";
 
 const profileImages = [imgBlue, imgMehendi, imgOrange, imgRed, imgWhite];
 
@@ -104,9 +105,13 @@ const ProfileSelector = ({ hideHeader = false, hideManageButton = false ,profile
       alert("Could not load profile.");
     }
   };
+  const location = useLocation();
 
   if (isLoading) return <p className="text-white text-xl">Loading...</p>;
   if (isError) return <p className="text-red-500 text-xl">Failed to load profiles.</p>;
+  const marginLeftClass = location.pathname === "/myspace"
+  ? "ml-[-100px]" 
+  : "ml-[-0px]";
 
   return (
     <>
@@ -116,11 +121,11 @@ const ProfileSelector = ({ hideHeader = false, hideManageButton = false ,profile
       </h1>
       )}
 
-      <div className="flex flex-row gap-x-8">
+      <div className={`flex max-sm:flex-wrap max-sm:gap-4 max-sm:${marginLeftClass} flex-row gap-x-8`}>
         {profiles.map((profile, index) => (
           <div
             key={profile.id}
-            className="flex flex-col items-center cursor-pointer group"
+            className="flex flex-col  items-center cursor-pointer group"
             onClick={() => handleProfileClick(profile.id,profile.name)}
           >
           <img
@@ -148,10 +153,10 @@ const ProfileSelector = ({ hideHeader = false, hideManageButton = false ,profile
             className="flex flex-col items-center cursor-pointer group"
             onClick={handleAddProfile}
           >
-            <div className="w-36 h-36 sm:w-24 sm:h-24 mt-1 flex items-center justify-center bg-gray-400 rounded-full transition group-hover:bg-gray-300" style={{marginTop:`${plus_margin_top}rem`}}>
-              <span className="text-black text-9xl mb-3.5">+</span>
+            <div className="w-36 h-36 max-sm:w-25 max-sm:h-25 sm:w-24 sm:h-24 mt-1 flex items-center justify-center bg-gray-400 rounded-full transition group-hover:bg-gray-300" style={{marginTop:`${plus_margin_top}rem`}}>
+              <span className="text-black max-sm:text-5xl text-9xl mb-3.5">+</span>
             </div>
-            <p className="mt-3 text-2xl text-gray-400 group-hover:text-white text-center" style={{marginTop:`${plus_margin_text}rem`}}>
+            <p className="mt-3 text-2xl max-sm:text-[1.3rem] text-gray-400 group-hover:text-white text-center" style={{marginTop:`${plus_margin_text}rem`}}>
               Add Profile
             </p>
           </div>
