@@ -1,34 +1,4 @@
 
-const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
-const BASE_URL = "https://api.themoviedb.org/3";
-
-// const options={   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
-// const options_post={   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "POST",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
-// const options_delete{   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "DELETE",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
   const response = await fetch(
@@ -180,21 +150,25 @@ export const addMovie = async (movieData) => {
   }
 };
 
-export const recommendationMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+export const recommendationMovies = async (page = 0, size = 20) => {
+  const response = await fetch(
+    `http://localhost:8080/api/movies?page=${page}&size=${size}`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+
   if (!response.ok) {
     throw new Error("Failed to fetch recommendation movies");
-    // throw new Error("Failed to fetch recommendation movies");
   }
-  return response.json();
-  // return response.json();
+
+  return response.json(); // expected: { content, totalPages, number }
 };
+
 
 export const allMoviesApi = async (page, size) => {
 
@@ -209,7 +183,23 @@ export const allMoviesApi = async (page, size) => {
     },
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch recommendation movies");
+    throw new Error("Failed to fetch all movies");
+    // throw new Error("Failed to fetch recommendation movies");
+  }
+  return response.json();
+  // return response.json();
+};
+
+export const uiConfigApi = async () => {
+  const response = await fetch( "http://localhost:8080/api/ui-config", {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch ui config");
     // throw new Error("Failed to fetch recommendation movies");
   }
   return response.json();
@@ -252,20 +242,23 @@ export const resetTrendingIds = () => {
   localStorage.removeItem(UNIQUE_ID_KEY);
 };
 
-export const latestMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/recent`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+export const latestMovies = async (page = 0, size = 20) => {
+  const response = await fetch(
+    `http://localhost:8080/api/movies/recent?page=${page}&size=${size}`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch latest movies");
-    // throw new Error("Failed to fetch latest movies");
   }
-  return response.json();
+  return response.json(); // Should return paginated format: { content, totalPages, number }
 };
+
 
 export const watchlistMovies = async () => {
   const response = await fetch(`http://localhost:8080/api/watchlist`, {
@@ -315,8 +308,12 @@ export const historyMovies = async () => {
   return response.json();
 };
 
-export const popularMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/movies/popular`, {
+export const popularMovies = async (page = 0, size = 20) => {
+  const url = new URL("http://localhost:8080/api/movies/popular");
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", size);
+
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       accept: "application/json",
@@ -328,6 +325,7 @@ export const popularMovies = async () => {
   }
   return response.json();
 };
+
 
 export const recentMovies = async () => {
   const response = await fetch(`http://localhost:8080/api/recent`,{

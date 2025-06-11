@@ -1,13 +1,20 @@
-import { useEffect, useState } from "react";
+import React, { lazy, Suspense } from "react";
+import FadeInSection from "../components/FadeInSection";
 
-import SideBar from "../components/SideBar";
-import Carousel from "../components/Homecom/Carousel";
-import Footer from "../components/Footer";
-import Popular from "../components/Homecom/Popular";
-import Recommendation from "../components/Homecom/Recommendation";
-import LatestRelease from "../components/Homecom/LatestRelease";
-import GenreList from "../components/Homecom/GenresList";
-import Trending from "../components/Homecom/Trending";
+// Lazy load all components
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { uiData } from "../redux/slice/uiConfigSlice";
+const SideBar = lazy(() => import("../components/SideBar"));
+const Carousel = lazy(() => import("../components/Homecom/Carousel"));
+const Footer = lazy(() => import("../components/Footer"));
+const Popular = lazy(() => import("../components/Homecom/Popular"));
+const Recommendation = lazy(() =>
+  import("../components/Homecom/Recommendation")
+);
+const LatestRelease = lazy(() => import("../components/Homecom/LatestRelease"));
+const GenreList = lazy(() => import("../components/Homecom/GenresList"));
+const Trending = lazy(() => import("../components/Homecom/Trending"));
 
 // Map of available component JSX
 const componentMap = {
@@ -15,62 +22,50 @@ const componentMap = {
   Popular: <Popular />,
   Trending: <Trending />,
   GenreList: <GenreList />,
-  Recommendation: <Recommendation />
+  Recommendation: <Recommendation />,
 };
 
 const Home = () => {
   const [layoutConfig, setLayoutConfig] = useState([]);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.uiConfig);
 
   useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/api/ui-config", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        });
+    if (!data) dispatch(uiData());
+  }, [dispatch]);
 
-        if (!res.ok) throw new Error("Failed to fetch UI config");
+  useEffect(() => {
+    if (data?.homeComponents) {
+      const enabledComponents = Object.entries(data.homeComponents)
+        .filter(([_, config]) => config.enabled)
+        .sort(([, a], [, b]) => a.order - b.order)
+        .map(([name]) => name);
 
-        const data = await res.json();
-
-        // Process config: filter enabled and sort by order
-        const enabledComponents = Object.entries(data.homeComponents)
-          .filter(([_, config]) => config.enabled)
-          .sort(([, a], [, b]) => a.order - b.order)
-          .map(([name]) => name);
-
-        setLayoutConfig(enabledComponents);
-      } catch (err) {
-        console.error("Error loading UI config:", err);
-      }
-    };
-
-    fetchConfig();
-  }, []);
+      setLayoutConfig(enabledComponents);
+    }
+  }, [data]);
 
   return (
-    <>
-      <div className="flex min-h-screen bg-black text-white overflow-hidden">
-        <div className="fixed top-0 left-0 h-screen z-50">
-          <SideBar />
-        </div>
-        <div className="flex-1 overflow-x-hidden z-0">
-          <Carousel />
-          <div className="pl-30 px-6 py-8">
-            {layoutConfig.map((name, idx) => (
-              <div key={idx}>
-                {name === "GenreList" && (
-                  <p className="text-2xl font-semibold px-6">Genre</p>
-                )}
-                {componentMap[name]}
-              </div>
-            ))}
-          </div>
-          <Footer />
-        </div>
+    <div className="flex min-h-screen bg-black text-white overflow-hidden ">
+      <div className="fixed top-0 max-sm:bottom-0 left-0 h-screen z-50">
+        <SideBar />
       </div>
-    </>
+      <div className="flex-1 overflow-x-hidden z-0">
+        <Carousel />
+        <div className="max-sm:p-3 pl-30 px-6 py-8">
+          {layoutConfig.map((name, idx) => (
+            <FadeInSection key={idx} className="mb-8" delay={idx * 0.2}>
+              {name === "GenreList" && (
+                <p className="text-2xl max-sm:text-[1.2rem] max-sm:pl-0 font-semibold px-6">Genre</p>
+              )}
+              {componentMap[name]}
+            </FadeInSection>
+          ))}
+        </div>
+        <Footer />
+        <br></br>
+      </div>
+    </div>
   );
 };
 

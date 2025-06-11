@@ -1,57 +1,61 @@
-import "./App.css";
-import { useMemo } from "react";
-import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import { useLocation } from "react-router-dom";
-import Home from "./pages/Home";
-import HomeAdmin from "./pages/HomeAdmin";
-import MySpace from "./pages/MySpace";
-import MySpaceAdmin from "./pages/MySpaceAdmin";
-import SearchPage from "./pages/SearchPage";
-import SearchPageAdmin from "./pages/SearchPageAdmin";
-import WatchHistory from "./pages/WatchHistory";
-import WatchHistoryAdmin from "./pages/WatchHistoryAdmin";
-import MovieDetail from "./components/MovieDetail";
-import GenrePage from "./pages/Genre";
-import GenrePageAdmin from "./pages/GenreAdmin";
-import AddMovies from "./pages/AddMovies";
-import ListMovies from "./components/Moviescom/ListMovies";
-import ListMoviesAdmin from "./components/Moviescom/ListMoviesAdmin";
-import Profiles from "./pages/Profiles";
-import ManageProfiles from "./pages/ManageProfiles";
-import { Navigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { decrement, increment } from "./components/CounterSlice";
+import React, { lazy, Suspense, useMemo } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
+import "./App.css";
+
+// Constants
 const ADMIN_EMAIL = "admin@nobroker.in";
 
+// Lazy load all components/pages
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Home = lazy(() => import("./pages/Home"));
+const MySpace = lazy(() => import("./pages/MySpace"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
+const WatchHistory = lazy(() => import("./pages/WatchHistory"));
+const MovieDetail = lazy(() => import("./components/MovieDetail"));
+const GenrePage = lazy(() => import("./pages/Genre"));
+const AddMovies = lazy(() => import("./pages/AddMovies"));
+const ListMovies = lazy(() => import("./components/Moviescom/ListMovies"));
+const Profiles = lazy(() => import("./pages/Profiles"));
+const ManageProfiles = lazy(() => import("./pages/ManageProfiles"));
+
+const HomeAdmin = lazy(() => import("./pages/HomeAdmin"));
+const MySpaceAdmin = lazy(() => import("./pages/MySpaceAdmin"));
+const SearchPageAdmin = lazy(() => import("./pages/SearchPageAdmin"));
+const WatchHistoryAdmin = lazy(() => import("./pages/WatchHistoryAdmin"));
+const GenrePageAdmin = lazy(() => import("./pages/GenreAdmin"));
+const ListMoviesAdmin = lazy(() => import("./components/Moviescom/ListMoviesAdmin"));
+
 function App() {
-  // const dispatch = useDispatch();
   const location = useLocation();
+  const token = localStorage.getItem("token");
+
   const showBG = location.pathname === "/" || location.pathname === "/register";
   const containerClass = showBG
     ? "w-screen h-screen bg-[url('../public/images/netflixbg.jpg')]"
     : "w-screen h-screen";
-
-  const token = localStorage.getItem("token");
 
   const decodedEmail = useMemo(() => {
     try {
       if (!token) return null;
       const base64Payload = token.split(".")[1];
       const payload = JSON.parse(atob(base64Payload));
-      return payload?.sub || null; // or payload.email depending on your backend
+      return payload?.sub || null;
     } catch (e) {
       return null;
     }
   }, [token]);
-  
-  const isLoggedIn = !!localStorage.getItem("token"); // converts to true/false
+
+  const isLoggedIn = !!token;
   const isAdmin = decodedEmail === ADMIN_EMAIL;
 
-  const PrivateRoute = ({ isLoggedIn, children }) => {
+  const PrivateRoute = ({ children }) => {
     return isLoggedIn ? children : <Navigate to="/" replace />;
+  };
+
+  const AdminRoute = ({ children }) => {
+    return isLoggedIn && isAdmin ? children : <Navigate to="/" replace />;
   };
 
   return (

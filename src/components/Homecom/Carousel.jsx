@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
 import { isInWatchlist } from "../../redux/apis";
+import { addToWatchHistory } from "../../redux/slice/historySlicePost";
 
 const Carousel = () => {
   const navigate = useNavigate();
@@ -120,16 +121,19 @@ const Carousel = () => {
 
   const handleWatchNow = ({ index }) => {
     if (index === 1) {
+      dispatch(addToWatchHistory(16));
       navigate(`/movie/16`);
     } else if (index === 2) {
+      dispatch(addToWatchHistory(84));
       navigate(`/movie/84`);
     } else {
       // Default case or if index is 0
+      dispatch(addToWatchHistory(37));
       navigate(`/movie/37`);
     }
   };
   return (
-    <div className="pl-30 relative w-full h-[85vh] overflow-hidden">
+    <div className="pl-30 max-sm:pl-0 max-sm:pt-10 max-sm:pb-5 relative w-screen h-[85vh] max-sm:h-[50vh] max-sm:overflow-x-auto overflow-hidden">
       <div
         className="transition-all duration-700 ease-in-out relative w-full h-full"
         key={index}
@@ -137,7 +141,7 @@ const Carousel = () => {
         <img
           src={data[index].url}
           alt="slide"
-          className="w-full h-full object-cover"
+          className="w-screen max-sm:h-[40vh] h-screen object-cover"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src =
@@ -149,32 +153,30 @@ const Carousel = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black/30"></div>
 
         {/* Content */}
-        <div className="absolute bottom-20 left-10 text-white max-w-xl z-10">
-          <h2 className="text-5xl font-bold mb-4">{data[index].title}</h2>
-          <div className="flex space-x-6 text-lg mb-2 font-semibold text-gray-300">
+        <div className="absolute max-sm:bottom-0 bottom-20 left-10 text-white max-w-xl z-10">
+          <h2 className="text-5xl max-sm:text-2xl font-bold mb-4">{data[index].title}</h2>
+          <div className="flex max-sm:text-1xl overflow-hidden space-x-6 text-lg mb-2 font-semibold text-gray-300">
             <span>{data[index].releaseyear}</span>
-            <span>{data[index].genre}</span>
             <span>{data[index].rating}</span>
             <span>{data[index].runtime}</span>
           </div>
-          <p className="text-sm text-gray-200 mb-6">{data[index].plot}</p>
+          <p className="max-sm:hidden text-sm text-gray-200 mb-6">{data[index].plot}</p>
 
           {/* Buttons */}
           <div className="flex items-center space-x-4">
-            <button
-              onClick={() => handleWatchNow({ index })}
-              className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-24 py-4 rounded-2xl font-bold text-base hover:shadow-2xl"
-            >
+            <button 
+              onClick={() => handleWatchNow({index})}
+            className="border-2 max-sm:px-3 max-sm:py-2 max-sm:text-base max-sm:rounded-2xl border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-20 py-4 rounded-2xl shadow-md transition duration-300 text-[19.5px] ">
               Watch Now
             </button>
 
             <div className="relative group">
               <button
                 onClick={handleToggleWatchlist}
-                className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
+                className="flex max-sm:px-4 max-sm:py-[0.4rem] max-sm:text-base  items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-8 py-4 rounded-2xl font-bold text-base hover:shadow-2xl"
               >
-                <span className="text-2xl">+</span>
-                <span className="tracking-wide">Add</span>
+                <span className=" text-2xl">+</span>
+                <span className="max-sm:hidden tracking-wide">Add</span>
               </button>
               {showPopup && (
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
@@ -192,7 +194,7 @@ const Carousel = () => {
       {/* Left Arrow */}
       <button
         onClick={handlePrev}
-        className="absolute left-20 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
+        className=" absolute max-sm:left-0 left-20 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
@@ -200,7 +202,7 @@ const Carousel = () => {
       {/* Right Arrow */}
       <button
         onClick={handleNext}
-        className="absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
+        className="max-sm:right-0 absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
       >
         <ChevronRight className="w-6 h-6" />
       </button>
