@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieById } from "../redux/apis";
+import Batman from "../../public/images/Batman.jpg"
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -33,7 +34,7 @@ useEffect(() => {
   return (
     <div className="relative min-h-screen max-sm:w-screen text-white overflow-hidden">
       <img
-        src="../public/images/Batman.jpg"
+        src={Batman}
         alt={movie.movieName}
         className="fixed top-0 left-0 w-full max-sm:w-screen h-screen object-cover z-0"
       />
