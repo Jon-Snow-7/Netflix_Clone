@@ -12,10 +12,10 @@ const Trending = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   useEffect(() => {
-    if (inView && !trendingState?.data) {
+    if (inView && !trendingState?.data && (!trending || trending.length==0)) {
       dispatch(trendingData());
     }
-  }, [inView, dispatch, trendingState?.data]);
+  }, [inView, trendingState?.data]);
 
   const trending = trendingState?.data || [];
 

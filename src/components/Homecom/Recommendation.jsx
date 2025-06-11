@@ -39,7 +39,7 @@ const Recommendation = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   useEffect(() => {
-    if (inView && !recommendMovieState?.data) {
+    if (inView && !recommendMovieState?.data && (!recommendation || recommendation.length==0)) {
       dispatch(recommendationMovieData());
     }
   }, [inView, recommendMovieState?.data]);

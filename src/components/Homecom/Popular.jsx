@@ -7,12 +7,13 @@ import { useInView } from "react-intersection-observer";
 const MovieRow = lazy(() => import("../Rows/MovieRow"));
 
 const Popular = () => {
+
   const dispatch = useDispatch();
   const popularState = useSelector((state) => state.popular);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   useEffect(() => {
-    if (inView && !popularState?.data) dispatch(popularData());
+    if (inView && !popularState?.data && (!popular || popular.length==0 )) dispatch(popularData());
   }, [inView, popularState?.data]);
   const popular = popularState?.data?.content || [];
   // console.log(popular);

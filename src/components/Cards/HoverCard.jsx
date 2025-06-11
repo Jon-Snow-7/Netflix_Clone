@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate ,useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
 import { addToWatchHistory } from "../../redux/slice/historySlicePost";
 import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
+
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const location = useLocation();
-  const isOnWatchlistPage = location.pathname === "/watchlist"; // more accurate
+  const isOnWatchlistPage = location.pathname === "/watchlist";
   const [isWatchlisted, setIsWatchlisted] = useState(isOnWatchlistPage);
   const [checkLoading, setCheckLoading] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
@@ -15,39 +16,33 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const navigate = useNavigate();
   const [shouldRender, setShouldRender] = useState(false);
   const [scaleIn, setScaleIn] = useState(false);
-  
-   const dispatch = useDispatch();
-  //const { isLoading, isSuccess, isError, message } = useSelector(state => state.watchlist);
 
-  const handleAdd = () => {
-    // console.log(data.movieId);
-    dispatch(addToWatchlist(data.movieId));
-  };
+  const dispatch = useDispatch();
 
   const handleToggleWatchlist = async () => {
-  if (checkLoading) return;
+    if (checkLoading) return;
 
-  try {
-    const isAlreadyInWatchlist = await isInWatchlist(data.movieId);
+    try {
+      const isAlreadyInWatchlist = await isInWatchlist(data.movieId);
 
-    if (isAlreadyInWatchlist) {
-      setPopupMessage("ℹ️ Already in watchlist.");
-    } else {
-      dispatch(addToWatchlist(data.movieId));
-      setIsWatchlisted(true);
-      setPopupMessage("✅ Movie added to watchlist!");
+      if (isAlreadyInWatchlist) {
+        setPopupMessage("ℹ️ Already in watchlist.");
+      } else {
+        dispatch(addToWatchlist(data.movieId));
+        setIsWatchlisted(true);
+        setPopupMessage("✅ Movie added to watchlist!");
+      }
+    } catch (error) {
+      console.error("Error checking/adding to watchlist:", error);
+      setPopupMessage("❌ Failed to update watchlist.");
     }
-  } catch (error) {
-    console.error("Error checking/adding to watchlist:", error);
-    setPopupMessage("❌ Failed to update watchlist.");
-  }
 
-  setShowPopup(true);
-  setTimeout(() => setShowPopup(false), 1000);
-};
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 1000);
+  };
 
-const handleToggleWatchHistory = async () => {
-  if (checkLoading) return;
+  const handleToggleWatchHistory = async () => {
+    if (checkLoading) return;
 
   try {
     dispatch(addToWatchHistory(data.movieId));
@@ -57,24 +52,24 @@ const handleToggleWatchHistory = async () => {
     setPopupMessage("❌ Failed to update watch history.");
   }
 
-  setShowPopup(true);
-  setTimeout(() => setShowPopup(false), 3000);
-};
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
+  };
 
   useEffect(() => {
     if (data && position) {
       setShouldRender(true);
       setTimeout(() => {
         setScaleIn(true);
-      }, 20); // Wait a frame before animating in
+      }, 20);
     }
   }, [data, position]);
 
   useEffect(() => {
     if (!isVisible) {
-      setScaleIn(false); // Start fade out
+      setScaleIn(false);
       const timeout = setTimeout(() => {
-        setShouldRender(false); // Unmount after fade
+        setShouldRender(false);
       }, 400);
       return () => clearTimeout(timeout);
     }
@@ -82,7 +77,6 @@ const handleToggleWatchHistory = async () => {
 
   useEffect(() => {
     const fetchWatchlistStatus = async () => {
-      // console.log(data);
       if (!isOnWatchlistPage && data?.movieId) {
         try {
           setCheckLoading(true);
@@ -94,7 +88,7 @@ const handleToggleWatchHistory = async () => {
           setCheckLoading(false);
         }
       } else {
-        setCheckLoading(false); // Skip API call, already true
+        setCheckLoading(false);
       }
     };
     fetchWatchlistStatus();
@@ -103,13 +97,8 @@ const handleToggleWatchHistory = async () => {
   if (!shouldRender || !position) return null;
 
   const CARD_WIDTH = position.width + 150;
-  const CARD_HEIGHT = position.height +200;
-  console.log(position);
+  const CARD_HEIGHT = position.height + 200;
 
-  const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`)};
-
- 
   return (
     <div
       ref={hoverCardRef}
@@ -117,8 +106,8 @@ const handleToggleWatchHistory = async () => {
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{
-        top: position.top/15,
-        left: position.left-position.width,
+        top: position.top / 15,
+        left: position.left - position.width,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         maxWidth: "90vw",
@@ -160,18 +149,21 @@ const handleToggleWatchHistory = async () => {
               <span className="text-1xl">▶</span>
               <span className="tracking-wide">Watch Now</span>
             </button>
-            <button 
-            onClick={handleToggleWatchlist}
-            className="cursor-pointer  flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
+
+            <button
+              onClick={handleToggleWatchlist}
+              className="cursor-pointer flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
+            >
               <span className="text-2xl">+</span>
-              <span className="tracking-wide">Add</span> 
+              <span className="tracking-wide">Add</span>
             </button>
-            {showPopup && (
+          </div>
+
+          {showPopup && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
               {popupMessage}
             </div>
           )}
-          </div>
         </div>
       </div>
     </div>
