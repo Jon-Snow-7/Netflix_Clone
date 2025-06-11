@@ -9,7 +9,6 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   
-
 getMovieById(id)
   .then((data) => {
     setMovie(data);
@@ -27,11 +26,11 @@ getMovieById(id)
   if (!movie) return <div>Movie not found</div>;
 
   return (
-    <div className="relative min-h-screen text-white overflow-hidden">
+    <div className="relative min-h-screen max-sm:w-screen text-white overflow-hidden">
       <img
         src="../public/images/Batman.jpg"
         alt={movie.movieName}
-        className="fixed top-0 left-0 w-full h-screen object-cover z-0"
+        className="fixed top-0 left-0 w-full max-sm:w-screen h-screen object-cover z-0"
       />
 
       <div className="fixed top-0 left-0 w-full h-screen bg-gradient-to-t from-black to-transparent z-10" />
@@ -64,7 +63,7 @@ getMovieById(id)
             </div>
             {movie.actorList && (
               <div className="mt-4">
-                <h3 className="text-lg font-bold text-white mb-3">🎭 Cast</h3>
+                <h3 className="text-lg max-sm:text-md font-bold text-white mb-3">🎭 Cast</h3>
                 <div className="flex flex-wrap gap-3">
                   {movie.actorList.map((actor, index) => (
                     <span

@@ -38,7 +38,7 @@ export default function GenreList() {
       {/* <div className="px-4 mb-2">
         <p className="text-xl font-semibold">Movies Based on Genres</p>
       </div> */}
-      <div className="flex space-x-4 px-4 flex-col">
+      <div className="flex space-x-4 px-0 flex-col">
       
 
         <div className="flex gap-4 scrollbar-hide no-scrollbar ">
@@ -46,12 +46,12 @@ export default function GenreList() {
             <div
               key={genre}
               onClick={() => handleClick(genre)}
-              className="cursor-pointer no-scrollbar scrollbar-hide min-w-[400px]  overflow-visible shadow-md hover:shadow-lg transition-transform hover:scale-120"
+              className="cursor-pointer no-scrollbar scrollbar-hide min-w-[400px] max-sm:min-w-[250px] overflow-visible shadow-md sm:hover:shadow-lg transition-transform sm:hover:scale-120"
             >
               <img
                 src={genreImages[index]}
                 alt={genre}
-                className="w-full scrollbar-hide h-56  object-cover rounded-3xl"
+                className="w-full scrollbar-hide h-56 max-sm:h-35 object-cover rounded-3xl"
               />
               
               {/* <div className="text-center bg-white py-2 font-medium capitalize">
