@@ -110,8 +110,9 @@ const ProfileSelector = ({ hideHeader = false, hideManageButton = false ,profile
   if (isLoading) return <p className="text-white text-xl">Loading...</p>;
   if (isError) return <p className="text-red-500 text-xl">Failed to load profiles.</p>;
   const marginLeftClass = location.pathname === "/myspace"
-  ? "ml-[-100px]" 
-  : "ml-[-0px]";
+  ? "max-sm:ml-[-100px]"
+  : "max-sm:ml-0";
+
 
   return (
     <>
@@ -121,7 +122,7 @@ const ProfileSelector = ({ hideHeader = false, hideManageButton = false ,profile
       </h1>
       )}
 
-      <div className={`flex max-sm:flex-wrap max-sm:gap-4 max-sm:${marginLeftClass} flex-row gap-x-8`}>
+      <div className={`flex max-sm:flex-wrap max-sm:gap-4 ${marginLeftClass} flex-row gap-x-8`}>
         {profiles.map((profile, index) => (
           <div
             key={profile.id}
