@@ -46,7 +46,7 @@ export default function GenreList() {
             <div
               key={genre}
               onClick={() => handleClick(genre)}
-              className="cursor-pointer no-scrollbar scrollbar-hide min-w-[400px] max-sm:min-w-[250px] overflow-visible shadow-md sm:hover:shadow-lg transition-transform sm:hover:scale-120"
+              className="sm:pl-5 cursor-pointer no-scrollbar scrollbar-hide min-w-[400px] max-sm:min-w-[250px] overflow-visible shadow-md sm:hover:shadow-lg transition-transform sm:hover:scale-120"
             >
               <img
                 src={genreImages[index]}
