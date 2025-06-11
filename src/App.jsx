@@ -1,4 +1,28 @@
 import "./App.css";
+import { useMemo } from "react";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import HomeAdmin from "./pages/HomeAdmin";
+import MySpace from "./pages/MySpace";
+import MySpaceAdmin from "./pages/MySpaceAdmin";
+import SearchPage from "./pages/SearchPage";
+import SearchPageAdmin from "./pages/SearchPageAdmin";
+import WatchHistory from "./pages/WatchHistory";
+import WatchHistoryAdmin from "./pages/WatchHistoryAdmin";
+import MovieDetail from "./components/MovieDetail";
+import GenrePage from "./pages/Genre";
+import GenrePageAdmin from "./pages/GenreAdmin";
+import AddMovies from "./pages/AddMovies";
+import ListMovies from "./components/Moviescom/ListMovies";
+import ListMoviesAdmin from "./components/Moviescom/ListMoviesAdmin";
+import Profiles from "./pages/Profiles";
+import ManageProfiles from "./pages/ManageProfiles";
+import { Navigate } from "react-router-dom";
+
+import "./App.css";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import React, { lazy, Suspense } from "react";
 
@@ -16,6 +40,9 @@ const ListMovies = lazy(() => import("./components/Moviescom/ListMovies"));
 const Profiles = lazy(() => import("./pages/Profiles"));
 const ManageProfiles = lazy(() => import("./pages/ManageProfiles"));
 
+// import { useDispatch } from "react-redux";
+// import { decrement, increment } from "./components/CounterSlice";
+const ADMIN_EMAIL = "admin@nobroker.in";
 function App() {
   const location = useLocation();
   const showBG = location.pathname === "/" || location.pathname === "/register";
@@ -23,7 +50,21 @@ function App() {
     ? "w-screen h-screen bg-[url('../public/images/netflixbg.jpg')]"
     : "w-screen h-screen";
 
-  const isLoggedIn = true; // Replace with your actual auth logic
+  const token = localStorage.getItem("token");
+
+  const decodedEmail = useMemo(() => {
+    try {
+      if (!token) return null;
+      const base64Payload = token.split(".")[1];
+      const payload = JSON.parse(atob(base64Payload));
+      return payload?.sub || null; // or payload.email depending on your backend
+    } catch (e) {
+      return null;
+    }
+  }, [token]);
+  
+  const isLoggedIn = !!localStorage.getItem("token"); // converts to true/false
+  const isAdmin = decodedEmail === ADMIN_EMAIL;
 
   const PrivateRoute = ({ isLoggedIn, children }) => {
     return isLoggedIn ? children : <Navigate to="/" replace />;
