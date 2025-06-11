@@ -77,8 +77,8 @@ const MovieRow = ({ movies, title }) => {
   }, []);
 
   return (
-    <div className="relative bg-black text-white p-6">
-      <h2 className="text-2xl font-semibold mb-4">{title}</h2>
+    <div className="relative bg-black text-white p-6 max-sm:p-0 max-sm:pb-5">
+      <h2 className="text-2xl max-sm:text-[1.2rem] font-semibold mb-4">{title}</h2>
 
       {
         <div
@@ -105,7 +105,7 @@ const MovieRow = ({ movies, title }) => {
 
       <div
         ref={scrollRef}
-        className="flex gap-8 no-scrollbar scroll-smooth overflow-hidden "
+        className="flex gap-6 max-sm:gap-2 no-scrollbar scroll-smooth max-sm:overflow-x-auto "
       >
         {title === "Trending Now"
           ? movies.map((movie, index) => (

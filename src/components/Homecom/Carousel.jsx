@@ -135,7 +135,7 @@ const Carousel = () => {
     }
   };
   return (
-    <div className="pl-30 max-sm:pl-10 max-sm:pt-40 relative w-screen h-[85vh] overflow-hidden">
+    <div className="pl-30 max-sm:pl-0 max-sm:pt-10 max-sm:pb-5 relative w-screen h-[85vh] max-sm:h-[50vh] max-sm:overflow-x-auto overflow-hidden">
       <div
         className="transition-all duration-700 ease-in-out relative w-full h-full"
         key={index}
@@ -155,9 +155,9 @@ const Carousel = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black/30"></div>
 
         {/* Content */}
-        <div className="absolute bottom-20 left-10 text-white max-w-xl z-10">
-          <h2 className="text-5xl font-bold mb-4">{data[index].title}</h2>
-          <div className="flex overflow-hidden space-x-6 text-lg mb-2 font-semibold text-gray-300">
+        <div className="absolute max-sm:bottom-0 bottom-20 left-10 text-white max-w-xl z-10">
+          <h2 className="text-5xl max-sm:text-2xl font-bold mb-4">{data[index].title}</h2>
+          <div className="flex max-sm:text-1xl overflow-hidden space-x-6 text-lg mb-2 font-semibold text-gray-300">
             <span>{data[index].releaseyear}</span>
             <span>{data[index].rating}</span>
             <span>{data[index].runtime}</span>
@@ -168,16 +168,16 @@ const Carousel = () => {
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => handleWatchNow({index})}
-            className="border-2 max-sm:px-7 max-sm:py-3 max-sm:font-bold max-sm:text-base max-sm:rounded-2xl border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-26 py-4 rounded-md shadow-md transition duration-300 text-[19.5px] ">
+            className="border-2 max-sm:px-3 max-sm:py-2 max-sm:text-base max-sm:rounded-2xl border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-26 py-4 rounded-md shadow-md transition duration-300 text-[19.5px] ">
               Watch Now
             </button>
 
             <div className="relative group">
               <button 
             onClick={handleToggleWatchlist}
-            className="flex max-sm:px-8 max-sm:py-3.5 max-sm:text-base rounded-2xl  items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
-              <span className="max-sm:hidden text-2xl">+</span>
-              <span className="tracking-wide">Add</span> 
+            className="flex max-sm:px-4 max-sm:py-[0.4rem] max-sm:text-base  items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl">
+              <span className=" text-2xl">+</span>
+              <span className="max-sm:hidden tracking-wide">Add</span> 
             </button>
             {showPopup && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-xl text-sm z-50 shadow-lg animate-fade-in-out">
@@ -195,7 +195,7 @@ const Carousel = () => {
       {/* Left Arrow */}
       <button
         onClick={handlePrev}
-        className="absolute left-20 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
+        className=" absolute max-sm:left-0 left-20 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
@@ -203,7 +203,7 @@ const Carousel = () => {
       {/* Right Arrow */}
       <button
         onClick={handleNext}
-        className="absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
+        className="max-sm:right-0 absolute right-5 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-white/20 backdrop-blur text-white p-3 rounded shadow transition duration-300"
       >
         <ChevronRight className="w-6 h-6" />
       </button>

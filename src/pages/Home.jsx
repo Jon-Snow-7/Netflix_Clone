@@ -15,15 +15,16 @@ const Home = () => {
         </div>
         <div className="flex-1 overflow-x-hidden  z-0">
           <Carousel />
-          <div className="max-sm:pl-10 pl-30 px-6 py-8">
+          <div className="max-sm:p-3 pl-30 px-6 py-8">
           <LatestRelease />
           <Popular />
           <Trending />
-          <p className="text-2xl max-sm:pl-0 font-semibold px-6">Genre</p>
+          <p className="text-2xl max-sm:text-[1.2rem] max-sm:pl-0 font-semibold px-6">Genre</p>
           <GenreList />
           <Recommendation />
           </div>
           <Footer />
+          <br></br>
         </div>
       </div>
     </>

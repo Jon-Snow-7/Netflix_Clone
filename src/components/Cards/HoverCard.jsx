@@ -123,7 +123,7 @@ const handleToggleWatchHistory = async () => {
   return (
     <div
       ref={hoverCardRef}
-      className={`absolute z-[99999] rounded-xl overflow-hidden shadow-2xl ${
+      className={`max-sm:hidden absolute z-[99999] rounded-xl overflow-hidden shadow-2xl ${
         scaleIn ? "pointer-events-auto" : "pointer-events-none"
       }`}
       style={{

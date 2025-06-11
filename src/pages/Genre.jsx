@@ -40,7 +40,7 @@ const GenrePage = ({ id: propId }) => {
   }, [isLoading, page, totalPages]);
 
   return (
-    <div className="w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
+    <div className="max-sm:pt-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
       <div className="fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>

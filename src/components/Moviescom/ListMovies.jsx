@@ -14,7 +14,7 @@ const ListMovies = () => {
   const allmovies =recommendMovieState?.data || [];
 
   return (
-    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
+    <div className="max-sm:pt-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
       <div className=" fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>
@@ -23,7 +23,7 @@ const ListMovies = () => {
       <div className="flex flex-wrap gap-10 justify-center">
         <MoviesGrid movies={allmovies} />
       </div>
-
+    <br></br>
       {/* <Footer /> */}
     </div>
   );
