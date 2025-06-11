@@ -33,6 +33,5 @@ export const store = configureStore({
     trending: trendingReducer,
     watchlistDelete: watchlistDeleteReducer,  
     watchlistPost: watchlistPostReducer, 
-
   },
 });

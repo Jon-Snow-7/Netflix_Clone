@@ -11,7 +11,7 @@ const LatestRelease = () => {
     dispatch(latestMovieData());
   }, [dispatch]);
 
-  let latestMovie = latestState?.data || [];
+  let latestMovie = latestState?.data?.content || [];
 
   return (
     <MovieRow movies={latestMovie} title="Latest Movies"  className="mb-8" />
