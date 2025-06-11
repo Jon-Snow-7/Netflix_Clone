@@ -81,3 +81,21 @@ h1 {
 .animate-fade-in-out {
   animation: fade-in-out 3s ease-in-out;
 }
+
+/* @tailwindcss base;
+@tailwindcss components;
+@tailwindcss utilities; */
+
+@layer utilities {
+  @keyframes depleteBar {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 0%;
+    }
+  }
+  .animate-deplete {
+    animation: depleteBar 2.5s linear forwards;
+  }
+}
