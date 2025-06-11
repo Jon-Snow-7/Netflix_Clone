@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 //import continueReducer from './slice/continueSlice';
 import historyReducer from './slice/historySlice';
 import popularReducer from "./slice/popularSlice";
+import allMoviesReducer from "./slice/allMoviesSlice"; 
 import latestReducer from "./slice/latestmovieSlice";
 import recentMovieReducer from "./slice/recentlyWatchSlice";
 import watchlistReducer from "./slice/watchlistSlice";
@@ -14,7 +15,6 @@ import watchlistDeleteReducer from "../redux/slice/watchlistSliceDelete"
 import watchlistPostReducer from "../redux/slice/watchlistSlicePost"
 import historyPostReducer from "../redux/slice/historySlicePost"
 import historyDeleteReducer from "../redux/slice/historySliceDelete"
-
 
 export const store = configureStore({
   reducer: {
@@ -33,5 +33,6 @@ export const store = configureStore({
     trending: trendingReducer,
     watchlistDelete: watchlistDeleteReducer,  
     watchlistPost: watchlistPostReducer, 
+    allMovies: allMoviesReducer
   },
 });
