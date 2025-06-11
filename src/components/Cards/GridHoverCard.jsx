@@ -4,6 +4,7 @@ import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
 import { isInWatchlist } from "../../redux/apis";
+import { addToWatchHistory } from "../../redux/slice/historySlicePost";
 
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const navigate = useNavigate();
@@ -83,8 +84,19 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const CARD_WIDTH = position.width + 150;
   const CARD_HEIGHT = position.height + 200;
 
-  const handleWatchNow = () => {
-    navigate(`/movie/${data.movieId}`);
+  const handleToggleWatchHistory = async () => {
+    if (checkLoading) return;
+
+    try {
+      dispatch(addToWatchHistory(data.movieId));
+      navigate(`/movie/${data.movieId}`);
+    } catch (error) {
+      console.error("Error checking/adding to watch history:", error);
+      setPopupMessage("❌ Failed to update watch history.");
+    }
+
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
   };
   const currentURL = window.location.href;
 
@@ -140,7 +152,7 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
-              onClick={handleWatchNow}
+              onClick={handleToggleWatchHistory}
               className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
             >
               <span className="text-1xl">▶</span>

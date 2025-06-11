@@ -10,7 +10,7 @@ const Trending = () => {
   useEffect(() => {
     dispatch(trendingData());
   }, [dispatch]);
-  const trending=trendingState?.data || [];
+  const trending=trendingState?.data?.content || [];
 
   return (
     <MovieRow movies={trending} title="Trending Now"  className="mb-8" />

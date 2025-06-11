@@ -3,8 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
 import { addToWatchHistory } from "../../redux/slice/historySlicePost";
-import { isInWatchHistory, isInWatchlist } from "../../redux/apis";
-import removeFromWatchlist from "../../redux/slice/watchlistSliceDelete";
+import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
 
 const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
@@ -45,21 +44,13 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
   const handleToggleWatchHistory = async () => {
     if (checkLoading) return;
 
-    try {
-      const isAlreadyInHistory = await isInWatchHistory(data.movieId);
-
-      if (isAlreadyInHistory) {
-        setPopupMessage("ℹ️ Already in watch history.");
-      } else {
-        dispatch(addToWatchHistory(data.movieId));
-        setPopupMessage("🎥 Movie added to watch history!");
-      }
-
-      navigate(`/movie/${data.movieId}`);
-    } catch (error) {
-      console.error("Error checking/adding to watch history:", error);
-      setPopupMessage("❌ Failed to update watch history.");
-    }
+  try {
+    dispatch(addToWatchHistory(data.movieId));
+    navigate(`/movie/${data.movieId}`);
+  } catch (error) {
+    console.error("Error checking/adding to watch history:", error);
+    setPopupMessage("❌ Failed to update watch history.");
+  }
 
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000);

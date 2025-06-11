@@ -3,6 +3,7 @@ import { useNavigate ,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
 import {removeFromWatchlist} from "../../redux/slice/watchlistSliceDelete"
+import { addToWatchHistory } from "../../redux/slice/historySlicePost";
 import { isInWatchlist } from "../../redux/apis";
 import dayjs from "dayjs";
 import { removeMovieLocally } from "../../redux/slice/watchlistSlice";
@@ -23,17 +24,15 @@ const WatchlistHoverCard = ({ data, position, isVisible, hoverCardRef }) => {
 
   
 
-const handleDelete = async () => {
-  try {
-     dispatch(removeFromWatchlist(data.id));
-    dispatch(removeMovieLocally(data.id));
-    setPopupMessage("Removed from watchlist!");
-    setShowPopup(true);
-
-    setTimeout(() => {
-      setShowPopup(false);
-      window.location.reload(); 
-    }, 1000); 
+  const handleDelete = async () => {
+    try {
+    const resultAction = await dispatch(removeFromWatchlist(data.id));
+    
+      dispatch(removeMovieLocally(data.id)); // ✅ update frontend state
+      setPopupMessage("Removed from watchlist!");
+      setShowPopup(true);
+      setTimeout(() => {setShowPopup(false); window.location.reload();}, 500);
+    
   } catch (error) {
     console.error("Failed to remove movie from watchlist:", error);
     setPopupMessage("Failed to remove.");
@@ -87,8 +86,19 @@ const handleDelete = async () => {
   const CARD_WIDTH = position.width + 150;
   const CARD_HEIGHT = 500;
 
-  const handleWatchNow = () => {
-    navigate(`/movie/${data.id}`);
+  const handleToggleWatchHistory = async () => {
+    if (checkLoading) return;
+  
+    try {
+      dispatch(addToWatchHistory(data.id));
+      navigate(`/movie/${data.id}`);
+    } catch (error) {
+      console.error("Error checking/adding to watch history:", error);
+      setPopupMessage("❌ Failed to update watch history.");
+    }
+  
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 3000);
   };
  
   return (
@@ -133,7 +143,7 @@ const handleDelete = async () => {
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
-              onClick={handleWatchNow}
+              onClick={handleToggleWatchHistory}
               className="flex items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
             >
               <span className="text-1xl">▶</span>

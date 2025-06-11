@@ -11,7 +11,7 @@ const Recommendation = () => {
     dispatch(recommendationMovieData());
   }, [dispatch]);
 
-  const recommendation =recommendMovieState?.data || [];
+  const recommendation =recommendMovieState?.data?.content || [];
 
   return (
     <MovieRow movies={recommendation} title="Recommended Movies"  className="mb-8" />
