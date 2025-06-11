@@ -1,3 +1,4 @@
+
 const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -309,7 +310,13 @@ export const popularMovies = async () => {
 };
 
 export const recentMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/recent`,options);
+  const response = await fetch(`http://localhost:8080/api/recent`,{
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch popular movies");
   }
