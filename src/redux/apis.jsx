@@ -1,34 +1,4 @@
 
-const API_KEY = "9908b852951e7ca6dd735fa8b567a5d1";
-const BASE_URL = "https://api.themoviedb.org/3";
-
-// const options={   method: "GET",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
-// const options_post={   method: "POST",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "POST",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
-// const options_delete{   method: "DELETE",   headers: {     accept: "application/json",     Authorization:       `Bearer ${localStorage.getItem("token")}`,   }, } = {
-//   method: "DELETE",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${localStorage.getItem("token")}`,
-//   },
-// };
-
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
   const response = await fetch(
@@ -209,7 +179,23 @@ export const allMoviesApi = async (page, size) => {
     },
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch recommendation movies");
+    throw new Error("Failed to fetch all movies");
+    // throw new Error("Failed to fetch recommendation movies");
+  }
+  return response.json();
+  // return response.json();
+};
+
+export const uiConfigApi = async () => {
+  const response = await fetch( "http://localhost:8080/api/ui-config", {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch ui config");
     // throw new Error("Failed to fetch recommendation movies");
   }
   return response.json();

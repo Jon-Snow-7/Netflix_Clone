@@ -15,6 +15,7 @@ import watchlistDeleteReducer from "../redux/slice/watchlistSliceDelete"
 import watchlistPostReducer from "../redux/slice/watchlistSlicePost"
 import historyPostReducer from "../redux/slice/historySlicePost"
 import historyDeleteReducer from "../redux/slice/historySliceDelete"
+import uiDataReducer from "./slice/uiConfigSlice";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     trending: trendingReducer,
     watchlistDelete: watchlistDeleteReducer,  
     watchlistPost: watchlistPostReducer, 
-    allMovies: allMoviesReducer
+    allMovies: allMoviesReducer,
+    uiConfig: uiDataReducer
   },
 });

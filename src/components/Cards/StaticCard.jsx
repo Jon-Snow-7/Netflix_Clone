@@ -1,9 +1,31 @@
 import React, { useRef, forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
+import {useEffect , useState } from "react"
+
+function useIsLargeScreen() {
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 640);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isLargeScreen;
+}
 
 const StaticCard = forwardRef(({ data, onHover, onLeave }, forwardedRef) => {
+  const navigate=useNavigate();
   const cardRef = useRef();
   const timeoutRef = useRef(null);
+  
+  const isLargeScreen = useIsLargeScreen();
+
+
   const handleMouseEnter = () => {
+    if(isLargeScreen){
     const rect = cardRef.current.getBoundingClientRect();
     timeoutRef.current = setTimeout(() => {
       onHover(
@@ -17,11 +39,17 @@ const StaticCard = forwardRef(({ data, onHover, onLeave }, forwardedRef) => {
         cardRef
       );
     }, 300); // Delay of 300ms
+  }
+  };
+   const handleMouseClick = () => {
+    console.log(data);
+   navigate(`/movie/${data.movieId}`);
   };
 
   const handleMouseLeave = () => {
+    if(isLargeScreen){
     clearTimeout(timeoutRef.current);
-    if (onLeave) onLeave();
+    if (onLeave) onLeave();}
   };
 
   return (
@@ -36,7 +64,8 @@ const StaticCard = forwardRef(({ data, onHover, onLeave }, forwardedRef) => {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="w-[210px] h-[300px] bg-zinc-800 rounded overflow-hidden flex-shrink-0"
+      onClick={handleMouseClick}
+      className="max-sm:h-[200px] max-sm:w-[120px] w-[210px] h-[300px] bg-zinc-800 rounded overflow-hidden flex-shrink-0"
     >
       <img
         src={data.moviePoster}

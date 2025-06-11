@@ -63,7 +63,7 @@ const SearchPage = () => {
 
 
   return (
-    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-gradient-to-b from-black via-zinc-900 to-black pt-10 pr-5 text-white relative">
+    <div className="max-sm:pt-20 max-sm:pl-2 pl-20 max-sm:pr-2 w-full min-h-screen overflow-x-hidden bg-gradient-to-b from-black via-zinc-900 to-black pt-10 pr-5 text-white relative">
       <div className="fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>
@@ -121,7 +121,7 @@ const SearchPage = () => {
       )}
 
       {/* Movies Grid */}
-      <div className="container mx-auto px-4 sm:px-8 lg:px-20 z-20 relative">
+      <div className="container mx-auto  px-4 sm:px-8 lg:px-20 z-20 relative">
         <MovieGrid movies={movies} lastMovieRef={lastMovieRef} />
       </div>
       {isLoading && (
@@ -133,7 +133,9 @@ const SearchPage = () => {
           No movies found for "{searchText}"
         </div>
       )}
+      <br></br>
     </div>
+    
   );
 };
 
