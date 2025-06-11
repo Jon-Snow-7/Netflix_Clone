@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWatchlist } from "../../redux/slice/watchlistSlicePost";
 import { isInWatchlist } from "../../redux/apis";
+import { addToWatchHistory } from "../../redux/slice/historySlicePost";
 
 const Carousel = () => {
   const navigate = useNavigate();
@@ -120,11 +121,14 @@ const Carousel = () => {
 
   const handleWatchNow = ({ index }) => {
     if (index === 1) {
+      dispatch(addToWatchHistory(16));
       navigate(`/movie/16`);
     } else if (index === 2) {
+      dispatch(addToWatchHistory(84));
       navigate(`/movie/84`);
     } else {
       // Default case or if index is 0
+      dispatch(addToWatchHistory(37));
       navigate(`/movie/37`);
     }
   };

@@ -7,7 +7,7 @@ export const uiData = createAsyncThunk("uiData", async () => {
 });
 
 const uiConfigSlice = createSlice({
-  name: 'ui-config',
+  name: 'uiConfig',
   initialState: {
     isLoading: false,
     data: null,

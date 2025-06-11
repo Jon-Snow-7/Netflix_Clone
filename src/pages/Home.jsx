@@ -22,7 +22,7 @@ const componentMap = {
   Popular: <Popular />,
   Trending: <Trending />,
   GenreList: <GenreList />,
-  Recommendation: <Recommendation />
+  Recommendation: <Recommendation />,
 };
 
 const Home = () => {
@@ -31,7 +31,7 @@ const Home = () => {
   const { data } = useSelector((state) => state.uiConfig);
 
   useEffect(() => {
-    if(!data)dispatch(uiData());
+    if (!data) dispatch(uiData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -54,12 +54,12 @@ const Home = () => {
         <Carousel />
         <div className="max-sm:p-3 pl-30 px-6 py-8">
           {layoutConfig.map((name, idx) => (
-            <div key={idx}>
+            <FadeInSection key={idx} className="mb-8" delay={idx * 0.2}>
               {name === "GenreList" && (
                 <p className="text-2xl max-sm:text-[1.2rem] max-sm:pl-0 font-semibold px-6">Genre</p>
               )}
               {componentMap[name]}
-            </div>
+            </FadeInSection>
           ))}
         </div>
         <Footer />
@@ -68,6 +68,5 @@ const Home = () => {
     </div>
   );
 };
-
 
 export default Home;

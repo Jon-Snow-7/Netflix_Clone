@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieById } from "../redux/apis";
 
@@ -9,15 +9,20 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   
-getMovieById(id)
-  .then((data) => {
-    setMovie(data);
-    setLoading(false);
-  })
-  .catch((err) => {
-    console.error("Failed to fetch movie:", err);
-    setLoading(false);
-  });
+useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const data = await getMovieById(id);
+        setMovie(data);
+      } catch (err) {
+        console.error("Failed to fetch movie:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovie();
+  }, [id])
 
   
  
