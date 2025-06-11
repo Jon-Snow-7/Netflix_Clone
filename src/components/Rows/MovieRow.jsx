@@ -81,11 +81,7 @@ const MovieRow = ({ movies, title, lastMovieRef }) => {
       {showLeft && (
         <div
           onClick={() => scroll("left")}
-<<<<<<< HEAD
-          className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r from-black to-transparent hover:bg-black/50"
-=======
           className="max-sm:hidden absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r hover:bg-black/50 bg-black/10 to-transparent"
->>>>>>> ff1540eac8299a6e9047e9daaa9c65118ea48ca2
         >
           <div className="flex items-center justify-center h-full">
             <ChevronLeft className="text-white w-10 h-10" />
@@ -96,11 +92,7 @@ const MovieRow = ({ movies, title, lastMovieRef }) => {
       {showRight && (
         <div
           onClick={() => scroll("right")}
-<<<<<<< HEAD
-          className="hidden md:block absolute top-0 right-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-l from-black to-transparent hover:bg-black/50"
-=======
           className="max-sm:hidden absolute top-0 right-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-l hover:bg-black/50 bg-black/10 to-transparent"
->>>>>>> ff1540eac8299a6e9047e9daaa9c65118ea48ca2
         >
           <div className="flex items-center justify-center h-full">
             <ChevronRight className="text-white w-10 h-10" />
@@ -110,11 +102,7 @@ const MovieRow = ({ movies, title, lastMovieRef }) => {
 
       <div
         ref={scrollRef}
-<<<<<<< HEAD
-        className="flex gap-8 no-scrollbar scroll-smooth overflow-x-hidden"
-=======
         className="flex gap-6 max-sm:gap-2 no-scrollbar scroll-smooth overflow-hidden  max-sm:overflow-x-auto "
->>>>>>> ff1540eac8299a6e9047e9daaa9c65118ea48ca2
       >
         {movies.map((movie, index) => {
           const isLast = index === movies.length - 1;
