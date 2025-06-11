@@ -1,36 +1,54 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect, useCallback, lazy, Suspense, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { latestMovieData } from "../../redux/slice/latestmovieSlice";
 import { useInView } from "react-intersection-observer";
-import { latestMovies } from "../../redux/apis";
 
 // Lazy load MovieRow
 const MovieRow = lazy(() => import("../Rows/MovieRow"));
 
-const LatestRelease = ({ className }) => {
+const LatestRelease = () => {
   const dispatch = useDispatch();
-  const latestState = useSelector((state) => state.latest);
-  let latestMovie = latestState?.data?.content || [];
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { data, isLoading, hasMore } = useSelector((state) => state.latest);
+  const latestMovie = data?.content || [];
+  const page = data?.number || 0;
+
+  const observer = useRef();
 
   useEffect(() => {
-    if(!latestMovies || latestMovie.length==0 )dispatch(latestMovieData());
-  }, [dispatch]);
+    if (!inView && (!latestMovie || latestMovie.length === 0)) {
+      dispatch(latestMovieData({ page: 0, size: 20 }));
+    }
+  }, [inView, latestMovie]);
 
+  const lastMovieRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          dispatch(latestMovieData({ page: page + 1, size: 20 }));
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore, page, dispatch]
+  );
 
   return (
     <div ref={ref} className="min-h-[200px]">
-      <Suspense
-        fallback={<div className="text-white">Loading Latest Movies...</div>}
-      >
+      <Suspense fallback={<div className="text-white">Loading Latest Movies...</div>}>
         {latestMovie.length > 0 ? (
           <MovieRow
             movies={latestMovie}
             title="Latest Movies"
-            className={className || "mb-8"}
+            lastMovieRef={lastMovieRef}
+            className="mb-8"
           />
         ) : (
-          inView && <p className="text-gray-400">No Latest Movie Available</p>
+          <p className="text-gray-400">No Latest Movies Available</p>
         )}
       </Suspense>
     </div>

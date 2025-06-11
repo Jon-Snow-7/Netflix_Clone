@@ -166,14 +166,14 @@ const Carousel = () => {
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => handleWatchNow({index})}
-            className="border-2 max-sm:px-3 max-sm:py-2 max-sm:text-base max-sm:rounded-2xl border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-26 py-4 rounded-md shadow-md transition duration-300 text-[19.5px] ">
+            className="border-2 max-sm:px-3 max-sm:py-2 max-sm:text-base max-sm:rounded-2xl border-white hover:bg-black bg-white text-black hover:text-white font-semibold px-20 py-4 rounded-2xl shadow-md transition duration-300 text-[19.5px] ">
               Watch Now
             </button>
 
             <div className="relative group">
               <button
                 onClick={handleToggleWatchlist}
-                className="flex max-sm:px-4 max-sm:py-[0.4rem] max-sm:text-base  items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-7 py-3 rounded-2xl font-bold text-base hover:shadow-2xl"
+                className="flex max-sm:px-4 max-sm:py-[0.4rem] max-sm:text-base  items-center gap-3 bg-white hover:bg-gray-400 text-black active:scale-95 transition-all duration-300 shadow-xl px-8 py-4 rounded-2xl font-bold text-base hover:shadow-2xl"
               >
                 <span className=" text-2xl">+</span>
                 <span className="max-sm:hidden tracking-wide">Add</span>
