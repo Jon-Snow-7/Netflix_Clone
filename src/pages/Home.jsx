@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import React, { lazy, Suspense } from "react";
+import FadeInSection from "../components/FadeInSection";
 
-import SideBar from "../components/SideBar";
-import Carousel from "../components/Homecom/Carousel";
-import Footer from "../components/Footer";
-import Popular from "../components/Homecom/Popular";
-import Recommendation from "../components/Homecom/Recommendation";
-import LatestRelease from "../components/Homecom/LatestRelease";
-import GenreList from "../components/Homecom/GenresList";
-import Trending from "../components/Homecom/Trending";
+// Lazy load all components
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { uiConfigApi } from "../redux/apis";
 import { uiData } from "../redux/slice/uiConfigSlice";
+const SideBar = lazy(() => import("../components/SideBar"));
+const Carousel = lazy(() => import("../components/Homecom/Carousel"));
+const Footer = lazy(() => import("../components/Footer"));
+const Popular = lazy(() => import("../components/Homecom/Popular"));
+const Recommendation = lazy(() =>
+  import("../components/Homecom/Recommendation")
+);
+const LatestRelease = lazy(() => import("../components/Homecom/LatestRelease"));
+const GenreList = lazy(() => import("../components/Homecom/GenresList"));
+const Trending = lazy(() => import("../components/Homecom/Trending"));
 
 // Map of available component JSX
 const componentMap = {
