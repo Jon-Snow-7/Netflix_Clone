@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { recentMovies } from "../apis";
+import { uiConfigApi } from "../apis";
 
 
-export const recentMovieData = createAsyncThunk("recentData", async () => {
-  return await recentMovies();
+export const uiData = createAsyncThunk("uiData", async () => {
+  return await uiConfigApi();
 });
 
-const recentlyMovieSlice = createSlice({
-  name: 'recent',
+const uiConfigSlice = createSlice({
+  name: 'ui-config',
   initialState: {
     isLoading: false,
     data: null,
@@ -15,14 +15,14 @@ const recentlyMovieSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(recentMovieData.pending, (state) => {
+      .addCase(uiData.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(recentMovieData.fulfilled, (state, action) => {
+      .addCase(uiData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(recentMovieData.rejected, (state, action) => {
+      .addCase(uiData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         console.error("Error:", action.error);
@@ -30,4 +30,4 @@ const recentlyMovieSlice = createSlice({
   },
 });
 
-export default recentlyMovieSlice.reducer;
+export default uiConfigSlice.reducer;

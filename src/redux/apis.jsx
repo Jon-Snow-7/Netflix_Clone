@@ -1,3 +1,4 @@
+
 // src/redux/apis.js
 export const genreMovies = async (genreId, page = 0) => {
   const response = await fetch(
@@ -165,6 +166,42 @@ export const recommendationMovies = async () => {
   // return response.json();
 };
 
+export const allMoviesApi = async (page, size) => {
+
+  const url = new URL("http://localhost:8080/api/movies");
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", size); // Set defa
+  const response = await fetch( url, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch all movies");
+    // throw new Error("Failed to fetch recommendation movies");
+  }
+  return response.json();
+  // return response.json();
+};
+
+export const uiConfigApi = async () => {
+  const response = await fetch( "http://localhost:8080/api/ui-config", {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch ui config");
+    // throw new Error("Failed to fetch recommendation movies");
+  }
+  return response.json();
+  // return response.json();
+};
+
 export const trendingMovies = async () => {
   const MAX_ID = 150;
   let uniqueIds = [];
@@ -279,7 +316,13 @@ export const popularMovies = async () => {
 };
 
 export const recentMovies = async () => {
-  const response = await fetch(`http://localhost:8080/api/recent`,options);
+  const response = await fetch(`http://localhost:8080/api/recent`,{
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch popular movies");
   }
