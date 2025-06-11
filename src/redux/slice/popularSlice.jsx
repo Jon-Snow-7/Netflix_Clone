@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { popularMovies } from "../apis";
 
-
-export const popularData = createAsyncThunk("popularData", async () => {
-  return await popularMovies();
+export const popularData = createAsyncThunk("popularData", async ({ page, size }) => {
+  return await popularMovies(page, size);
 });
 
 const popularSlice = createSlice({
   name: 'popular',
   initialState: {
     isLoading: false,
-    data: null,
+    data: [],
+    page: 0,
+    hasMore: true,
     isError: false,
   },
   extraReducers: (builder) => {
@@ -20,15 +21,17 @@ const popularSlice = createSlice({
       })
       .addCase(popularData.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.data = action.payload;
-        
+        const newMovies = action.payload.content || [];
+        state.hasMore = newMovies.length > 0;
+        state.page += 1;
+        state.data.push(...newMovies);
       })
-      .addCase(popularData.rejected, (state, action) => {
+      .addCase(popularData.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
-        console.error("Error:", action.error);
       });
   },
 });
+
 
 export default popularSlice.reducer;

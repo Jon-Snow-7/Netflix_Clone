@@ -28,8 +28,8 @@ const ListMovies = () => {
   );
 
   return (
-    <div className="pl-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
-      <div className="fixed top-0 left-0 h-screen z-50">
+    <div className="max-sm:pt-20 w-full min-h-screen overflow-x-hidden bg-black pt-10 pl-5 pr-5">
+      <div className=" fixed top-0 left-0 h-screen z-50">
         <SideBar />
       </div>
       <h1 className="flex justify-center font-bold text-red-500 mb-6">Movies</h1>
@@ -37,7 +37,7 @@ const ListMovies = () => {
       <div className="flex flex-wrap gap-10 justify-center">
         <MoviesGrid movies={movies} lastMovieRef={lastMovieRef} />
       </div>
-
+    <br></br>
       {isLoading && (
         <div className="text-center text-white mt-6">Loading more...</div>
       )}

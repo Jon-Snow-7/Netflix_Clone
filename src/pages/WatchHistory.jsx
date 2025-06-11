@@ -22,15 +22,16 @@ const WatchHistory = () => {
           <div className="absolute inset-0  bg-opacity-60 px-8 py-6 flex flex-col justify-between">
             {/* Header Row */}
             <div className="flex items-center justify-between">
-              <h1 className="px-30 py-25 text-4xl font-bold">Your Watch History</h1>
+              <p className="px-30 max-sm:pl-0 max-sm:px-10 max-sm:py-30 py-25 max-sm:text-2xl text-4xl font-bold">Your Watch History</p>
             </div>
            </div>
         </div>
         <div className="flex-1 overflow-x-hidden z-0">
-            <div className="pl-30 px-6 py-8">
+            <div className="max-sm:pb-3 max-sm:p-2 max-sm:pt-5 pl-30 px-6 py-8">
                 <RecentlyWatched title="Recently Watched" size={5} />
                 <History title="Complete History" size={40} />
                 <Footer/>
+                <br></br>
             </div>
         </div> 
     </div>
