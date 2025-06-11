@@ -10,7 +10,7 @@ const ListMovies = () => {
   const observer = useRef();
 
   useEffect(() => {
-    dispatch(allMoviesSliceData({ page: 0, size: 20 }));
+    if(!movies || movies.length==0 )dispatch(allMoviesSliceData({ page: 0, size: 20 }));
   }, [dispatch]);
   console.log(movies)
   const lastMovieRef = useCallback(
