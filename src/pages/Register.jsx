@@ -8,12 +8,28 @@ export default function RegisterForm() {
     passwordHash: '',
   });
 
+  const [successPopup, setSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [emailError, setEmailError] = useState("");
+  const [formError, setFormError] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === "email") {
+      setEmailError(""); // Reset email error on change
+    }
   };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  setEmailError("");
+  setFormError("");
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    setEmailError("Please enter a valid email address.");
+    return;
+  }
 
   const newUser = {
     ...formData,
@@ -36,17 +52,39 @@ const handleSubmit = async (e) => {
       throw new Error(result || 'Failed to register');
     }
 
-    alert(result);
-    navigate('/');
+    setSuccessMessage("Registered Successfully!");
+      setSuccessPopup(true);
+
+      setTimeout(() => {
+        setSuccessPopup(false);
+        navigate('/');
+      }, 2500);
   } catch (error) {
     console.error('Error during registration:', error);
-    alert('Registration failed: ' + error.message);
+    setFormError(error.message || 'Registration failed');
   }
 };
 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
+      {successPopup && (
+  <div className="absolute top-10 w-full flex justify-center z-110">
+    <div className="bg-black border-2 border-blue-500 text-white px-5 py-4 rounded-xl shadow-lg w-[90%] max-w-md relative">
+      <p className="text-sm font-medium text-center text-white mb-1">
+        {successMessage}
+      </p>
+      <p className="text-xs text-center text-blue-300">
+        Redirecting to login page...
+      </p>
+      <div className="h-1 bg-blue-500 rounded mt-3 overflow-hidden">
+        <div className="h-full bg-white animate-deplete"></div>
+      </div>
+    </div>
+  </div>
+)}
+
+
       <form
         onSubmit={handleSubmit}
         className="bg-black text-white p-8 rounded-2xl shadow-md w-full max-w-md"
@@ -66,13 +104,16 @@ const handleSubmit = async (e) => {
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Email</label>
           <input
-            type="email"
+            type="text"
             name="email"
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+          {emailError && (
+            <p className="text-red-400 text-sm mt-1">{emailError}</p>
+          )}
         </div>
         <div className="mb-6">
           <label className="block text-sm font-medium mb-1">Password</label>
@@ -91,11 +132,14 @@ const handleSubmit = async (e) => {
         >
           Sign up
         </button>
+        {formError && (
+          <p className="text-red-400 text-sm mt-4 text-center">{formError}</p>
+        )}
         <p className="mt-4">
           Already have an account?{' '}
           <a
             onClick={() => navigate('/')}
-            className="text-blue-400 hover:underline cursor-pointer"
+            className="text-blue-500 hover:underline cursor-pointer"
           >
             Login
           </a>
