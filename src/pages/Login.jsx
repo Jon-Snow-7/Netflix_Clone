@@ -6,6 +6,9 @@ const Login = () => {
   const [captchaImage, setCaptchaImage] = useState("");
   const [captchaKey, setCaptchaKey] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorCaptcha, setErrorCaptcha] = useState("");
 
   const fetchCaptcha = async () => {
     const res = await fetch("http://localhost:8080/captcha/generate");
@@ -20,10 +23,22 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Reset previous errors
+    setErrorEmail("");
+    setErrorPassword("");
+    setErrorCaptcha("");
+
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    // First validate CAPTCHA
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorEmail("Please enter a valid email address.");
+      return;
+    }
+
+    // Validate CAPTCHA
     const captchaRes = await fetch("http://localhost:8080/captcha/validate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -32,7 +47,7 @@ const Login = () => {
 
     const captchaData = await captchaRes.json();
     if (!captchaData.valid) {
-      alert("Invalid CAPTCHA. Please try again.");
+      setErrorCaptcha("Invalid CAPTCHA! Please try again.");
       fetchCaptcha(); // regenerate CAPTCHA
       return;
     }
@@ -50,7 +65,10 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       navigate("/profiles");
     } catch (err) {
-      alert("Login failed: " + err.message);
+      // Basic error separation
+      if (!email) setErrorEmail("Email is required!");
+      if (!password) setErrorPassword("Password is required!");
+      else setErrorPassword("Login failed: Invalid Email/Password!");
     }
   };
 
@@ -64,12 +82,15 @@ const Login = () => {
               <label htmlFor="email">E-mail</label>
               <input
                 className="border border-gray-300 rounded px-2 py-1 text-white"
-                type="email"
+                type="text"
                 name="email"
                 id="email"
                 placeholder="E-mail Address"
                 required
               />
+              {errorEmail && (
+                <span className="text-sm text-red-500 mt-1">{errorEmail}</span>
+              )}
             </div>
 
             <div className="flex flex-col">
@@ -82,6 +103,11 @@ const Login = () => {
                 placeholder="Password"
                 required
               />
+              {errorPassword && (
+                <span className="text-sm text-red-500 mt-1">
+                  {errorPassword}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col">
@@ -101,6 +127,11 @@ const Login = () => {
                 placeholder="Enter Captcha"
                 required
               />
+              {errorCaptcha && (
+                <span className="text-sm text-red-500 mt-1">
+                  {errorCaptcha}
+                </span>
+              )}
             </div>
 
             <button
