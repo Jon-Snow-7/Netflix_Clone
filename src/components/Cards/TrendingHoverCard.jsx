@@ -134,13 +134,13 @@ const HoverCard = ({ data, position, isVisible, hoverCardRef }) => {
           <h2 className="text-xl font-bold">{data.movieName}</h2>
           <div className="flex justify-between">
             <span className="text-sm text-gray-300">
-              {dayjs(data.releaseDate).format("DD MMMM YYYY")}
+              {dayjs(data.releaseDate).format("YYYY")}
             </span>
             <span className="text-yellow-400 text-sm">⭐ {data.rating}/10</span>
             <span className="text-gray-300 text-sm">{data.runTime}s</span>
           </div>
-          <p className="mt-2 text-sm text-gray-200">
-            {data.description.slice(0, 100)}...
+          <p className="line-clamp-2 mt-2 text-sm text-gray-200">
+            {data.description}
           </p>
           <div className="flex gap-6 mt-6 justify-center">
             <button
