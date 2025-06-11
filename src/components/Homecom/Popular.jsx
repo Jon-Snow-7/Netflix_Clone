@@ -6,11 +6,11 @@ import { popularData } from '../../redux/slice/popularSlice';
 const Popular = () => {
   const dispatch=useDispatch();
   const popularState=useSelector((state)=>state.popular)
+  const popular = popularState?.data?.content || [];
 
   useEffect(() => {
-    dispatch(popularData());
+    if(!popular || popular.length==0 )dispatch(popularData());
   }, [dispatch]);
-  const popular=popularState?.data?.content || [];
   // console.log(popular);
 
   return (

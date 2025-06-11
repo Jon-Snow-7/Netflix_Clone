@@ -209,7 +209,23 @@ export const allMoviesApi = async (page, size) => {
     },
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch recommendation movies");
+    throw new Error("Failed to fetch all movies");
+    // throw new Error("Failed to fetch recommendation movies");
+  }
+  return response.json();
+  // return response.json();
+};
+
+export const uiConfigApi = async () => {
+  const response = await fetch( "http://localhost:8080/api/ui-config", {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch ui config");
     // throw new Error("Failed to fetch recommendation movies");
   }
   return response.json();

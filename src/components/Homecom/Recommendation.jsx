@@ -6,12 +6,12 @@ import { recommendationMovieData } from "../../redux/slice/recommendationSlice";
 const Recommendation = () => {
   const dispatch=useDispatch();
   const recommendMovieState=useSelector((state)=>state.recommend)
+  const recommendation =recommendMovieState?.data?.content || [];
 
   useEffect(() => {
-    dispatch(recommendationMovieData());
+    if(!recommendation || recommendation.length==0)dispatch(recommendationMovieData());
   }, [dispatch]);
 
-  const recommendation =recommendMovieState?.data?.content || [];
 
   return (
     <MovieRow movies={recommendation} title="Recommended Movies"  className="mb-8" />
