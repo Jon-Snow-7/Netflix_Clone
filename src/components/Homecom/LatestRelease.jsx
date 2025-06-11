@@ -13,7 +13,7 @@ const LatestRelease = ({ className }) => {
     dispatch(latestMovieData());
   }, [dispatch]);
 
-  let latestMovie = latestState?.data || [];
+  let latestMovie = latestState?.data?.content || [];
 
   return (
     <Suspense fallback={<div className="text-white">Loading Latest Movies...</div>}>

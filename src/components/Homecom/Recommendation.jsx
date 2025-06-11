@@ -13,7 +13,7 @@ const Recommendation = () => {
     dispatch(recommendationMovieData());
   }, [dispatch]);
 
-  const recommendation = recommendMovieState?.data || [];
+  const recommendation =recommendMovieState?.data?.content || [];
 
   return (
     <Suspense fallback={<div className="text-white">Loading Recommendations...</div>}>

@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import historyReducer from './slice/historySlice';
 import popularReducer from "./slice/popularSlice";
 import latestReducer from "./slice/latestmovieSlice";
-//import recentMovieReducer from "./slice/recentlyWatchSlice";
+import recentMovieReducer from "./slice/recentlyWatchSlice";
 import watchlistReducer from "./slice/watchlistSlice";
 import recommendReducer from "./slice/recommendationSlice";
 import searchReducer from "../redux/slice/searchSlice";
@@ -24,7 +24,7 @@ export const store = configureStore({
     historyMoviesPost : historyPostReducer,
     popular: popularReducer,
     latest: latestReducer,
-    //recent: recentMovieReducer,
+    recent: recentMovieReducer,
     watchlist: watchlistReducer,
     recommend: recommendReducer,
     search: searchReducer, 
@@ -33,6 +33,5 @@ export const store = configureStore({
     trending: trendingReducer,
     watchlistDelete: watchlistDeleteReducer,  
     watchlistPost: watchlistPostReducer, 
-
   },
 });

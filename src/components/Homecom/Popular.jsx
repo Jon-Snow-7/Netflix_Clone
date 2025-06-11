@@ -12,8 +12,8 @@ const Popular = () => {
   useEffect(() => {
     dispatch(popularData());
   }, [dispatch]);
-
-  const popular = popularState?.data || [];
+  const popular=popularState?.data?.content || [];
+  // console.log(popular);
 
   return (
     <Suspense fallback={<div className="text-white">Loading Popular Movies...</div>}>

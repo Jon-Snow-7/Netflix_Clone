@@ -12,8 +12,7 @@ const Trending = () => {
   useEffect(() => {
     dispatch(trendingData());
   }, []);
-
-  const trending = trendingState?.data || [];
+  const trending=trendingState?.data?.content || [];
 
   return (
     <Suspense fallback={<div className="text-white">Loading Trending...</div>}>
