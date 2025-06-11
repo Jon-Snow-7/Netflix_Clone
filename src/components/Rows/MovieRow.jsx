@@ -105,7 +105,7 @@ const MovieRow = ({ movies, title }) => {
 
       <div
         ref={scrollRef}
-        className="flex gap-6 max-sm:gap-2 no-scrollbar scroll-smooth overflow-hidden max-sm:overflow-x-auto "
+        className="flex gap-6 max-sm:gap-2 no-scrollbar scroll-smooth overflow-hidden  max-sm:overflow-x-auto "
       >
         {title === "Trending Now"
           ? movies.map((movie, index) => (
