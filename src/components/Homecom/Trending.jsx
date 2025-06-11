@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
-import MovieRow from '../Rows/MovieRow'; 
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useEffect, lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { trendingData } from '../../redux/slice/trendingSlice';
 
+// Lazy load MovieRow
+const MovieRow = lazy(() => import('../Rows/MovieRow'));
+
 const Trending = () => {
-  const dispatch=useDispatch();
-  const trendingState=useSelector((state)=>state.trending)
+  const dispatch = useDispatch();
+  const trendingState = useSelector((state) => state.trending);
 
   useEffect(() => {
     dispatch(trendingData());
-  }, [dispatch]);
-  const trending=trendingState?.data || [];
+  }, []);
+
+  const trending = trendingState?.data || [];
 
   return (
-    <MovieRow movies={trending} title="Trending Now"  className="mb-8" />
+    <Suspense fallback={<div className="text-white">Loading Trending...</div>}>
+      <MovieRow movies={trending} title="Trending Now" className="mb-8" />
+    </Suspense>
   );
 };
 

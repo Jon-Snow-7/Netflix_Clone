@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react';
-import MovieRow from '../Rows/MovieRow'; 
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useEffect, lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { popularData } from '../../redux/slice/popularSlice';
 
+// Lazy load MovieRow
+const MovieRow = lazy(() => import('../Rows/MovieRow'));
+
 const Popular = () => {
-  const dispatch=useDispatch();
-  const popularState=useSelector((state)=>state.popular)
+  const dispatch = useDispatch();
+  const popularState = useSelector((state) => state.popular);
 
   useEffect(() => {
     dispatch(popularData());
-  }, []);
-  const popular=popularState?.data || [];
-  // console.log(popular);
+  }, [dispatch]);
+
+  const popular = popularState?.data || [];
 
   return (
-    <MovieRow movies={popular} title="Popular Movies"  className="mb-8" />
+    <Suspense fallback={<div className="text-white">Loading Popular Movies...</div>}>
+      <MovieRow movies={popular} title="Popular Movies" className="mb-8" />
+    </Suspense>
   );
 };
 
