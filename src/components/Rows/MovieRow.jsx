@@ -6,7 +6,7 @@ import TrendingCard from "../Cards/TrendingCard";
 import TrendingHoverCard from "../Cards/TrendingHoverCard";
 import WatchlistHoverCard from "../Cards/WatchlistHoverCard";
 
-const MovieRow = ({ movies, title }) => {
+const MovieRow = ({ movies, title, lastMovieRef }) => {
   const [hoverData, setHoverData] = useState(null);
   const [hoverPosition, setHoverPosition] = useState(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -38,9 +38,7 @@ const MovieRow = ({ movies, title }) => {
     setHoverData(data);
     setHoverPosition(position);
     staticCardRef.current = ref.current;
-    setTimeout(() => {
-      setIsVisible(true);
-    }, 50);
+    setTimeout(() => setIsVisible(true), 50);
   };
 
   const scroll = (direction) => {
@@ -55,7 +53,7 @@ const MovieRow = ({ movies, title }) => {
       container.scrollLeft += amount;
     }
 
-    setTimeout(() => updateScrollVisibility(), 200);
+    setTimeout(updateScrollVisibility, 200);
   };
 
   const updateScrollVisibility = () => {
@@ -68,7 +66,7 @@ const MovieRow = ({ movies, title }) => {
   };
 
   useEffect(() => {
-    updateScrollVisibility(); // Check on mount
+    updateScrollVisibility();
     const ref = scrollRef.current;
     if (!ref) return;
 
@@ -80,46 +78,56 @@ const MovieRow = ({ movies, title }) => {
     <div className="relative bg-black text-white p-6">
       <h2 className="text-2xl font-semibold mb-4">{title}</h2>
 
-      {
+      {showLeft && (
         <div
           onClick={() => scroll("left")}
-          className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r hover:bg-black/50 bg-black/10 to-transparent"
+          className="hidden md:block absolute top-0 left-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-r from-black to-transparent hover:bg-black/50"
         >
           <div className="flex items-center justify-center h-full">
             <ChevronLeft className="text-white w-10 h-10" />
           </div>
         </div>
-      }
+      )}
 
-      {/* Right Scroll Zone */}
-      {
+      {showRight && (
         <div
           onClick={() => scroll("right")}
-          className="hidden md:block absolute top-0 right-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-l hover:bg-black/50 bg-black/10 to-transparent"
+          className="hidden md:block absolute top-0 right-0 h-full w-16 z-50 cursor-pointer bg-gradient-to-l from-black to-transparent hover:bg-black/50"
         >
           <div className="flex items-center justify-center h-full">
             <ChevronRight className="text-white w-10 h-10" />
           </div>
         </div>
-      }
+      )}
 
       <div
         ref={scrollRef}
-        className="flex gap-8 no-scrollbar scroll-smooth"
-        style={{ overflowX: "hidden" }}
+        className="flex gap-8 no-scrollbar scroll-smooth overflow-x-hidden"
       >
-        {title === "Trending Now"
-          ? movies.map((movie, index) => (
+        {movies.map((movie, index) => {
+          const isLast = index === movies.length - 1;
+
+          if (title === "Trending Now") {
+            return (
               <TrendingCard
                 key={index}
                 data={movie}
                 index={index}
                 onHover={handleHover}
+                ref={isLast ? lastMovieRef : null}
               />
-            ))
-          : movies.map((movie, index) => (
-              <StaticCard key={index} data={movie} onHover={handleHover} />
-            ))}
+            );
+          }
+
+          return (
+            <StaticCard
+              key={index}
+              data={movie}
+              onHover={handleHover}
+              ref={isLast ? lastMovieRef : null}
+            />
+          );
+        })}
       </div>
 
       {title === "Trending Now" ? (
