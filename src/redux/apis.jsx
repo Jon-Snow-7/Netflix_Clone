@@ -196,6 +196,26 @@ export const recommendationMovies = async () => {
   // return response.json();
 };
 
+export const allMoviesApi = async (page, size) => {
+
+  const url = new URL("http://localhost:8080/api/movies");
+  url.searchParams.append("page", page);
+  url.searchParams.append("size", size); // Set defa
+  const response = await fetch( url, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch recommendation movies");
+    // throw new Error("Failed to fetch recommendation movies");
+  }
+  return response.json();
+  // return response.json();
+};
+
 export const trendingMovies = async () => {
   const MAX_ID = 150;
   let uniqueIds = [];
